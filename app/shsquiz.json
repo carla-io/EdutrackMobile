@@ -1,0 +1,745 @@
+{
+  "Mathematics Section": {
+    "quiz": [
+      {
+        "question": "What is the value of 5² - 3 × 4?",
+        "options": ["13", "17", "19", "25"],
+        "answer": "17"
+      },
+      {
+        "question": "If x + 3 = 10, what is x?",
+        "options": ["6", "7", "8", "9"],
+        "answer": "6"
+      },
+      {
+        "question": "Simplify: (6 + 2) ÷ 2",
+        "options": ["2", "3", "4", "5"],
+        "answer": "4"
+      },
+      {
+        "question": "What is 12 × 8?",
+        "options": ["86", "90", "96", "102"],
+        "answer": "96"
+      },
+      {
+        "question": "Solve for y: 3y = 21",
+        "options": ["5", "6", "7", "8"],
+        "answer": "7"
+      },
+      {
+        "question": "What is the square root of 144?",
+        "options": ["10", "11", "12", "13"],
+        "answer": "12"
+      },
+      {
+        "question": "Solve: 15 ÷ 3 + 4 × 2",
+        "options": ["11", "12", "13", "14"],
+        "answer": "14"
+      },
+      {
+        "question": "What is 25% of 80?",
+        "options": ["15", "20", "25", "30"],
+        "answer": "20"
+      },
+      {
+        "question": "What is 3³?",
+        "options": ["9", "18", "27", "36"],
+        "answer": "27"
+      },
+      {
+        "question": "If a rectangle has a length of 10 and a width of 4, what is its area?",
+        "options": ["20", "30", "40", "50"],
+        "answer": "40"
+      },
+      {
+        "question": "Solve: 8 + 2 × 5",
+        "options": ["18", "20", "22", "24"],
+        "answer": "18"
+      },
+      {
+        "question": "Find the greatest common factor of 24 and 36.",
+        "options": ["6", "8", "12", "18"],
+        "answer": "12"
+      },
+      {
+        "question": "Solve for x: 2x - 5 = 9",
+        "options": ["5", "6", "7", "8"],
+        "answer": "8"
+      },
+      {
+        "question": "Convert 0.75 into a fraction.",
+        "options": ["1/4", "1/2", "3/4", "4/5"],
+        "answer": "3/4"
+      },
+      {
+        "question": "Solve: 4² + 3²",
+        "options": ["16", "25", "32", "34"],
+        "answer": "34"
+      },
+      {
+        "question": "Find the value of 2(3 + 4)",
+        "options": ["10", "12", "14", "16"],
+        "answer": "14"
+      },
+      {
+        "question": "The perimeter of a square is 24 cm. What is the length of one side?",
+        "options": ["4 cm", "5 cm", "6 cm", "7 cm"],
+        "answer": "6 cm"
+      },
+      {
+        "question": "What is 7 factorial (7!)?",
+        "options": ["5040", "4032", "720", "3120"],
+        "answer": "5040"
+      },
+      {
+        "question": "If x = 4 and y = 3, what is x² + y²?",
+        "options": ["15", "20", "25", "30"],
+        "answer": "25"
+      },
+      {
+        "question": "Solve: 2/3 + 1/6",
+        "options": ["1/2", "2/3", "5/6", "1"],
+        "answer": "5/6"
+      }
+    ]
+  },
+  "Scientific Ability": {
+    "quiz": [
+      {
+        "question": "What is the chemical symbol for Sodium?",
+        "options": ["Na", "So", "Sn", "S"],
+        "answer": "Na"
+      },
+      {
+        "question": "Which planet is known as the Red Planet?",
+        "options": ["Venus", "Mars", "Jupiter", "Saturn"],
+        "answer": "Mars"
+      },
+      {
+        "question": "What is the powerhouse of the cell?",
+        "options": ["Nucleus", "Ribosome", "Mitochondrion", "Chloroplast"],
+        "answer": "Mitochondrion"
+      },
+      {
+        "question": "Which gas is essential for human respiration?",
+        "options": ["Carbon dioxide", "Oxygen", "Nitrogen", "Hydrogen"],
+        "answer": "Oxygen"
+      },
+      {
+        "question": "What is the largest organ in the human body?",
+        "options": ["Heart", "Brain", "Liver", "Skin"],
+        "answer": "Skin"
+      },
+      {
+        "question": "What type of energy is stored in food?",
+        "options": ["Chemical", "Mechanical", "Thermal", "Nuclear"],
+        "answer": "Chemical"
+      },
+      {
+        "question": "What is the boiling point of water at sea level?",
+        "options": ["90°C", "100°C", "110°C", "120°C"],
+        "answer": "100°C"
+      },
+      {
+        "question": "Which part of the plant is responsible for photosynthesis?",
+        "options": ["Root", "Stem", "Leaf", "Flower"],
+        "answer": "Leaf"
+      },
+      {
+        "question": "What causes tides in the ocean?",
+        "options": ["Wind", "Moon’s gravity", "Earth’s rotation", "Sun’s heat"],
+        "answer": "Moon’s gravity"
+      },
+      {
+        "question": "Which planet is the largest in the solar system?",
+        "options": ["Earth", "Saturn", "Jupiter", "Neptune"],
+        "answer": "Jupiter"
+      },
+      {
+        "question": "What is the basic unit of life?",
+        "options": ["Atom", "Molecule", "Cell", "Organ"],
+        "answer": "Cell"
+      },
+      {
+        "question": "What is the chemical formula of water?",
+        "options": ["CO2", "H2O", "O2", "CH4"],
+        "answer": "H2O"
+      },
+      {
+        "question": "What is Newton’s First Law of Motion also called?",
+        "options": ["Law of Acceleration", "Law of Inertia", "Law of Action and Reaction", "Law of Universal Gravitation"],
+        "answer": "Law of Inertia"
+      },
+      {
+        "question": "What gas do plants release during photosynthesis?",
+        "options": ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"],
+        "answer": "Oxygen"
+      },
+      {
+        "question": "Which of the following is a vertebrate?",
+        "options": ["Earthworm", "Jellyfish", "Frog", "Octopus"],
+        "answer": "Frog"
+      },
+      {
+        "question": "What is the main function of red blood cells?",
+        "options": ["Fight infections", "Carry oxygen", "Digest food", "Produce energy"],
+        "answer": "Carry oxygen"
+      },
+      {
+        "question": "What force pulls objects towards Earth?",
+        "options": ["Friction", "Gravity", "Magnetism", "Inertia"],
+        "answer": "Gravity"
+      },
+      {
+        "question": "What is the most abundant gas in Earth’s atmosphere?",
+        "options": ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"],
+        "answer": "Nitrogen"
+      },
+      {
+        "question": "What is the function of the ozone layer?",
+        "options": ["Absorb oxygen", "Trap carbon dioxide", "Protect from UV radiation", "Provide heat"],
+        "answer": "Protect from UV radiation"
+      },
+      {
+        "question": "What type of rock is formed from cooling lava?",
+        "options": ["Sedimentary", "Metamorphic", "Igneous", "Fossilized"],
+        "answer": "Igneous"
+      }
+    ]
+  },
+  "Verbal_Ability": {
+    "quiz": [
+      {
+        "question": "Choose the word that is most similar in meaning to benevolent.",
+        "options": ["Cruel", "Kind", "Unjust", "Rude"],
+        "answer": "Kind"
+      },
+      {
+        "question": "Identify the correctly spelled word.",
+        "options": ["Recieve", "Receive", "Recive", "Receeve"],
+        "answer": "Receive"
+      },
+      {
+        "question": "What is the opposite of abundant?",
+        "options": ["Plentiful", "Scarce", "Numerous", "Sufficient"],
+        "answer": "Scarce"
+      },
+      {
+        "question": "Which sentence is grammatically correct?",
+        "options": [
+          "She don’t like ice cream.",
+          "She doesn’t likes ice cream.",
+          "She doesn’t like ice cream.",
+          "She don’t likes ice cream."
+        ],
+        "answer": "She doesn’t like ice cream."
+      },
+      {
+        "question": "Choose the correct analogy: Sun is to day as Moon is to ___.",
+        "options": ["Bright", "Night", "Light", "Star"],
+        "answer": "Night"
+      },
+      {
+        "question": "Identify the correct preposition: She is interested ___ learning new languages.",
+        "options": ["on", "at", "in", "with"],
+        "answer": "in"
+      },
+      {
+        "question": "What is the past tense of run?",
+        "options": ["Ran", "Running", "Runs", "Runned"],
+        "answer": "Ran"
+      },
+      {
+        "question": "Which word is a synonym of fragile?",
+        "options": ["Sturdy", "Strong", "Delicate", "Heavy"],
+        "answer": "Delicate"
+      },
+      {
+        "question": "What is the plural form of child?",
+        "options": ["Childs", "Childes", "Children", "Childies"],
+        "answer": "Children"
+      },
+      {
+        "question": "Choose the correct word: She gave me a ___ of advice.",
+        "options": ["Piece", "Peace", "Peas", "Pis"],
+        "answer": "Piece"
+      },
+      {
+        "question": "What is the correct plural form of goose?",
+        "options": ["Gooses", "Geese", "Goosees", "Gesses"],
+        "answer": "Geese"
+      },
+      {
+        "question": "Choose the correct homophone: She will ___ the meeting tomorrow.",
+        "options": ["Right", "Write", "Rite", "Wright"],
+        "answer": "Write"
+      },
+      {
+        "question": "Identify the sentence with correct subject-verb agreement.",
+        "options": [
+          "The group of students are excited.",
+          "The group of students is excited.",
+          "The students in the group is excited.",
+          "The students in the group was excited."
+        ],
+        "answer": "The group of students is excited."
+      },
+      {
+        "question": "What is a synonym for elated?",
+        "options": ["Happy", "Sad", "Angry", "Confused"],
+        "answer": "Happy"
+      },
+      {
+        "question": "What is the correct comparative form of good?",
+        "options": ["More good", "Gooder", "Better", "Best"],
+        "answer": "Better"
+      },
+      {
+        "question": "Choose the correctly punctuated sentence.",
+        "options": [
+          "Lets go to the park!",
+          "Let’s go, to the park!",
+          "Let’s go to the park!",
+          "Lets’ go to the park!"
+        ],
+        "answer": "Let’s go to the park!"
+      },
+      {
+        "question": "What is the meaning of the idiom 'hit the sack'?",
+        "options": ["To go to bed", "To pack a bag", "To hit something", "To get in trouble"],
+        "answer": "To go to bed"
+      },
+      {
+        "question": "Which sentence uses the correct form of their, there, or they’re?",
+        "options": [
+          "There going to the store later.",
+          "Their going to the store later.",
+          "They’re going to the store later.",
+          "There going too the store later."
+        ],
+        "answer": "They’re going to the store later."
+      },
+      {
+        "question": "What is the past participle of eat?",
+        "options": ["Ate", "Eaten", "Eats", "Eating"],
+        "answer": "Eaten"
+      },
+      {
+        "question": "Choose the correct word: He made a ___ decision to help the homeless.",
+        "options": ["Conscience", "Conscious", "Considerate", "Compassionate"],
+        "answer": "Compassionate"
+      }
+    ]
+  },
+  "Mechanical_and_Technical_Ability": {
+    "quiz": [
+      {
+        "question": "Which simple machine is a ramp?",
+        "options": [
+          "Lever",
+          "Pulley",
+          "Inclined Plane",
+          "Wedge"
+        ],
+        "answer": "Inclined Plane"
+      },
+      {
+        "question": "What tool is used to measure an object's length precisely?",
+        "options": [
+          "Ruler",
+          "Vernier Caliper",
+          "Micrometer",
+          "All of the above"
+        ],
+        "answer": "All of the above"
+      },
+      {
+        "question": "A gear system increases speed if the driven gear is:",
+        "options": [
+          "Smaller than the driving gear",
+          "The same size as the driving gear",
+          "Larger than the driving gear",
+          "Not connected to the driving gear"
+        ],
+        "answer": "Smaller than the driving gear"
+      },
+      {
+        "question": "What type of energy is stored in a compressed spring?",
+        "options": [
+          "Kinetic energy",
+          "Potential energy",
+          "Thermal energy",
+          "Chemical energy"
+        ],
+        "answer": "Potential energy"
+      },
+      {
+        "question": "Which material is the best conductor of electricity?",
+        "options": [
+          "Copper",
+          "Plastic",
+          "Wood",
+          "Glass"
+        ],
+        "answer": "Copper"
+      },
+      {
+        "question": "What happens when a north pole of a magnet is brought near another north pole?",
+        "options": [
+          "They attract",
+          "They repel",
+          "They cancel each other",
+          "They combine"
+        ],
+        "answer": "They repel"
+      },
+      {
+        "question": "Which of the following converts electrical energy into mechanical energy?",
+        "options": [
+          "Generator",
+          "Battery",
+          "Motor",
+          "Transformer"
+        ],
+        "answer": "Motor"
+      },
+      {
+        "question": "A pulley system helps by:",
+        "options": [
+          "Increasing speed",
+          "Reducing effort",
+          "Changing direction of force",
+          "Both reducing effort and changing direction of force"
+        ],
+        "answer": "Both reducing effort and changing direction of force"
+      },
+      {
+        "question": "What is the function of a fuse in an electrical circuit?",
+        "options": [
+          "Store energy",
+          "Regulate voltage",
+          "Protect against overcurrent",
+          "Increase resistance"
+        ],
+        "answer": "Protect against overcurrent"
+      },
+      {
+        "question": "Which of these is NOT a type of screw head?",
+        "options": [
+          "Phillips",
+          "Flathead",
+          "Hexagonal",
+          "Roundhead"
+        ],
+        "answer": "Roundhead"
+      },
+      {
+        "question": "What kind of motion does a crankshaft convert?",
+        "options": [
+          "Rotational to linear",
+          "Linear to rotational",
+          "Static to dynamic",
+          "Kinetic to thermal"
+        ],
+        "answer": "Linear to rotational"
+      },
+      {
+        "question": "The efficiency of a machine is always less than 100% because of:",
+        "options": [
+          "Friction",
+          "Gravity",
+          "Electrical resistance",
+          "Air pressure"
+        ],
+        "answer": "Friction"
+      },
+      {
+        "question": "In a hydraulic system, increasing the area of the output piston will:",
+        "options": [
+          "Increase pressure",
+          "Decrease force",
+          "Increase force",
+          "Decrease speed"
+        ],
+        "answer": "Increase force"
+      },
+      {
+        "question": "What is the purpose of a gasket in an engine?",
+        "options": [
+          "Reduce noise",
+          "Prevent leaks",
+          "Increase speed",
+          "Absorb heat"
+        ],
+        "answer": "Prevent leaks"
+      },
+      {
+        "question": "A transformer is used to:",
+        "options": [
+          "Store electricity",
+          "Change voltage",
+          "Generate electricity",
+          "Convert AC to DC"
+        ],
+        "answer": "Change voltage"
+      },
+      {
+        "question": "What happens to a metal rod when heated?",
+        "options": [
+          "Expands",
+          "Contracts",
+          "Stays the same",
+          "Melts immediately"
+        ],
+        "answer": "Expands"
+      },
+      {
+        "question": "A nut is fastened using a:",
+        "options": [
+          "Screw",
+          "Bolt",
+          "Nail",
+          "Clamp"
+        ],
+        "answer": "Bolt"
+      },
+      {
+        "question": "A cam is used to:",
+        "options": [
+          "Convert linear motion to rotary motion",
+          "Store mechanical energy",
+          "Absorb shocks",
+          "Reduce friction"
+        ],
+        "answer": "Convert linear motion to rotary motion"
+      },
+      {
+        "question": "The principle of leverage is applied in:",
+        "options": [
+          "Pliers",
+          "Gears",
+          "Pulley systems",
+          "Transformers"
+        ],
+        "answer": "Pliers"
+      },
+      {
+        "question": "Which gas is commonly used in welding?",
+        "options": [
+          "Oxygen",
+          "Helium",
+          "Acetylene",
+          "Nitrogen"
+        ],
+        "answer": "Acetylene"
+      }
+    ]
+  },
+  "Entrepreneurial_Skills": {
+    "quiz": [
+      {
+        "question": "What is the primary goal of an entrepreneur?",
+        "options": [
+          "To earn a profit",
+          "To work for someone else",
+          "To avoid risks",
+          "To follow orders"
+        ],
+        "answer": "To earn a profit"
+      },
+      {
+        "question": "Which of the following is an essential characteristic of an entrepreneur?",
+        "options": [
+          "Risk-taking",
+          "Laziness",
+          "Dependence",
+          "Fear of failure"
+        ],
+        "answer": "Risk-taking"
+      },
+      {
+        "question": "What is a business plan?",
+        "options": [
+          "A financial statement",
+          "A document that outlines business goals and strategies",
+          "A contract with customers",
+          "A legal requirement to start a business"
+        ],
+        "answer": "A document that outlines business goals and strategies"
+      },
+      {
+        "question": "What is the first step in starting a business?",
+        "options": [
+          "Hiring employees",
+          "Developing a business idea",
+          "Advertising",
+          "Selling products"
+        ],
+        "answer": "Developing a business idea"
+      },
+      {
+        "question": "Which of the following is NOT a source of business funding?",
+        "options": [
+          "Bank loans",
+          "Personal savings",
+          "Government grants",
+          "Watching TV"
+        ],
+        "answer": "Watching TV"
+      },
+      {
+        "question": "What does SWOT analysis stand for?",
+        "options": [
+          "Strengths, Weaknesses, Opportunities, and Threats",
+          "Sales, Work, Operations, and Taxes",
+          "Startups, Wealth, Offers, and Tactics",
+          "Systems, Websites, Objectives, and Trends"
+        ],
+        "answer": "Strengths, Weaknesses, Opportunities, and Threats"
+      },
+      {
+        "question": "What is market research?",
+        "options": [
+          "Studying competitors and customers before starting a business",
+          "Opening a store in the market",
+          "Researching history",
+          "Hiring employees"
+        ],
+        "answer": "Studying competitors and customers before starting a business"
+      },
+      {
+        "question": "Which of the following is an example of a fixed cost?",
+        "options": [
+          "Rent",
+          "Raw materials",
+          "Utility bills",
+          "Transportation costs"
+        ],
+        "answer": "Rent"
+      },
+      {
+        "question": "What is branding?",
+        "options": [
+          "A form of advertising",
+          "The process of creating a unique image for a product",
+          "A type of business license",
+          "A customer complaint"
+        ],
+        "answer": "The process of creating a unique image for a product"
+      },
+      {
+        "question": "What is customer service?",
+        "options": [
+          "Providing assistance and support to customers",
+          "Avoiding customers",
+          "Selling defective products",
+          "Ignoring complaints"
+        ],
+        "answer": "Providing assistance and support to customers"
+      },
+      {
+        "question": "Why is networking important for entrepreneurs?",
+        "options": [
+          "It helps build connections and opportunities",
+          "It wastes time",
+          "It has no impact on business success",
+          "It is only useful for large companies"
+        ],
+        "answer": "It helps build connections and opportunities"
+      },
+      {
+        "question": "What does ROI stand for in business?",
+        "options": [
+          "Return on Investment",
+          "Rate of Interest",
+          "Revenue on Income",
+          "Rent on Infrastructure"
+        ],
+        "answer": "Return on Investment"
+      },
+      {
+        "question": "What is an example of a liability in business?",
+        "options": [
+          "Business loans",
+          "Equipment",
+          "Inventory",
+          "Profit"
+        ],
+        "answer": "Business loans"
+      },
+      {
+        "question": "Which pricing strategy involves setting a high initial price?",
+        "options": [
+          "Penetration pricing",
+          "Skimming pricing",
+          "Competitive pricing",
+          "Discount pricing"
+        ],
+        "answer": "Skimming pricing"
+      },
+      {
+        "question": "What is cash flow?",
+        "options": [
+          "The movement of money in and out of a business",
+          "The amount of money in a savings account",
+          "The cost of materials",
+          "The total profit of a business"
+        ],
+        "answer": "The movement of money in and out of a business"
+      },
+      {
+        "question": "What is an entrepreneur’s role in innovation?",
+        "options": [
+          "Creating new ideas and improving products",
+          "Copying competitors",
+          "Avoiding changes",
+          "Following the same old strategies"
+        ],
+        "answer": "Creating new ideas and improving products"
+      },
+      {
+        "question": "What is a sole proprietorship?",
+        "options": [
+          "A business owned by one person",
+          "A company with multiple owners",
+          "A government agency",
+          "A nonprofit organization"
+        ],
+        "answer": "A business owned by one person"
+      },
+      {
+        "question": "What is the purpose of advertising?",
+        "options": [
+          "To inform and attract customers",
+          "To increase costs",
+          "To avoid selling",
+          "To limit brand awareness"
+        ],
+        "answer": "To inform and attract customers"
+      },
+      {
+        "question": "What is diversification in business?",
+        "options": [
+          "Expanding into different products or markets",
+          "Reducing production",
+          "Selling only one product",
+          "Ignoring competitors"
+        ],
+        "answer": "Expanding into different products or markets"
+      },
+      {
+        "question": "What is e-commerce?",
+        "options": [
+          "Buying and selling goods online",
+          "A physical store",
+          "A financial institution",
+          "A manufacturing process"
+        ],
+        "answer": "Buying and selling goods online"
+      }
+    ]
+  }
+}
+
+
+

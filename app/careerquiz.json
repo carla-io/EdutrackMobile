@@ -1,0 +1,1178 @@
+{
+  "DOCTORAL": {
+    "quiz": [
+      {
+        "question": "Which of the following blood vessels carries oxygenated blood?",
+        "choices": ["Pulmonary artery", "Pulmonary vein", "Superior vena cava", "Inferior vena cava"],
+        "answer": "Pulmonary vein"
+      },
+      {
+        "question": "What is the normal range of blood pH in a healthy individual?",
+        "choices": ["6.8 – 7.2", "7.35 – 7.45", "7.8 – 8.0", "6.0 – 6.5"],
+        "answer": "7.35 – 7.45"
+      },
+      {
+        "question": "A nurse is using the Glasgow Coma Scale (GCS) to assess a patient. Which of the following is NOT a component of the GCS?",
+        "choices": ["Eye opening", "Verbal response", "Motor response", "Pain threshold"],
+        "answer": "Pain threshold"
+      },
+      {
+        "question": "Which vitamin is essential for blood clotting?",
+        "choices": ["Vitamin A", "Vitamin D", "Vitamin K", "Vitamin B12"],
+        "answer": "Vitamin K"
+      },
+      {
+        "question": "Which of the following medications is classified as a beta-blocker?",
+        "choices": ["Amlodipine", "Metoprolol", "Captopril", "Furosemide"],
+        "answer": "Metoprolol"
+      },
+      {
+        "question": "In medical technology, what is the primary stain used in Gram staining?",
+        "choices": ["Crystal violet", "Safranin", "Methylene blue", "Carbol fuchsin"],
+        "answer": "Crystal violet"
+      },
+      {
+        "question": "In radiologic technology, which imaging technique uses strong magnetic fields and radio waves to generate detailed images of organs?",
+        "choices": ["X-ray", "CT scan", "MRI", "Ultrasound"],
+        "answer": "MRI"
+      },
+      {
+        "question": "What is the main goal of physical therapy rehabilitation for stroke patients?",
+        "choices": ["Strengthen all muscles equally", "Improve balance and coordination", "Completely restore brain function", "Increase the patient’s medication dose"],
+        "answer": "Improve balance and coordination"
+      },
+      {
+        "question": "Occupational therapy primarily focuses on:",
+        "choices": ["Diagnosing mental disorders", "Teaching patients how to swallow", "Helping patients regain daily functional skills", "Providing emergency medical care"],
+        "answer": "Helping patients regain daily functional skills"
+      },
+      {
+        "question": "Which type of dental restoration is commonly used to replace a missing tooth?",
+        "choices": ["Amalgam filling", "Root canal treatment", "Dental bridge", "Fluoride treatment"],
+        "answer": "Dental bridge"
+      },
+      {
+        "question": "A veterinarian would most likely use which test to check for parasitic infections in animals?",
+        "choices": ["ELISA test", "Fecal flotation test", "Hemoglobin test", "Blood culture"],
+        "answer": "Fecal flotation test"
+      },
+      {
+        "question": "Which of the following is a macronutrient?",
+        "choices": ["Vitamin C", "Iron", "Carbohydrates", "Zinc"],
+        "answer": "Carbohydrates"
+      },
+      {
+        "question": "A psychologist using Cognitive Behavioral Therapy (CBT) is focusing on:",
+        "choices": ["Analyzing unconscious thoughts", "Changing negative thought patterns", "Studying personality types", "Conducting dream analysis"],
+        "answer": "Changing negative thought patterns"
+      },
+      {
+        "question": "Which type of research study is best suited for determining the cause-and-effect relationship between a treatment and an outcome?",
+        "choices": ["Case study", "Observational study", "Randomized controlled trial", "Cross-sectional study"],
+        "answer": "Randomized controlled trial"
+      },
+      {
+        "question": "What is the primary role of a healthcare administrator?",
+        "choices": ["Diagnosing patients", "Managing hospital operations and policies", "Prescribing medications", "Conducting surgeries"],
+        "answer": "Managing hospital operations and policies"
+      },
+      {
+        "question": "A newborn is given an APGAR score at birth. Which factor is NOT part of the APGAR scoring system?",
+        "choices": ["Heart rate", "Muscle tone", "Skin elasticity", "Respiratory effort"],
+        "answer": "Skin elasticity"
+      },
+      {
+        "question": "A medication with a teratogenic effect means it:",
+        "choices": ["Causes birth defects", "Reduces fever", "Lowers blood pressure", "Treats bacterial infections"],
+        "answer": "Causes birth defects"
+      },
+      {
+        "question": "A radiologic technologist must follow ALARA principles to:",
+        "choices": ["Ensure maximum radiation exposure", "Minimize radiation exposure", "Improve MRI scan clarity", "Diagnose broken bones"],
+        "answer": "Minimize radiation exposure"
+      },
+      {
+        "question": "The term 'nosocomial infection' refers to infections that are:",
+        "choices": ["Caused by food poisoning", "Acquired in a healthcare setting", "Spread through air travel", "Transmitted by mosquito bites"],
+        "answer": "Acquired in a healthcare setting"
+      },
+      {
+        "question": "What is the best position for a patient experiencing shock?",
+        "choices": ["Trendelenburg position (legs elevated)", "Supine position (flat on back)", "Fowler’s position (semi-sitting)", "Lateral position (side-lying)"],
+        "answer": "Trendelenburg position (legs elevated)"
+      }
+    ]
+  },
+  "IT": {
+    "quiz": [
+      {
+        "question": "What does HTML stand for?",
+        "choices": ["Hyper Text Markup Language", "High Tech Machine Learning", "Hyperlink and Text Management Language", "Home Tool Markup Language"],
+        "answer": "Hyper Text Markup Language"
+      },
+      {
+        "question": "Which of the following is NOT a programming language?",
+        "choices": ["Python", "JavaScript", "Bootstrap", "Ruby"],
+        "answer": "Bootstrap"
+      },
+      {
+        "question": "What is the main function of a DNS server?",
+        "choices": ["Store website files", "Translate domain names to IP addresses", "Secure network connections", "Monitor server performance"],
+        "answer": "Translate domain names to IP addresses"
+      },
+      {
+        "question": "Which cybersecurity attack involves overwhelming a system with traffic?",
+        "choices": ["Phishing", "Man-in-the-Middle", "DDoS", "Brute Force"],
+        "answer": "DDoS"
+      },
+      {
+        "question": "Which database type is best for handling relational data?",
+        "choices": ["SQL", "NoSQL", "Graph Database", "Document Store"],
+        "answer": "SQL"
+      },
+      {
+        "question": "Which of the following is used for version control?",
+        "choices": ["Git", "Docker", "Apache", "Linux"],
+        "answer": "Git"
+      },
+      {
+        "question": "What does CSS stand for?",
+        "choices": ["Computer Style Sheet", "Cascading Style Sheets", "Creative Styling System", "Colorful Site Styling"],
+        "answer": "Cascading Style Sheets"
+      },
+      {
+        "question": "Which programming language is primarily used for Android app development?",
+        "choices": ["Swift", "Kotlin", "C#", "PHP"],
+        "answer": "Kotlin"
+      },
+      {
+        "question": "What is the role of a firewall in cybersecurity?",
+        "choices": ["Encrypt data", "Block unauthorized access", "Scan for viruses", "Manage software updates"],
+        "answer": "Block unauthorized access"
+      },
+      {
+        "question": "Which cloud computing service provides virtual machines?",
+        "choices": ["IaaS", "PaaS", "SaaS", "FaaS"],
+        "answer": "IaaS"
+      },
+      {
+        "question": "What does the term 'responsive design' refer to in web development?",
+        "choices": ["Fast loading websites", "Mobile-friendly layout adjustments", "Database optimization", "Cloud storage integration"],
+        "answer": "Mobile-friendly layout adjustments"
+      },
+      {
+        "question": "Which algorithm is commonly used in AI for training models?",
+        "choices": ["Dijkstra's Algorithm", "Backpropagation", "Merge Sort", "SHA-256"],
+        "answer": "Backpropagation"
+      },
+      {
+        "question": "Which of the following is NOT a cloud service provider?",
+        "choices": ["AWS", "Azure", "Google Cloud", "Oracle Java"],
+        "answer": "Oracle Java"
+      },
+      {
+        "question": "What is the main function of a load balancer?",
+        "choices": ["Increase bandwidth", "Distribute network traffic", "Monitor security threats", "Compress web pages"],
+        "answer": "Distribute network traffic"
+      },
+      {
+        "question": "Which of the following is an example of an interpreted programming language?",
+        "choices": ["C++", "Python", "Java", "Rust"],
+        "answer": "Python"
+      },
+      {
+        "question": "Which of these storage types is volatile?",
+        "choices": ["HDD", "SSD", "RAM", "Flash Drive"],
+        "answer": "RAM"
+      },
+      {
+        "question": "What does UI/UX design focus on?",
+        "choices": ["User experience and interface design", "Network security", "Backend development", "Data encryption"],
+        "answer": "User experience and interface design"
+      },
+      {
+        "question": "Which of the following is a JavaScript framework?",
+        "choices": ["Laravel", "Django", "React", "Spring Boot"],
+        "answer": "React"
+      },
+      {
+        "question": "Which protocol is used to securely transfer files over the internet?",
+        "choices": ["HTTP", "FTP", "SFTP", "SMTP"],
+        "answer": "SFTP"
+      },
+      {
+        "question": "What is the primary function of a data scientist?",
+        "choices": ["Develop mobile apps", "Analyze and interpret complex data", "Manage cloud services", "Secure networks"],
+        "answer": "Analyze and interpret complex data"
+      }
+    ]
+  },
+  "ENGINEER": {
+    "quiz": [
+      {
+        "question": "What is the primary purpose of a structural beam in civil engineering?",
+        "choices": ["To provide aesthetic value", "To support loads and transfer forces", "To increase ventilation", "To enhance waterproofing"],
+        "answer": "To support loads and transfer forces"
+      },
+      {
+        "question": "Which law states that for every action, there is an equal and opposite reaction?",
+        "choices": ["Newton’s First Law", "Newton’s Second Law", "Newton’s Third Law", "Law of Conservation of Energy"],
+        "answer": "Newton’s Third Law"
+      },
+      {
+        "question": "In electrical engineering, what does AC stand for?",
+        "choices": ["Active Current", "Alternate Circuit", "Alternating Current", "Amplified Charge"],
+        "answer": "Alternating Current"
+      },
+      {
+        "question": "Which programming language is commonly used in computer engineering for low-level hardware interaction?",
+        "choices": ["Python", "C", "Java", "Swift"],
+        "answer": "C"
+      },
+      {
+        "question": "Which type of bridge is best suited for long spans over water?",
+        "choices": ["Beam bridge", "Truss bridge", "Suspension bridge", "Arch bridge"],
+        "answer": "Suspension bridge"
+      },
+      {
+        "question": "What is the primary function of a capacitor in an electronic circuit?",
+        "choices": ["Store electrical energy", "Amplify signals", "Convert AC to DC", "Increase resistance"],
+        "answer": "Store electrical energy"
+      },
+      {
+        "question": "Which thermodynamic law states that energy cannot be created or destroyed?",
+        "choices": ["First Law", "Second Law", "Third Law", "Zeroth Law"],
+        "answer": "First Law"
+      },
+      {
+        "question": "What is the main function of an HVAC system in a building?",
+        "choices": ["Provide lighting", "Control temperature and air quality", "Enhance structural integrity", "Increase energy efficiency"],
+        "answer": "Control temperature and air quality"
+      },
+      {
+        "question": "What is the primary purpose of a distillation process in chemical engineering?",
+        "choices": ["To increase reaction rate", "To separate components based on boiling points", "To enhance fluid viscosity", "To neutralize acidic compounds"],
+        "answer": "To separate components based on boiling points"
+      },
+      {
+        "question": "Which material is commonly used for load-bearing walls in construction?",
+        "choices": ["Glass", "Concrete", "Plastic", "Aluminum"],
+        "answer": "Concrete"
+      },
+      {
+        "question": "What does PLC stand for in industrial engineering?",
+        "choices": ["Programmable Logic Controller", "Power Load Control", "Process Line Coordination", "Production Level Calculation"],
+        "answer": "Programmable Logic Controller"
+      },
+      {
+        "question": "In biomedical engineering, what device is used to regulate heartbeats?",
+        "choices": ["Pacemaker", "ECG Machine", "Defibrillator", "Stethoscope"],
+        "answer": "Pacemaker"
+      },
+      {
+        "question": "Which type of engineer specializes in waste management and pollution control?",
+        "choices": ["Chemical Engineer", "Environmental Engineer", "Civil Engineer", "Mechanical Engineer"],
+        "answer": "Environmental Engineer"
+      },
+      {
+        "question": "What does CAD stand for in architecture and engineering?",
+        "choices": ["Computer-Aided Design", "Construction and Drafting", "Circuit Analysis Diagram", "Concrete Application Development"],
+        "answer": "Computer-Aided Design"
+      },
+      {
+        "question": "Which machine component is used to reduce friction between moving parts?",
+        "choices": ["Gear", "Bearing", "Spring", "Pulley"],
+        "answer": "Bearing"
+      },
+      {
+        "question": "What is the main advantage of reinforced concrete over regular concrete?",
+        "choices": ["Lower cost", "Increased tensile strength", "Lighter weight", "Easier to mold"],
+        "answer": "Increased tensile strength"
+      },
+      {
+        "question": "Which of the following is a common renewable energy source used in electrical engineering?",
+        "choices": ["Coal", "Natural Gas", "Solar Power", "Petroleum"],
+        "answer": "Solar Power"
+      },
+      {
+        "question": "What is the primary function of a heat exchanger in mechanical systems?",
+        "choices": ["Increase air pressure", "Transfer heat between fluids", "Convert electrical energy", "Reduce sound vibrations"],
+        "answer": "Transfer heat between fluids"
+      },
+      {
+        "question": "In structural engineering, what is the purpose of a foundation?",
+        "choices": ["Provide aesthetic value", "Support and distribute loads to the ground", "Increase insulation", "Reduce construction time"],
+        "answer": "Support and distribute loads to the ground"
+      },
+      {
+        "question": "Which type of engineering primarily deals with factory layout and process optimization?",
+        "choices": ["Mechanical Engineering", "Industrial Engineering", "Environmental Engineering", "Electrical Engineering"],
+        "answer": "Industrial Engineering"
+      }
+    ]
+  },
+  "BUSINESS": {
+    "quiz": [
+      {
+        "question": "What financial statement summarizes a company's assets, liabilities, and equity at a specific point in time?",
+        "choices": ["Income Statement", "Balance Sheet", "Cash Flow Statement", "Statement of Retained Earnings"],
+        "answer": "Balance Sheet"
+      },
+      {
+        "question": "What does ROI stand for in finance?",
+        "choices": ["Return on Investment", "Rate of Interest", "Revenue on Income", "Risk of Inflation"],
+        "answer": "Return on Investment"
+      },
+      {
+        "question": "Which of the following is a key responsibility of an auditor?",
+        "choices": ["Marketing a product", "Reviewing financial records for accuracy", "Managing employee benefits", "Developing investment strategies"],
+        "answer": "Reviewing financial records for accuracy"
+      },
+      {
+        "question": "Which type of analysis is commonly used by financial analysts to evaluate company performance?",
+        "choices": ["SWOT Analysis", "Technical Analysis", "Ratio Analysis", "Market Segmentation"],
+        "answer": "Ratio Analysis"
+      },
+      {
+        "question": "What is the main role of an investment banker?",
+        "choices": ["Managing payroll", "Assisting companies in raising capital", "Auditing financial statements", "Overseeing tax compliance"],
+        "answer": "Assisting companies in raising capital"
+      },
+      {
+        "question": "Which financial ratio measures a company's ability to cover short-term liabilities with short-term assets?",
+        "choices": ["Debt-to-Equity Ratio", "Current Ratio", "Return on Assets", "Price-to-Earnings Ratio"],
+        "answer": "Current Ratio"
+      },
+      {
+        "question": "Which of the following is an example of a marketing strategy?",
+        "choices": ["Hiring new employees", "Launching a social media campaign", "Reducing tax liabilities", "Increasing capital expenditure"],
+        "answer": "Launching a social media campaign"
+      },
+      {
+        "question": "What is the primary function of human resource management?",
+        "choices": ["Managing financial statements", "Overseeing employee recruitment and development", "Developing investment portfolios", "Conducting tax audits"],
+        "answer": "Overseeing employee recruitment and development"
+      },
+      {
+        "question": "Which of the following best defines entrepreneurship?",
+        "choices": ["Managing government policies", "Starting and running a business", "Investing in mutual funds", "Conducting risk assessments"],
+        "answer": "Starting and running a business"
+      },
+      {
+        "question": "Which document outlines a business’s goals, strategies, and financial projections?",
+        "choices": ["Marketing Plan", "Business Plan", "Financial Report", "Annual Statement"],
+        "answer": "Business Plan"
+      },
+      {
+        "question": "Which project management methodology focuses on iterative development and collaboration?",
+        "choices": ["Waterfall", "Lean", "Agile", "Six Sigma"],
+        "answer": "Agile"
+      },
+      {
+        "question": "Which term refers to the risk associated with investing in a specific company or industry?",
+        "choices": ["Market Risk", "Operational Risk", "Credit Risk", "Systematic Risk"],
+        "answer": "Market Risk"
+      },
+      {
+        "question": "Which type of accounting focuses on internal decision-making and financial planning?",
+        "choices": ["Financial Accounting", "Managerial Accounting", "Tax Accounting", "Auditing"],
+        "answer": "Managerial Accounting"
+      },
+      {
+        "question": "What is the primary role of an actuary?",
+        "choices": ["Developing marketing strategies", "Analyzing financial risk using mathematics and statistics", "Preparing financial statements", "Managing payroll and benefits"],
+        "answer": "Analyzing financial risk using mathematics and statistics"
+      },
+      {
+        "question": "Which financial market instrument is used by governments and corporations to raise capital?",
+        "choices": ["Stock", "Bond", "Mutual Fund", "Derivative"],
+        "answer": "Bond"
+      },
+      {
+        "question": "What is the primary goal of corporate finance?",
+        "choices": ["Maximizing shareholder value", "Managing employee relations", "Reducing production costs", "Expanding into international markets"],
+        "answer": "Maximizing shareholder value"
+      },
+      {
+        "question": "Which factor is most important when evaluating a potential investment?",
+        "choices": ["Company logo design", "Employee benefits", "Expected return and risk", "Office location"],
+        "answer": "Expected return and risk"
+      },
+      {
+        "question": "Which pricing strategy involves setting a low initial price to attract customers?",
+        "choices": ["Premium Pricing", "Penetration Pricing", "Cost-Plus Pricing", "Value-Based Pricing"],
+        "answer": "Penetration Pricing"
+      },
+      {
+        "question": "Which financial concept involves the time value of money?",
+        "choices": ["Depreciation", "Compound Interest", "Break-even Analysis", "Net Present Value"],
+        "answer": "Net Present Value"
+      },
+      {
+        "question": "Which leadership style encourages employee participation in decision-making?",
+        "choices": ["Autocratic", "Democratic", "Laissez-Faire", "Transactional"],
+        "answer": "Democratic"
+      }
+    ]
+  },
+  "Media": {
+    "quiz": [
+      {
+        "question": "What is the primary purpose of journalistic writing?",
+        "choices": ["To entertain readers", "To persuade audiences", "To inform the public with facts", "To promote businesses"],
+        "answer": "To inform the public with facts"
+      },
+      {
+        "question": "Which of the following is a key responsibility of an editor?",
+        "choices": ["Creating visual content", "Managing ad campaigns", "Revising and improving written content", "Filming videos"],
+        "answer": "Revising and improving written content"
+      },
+      {
+        "question": "Which design principle emphasizes the arrangement of elements to create visual harmony?",
+        "choices": ["Contrast", "Balance", "Hierarchy", "Proximity"],
+        "answer": "Balance"
+      },
+      {
+        "question": "Which file format is commonly used for high-quality printed photographs?",
+        "choices": ["JPEG", "PNG", "TIFF", "GIF"],
+        "answer": "TIFF"
+      },
+      {
+        "question": "What is the primary role of a director in filmmaking?",
+        "choices": ["Editing the footage", "Supervising the film's visual effects", "Overseeing the artistic and dramatic aspects", "Handling the film's finances"],
+        "answer": "Overseeing the artistic and dramatic aspects"
+      },
+      {
+        "question": "Which platform is most commonly used for professional networking in media and communication?",
+        "choices": ["Instagram", "LinkedIn", "TikTok", "Reddit"],
+        "answer": "LinkedIn"
+      },
+      {
+        "question": "What is a key responsibility of a Public Relations (PR) Specialist?",
+        "choices": ["Designing company logos", "Maintaining a positive public image for clients", "Editing newspaper articles", "Shooting and editing films"],
+        "answer": "Maintaining a positive public image for clients"
+      },
+      {
+        "question": "Which software is commonly used in animation production?",
+        "choices": ["Adobe Photoshop", "Autodesk Maya", "Final Cut Pro", "Canva"],
+        "answer": "Autodesk Maya"
+      },
+      {
+        "question": "What is the main function of a content creator?",
+        "choices": ["Managing corporate finances", "Developing software applications", "Producing engaging online material", "Supervising construction projects"],
+        "answer": "Producing engaging online material"
+      },
+      {
+        "question": "Which game design element involves creating the rules and mechanics of a game?",
+        "choices": ["Narrative design", "Game mechanics", "Level design", "Sound design"],
+        "answer": "Game mechanics"
+      },
+      {
+        "question": "Which of the following is an important aspect of photography composition?",
+        "choices": ["Shutter speed", "ISO sensitivity", "Rule of thirds", "White balance"],
+        "answer": "Rule of thirds"
+      },
+      {
+        "question": "Which marketing technique is commonly used by social media managers to increase engagement?",
+        "choices": ["Cold calling", "SEO optimization", "Hashtag strategy", "Direct mailing"],
+        "answer": "Hashtag strategy"
+      },
+      {
+        "question": "What is a storyboard used for in filmmaking?",
+        "choices": ["Editing sound effects", "Planning visual scenes", "Writing dialogue", "Casting actors"],
+        "answer": "Planning visual scenes"
+      },
+      {
+        "question": "Which type of writing focuses on storytelling through scripts?",
+        "choices": ["Journalistic writing", "Technical writing", "Screenwriting", "Academic writing"],
+        "answer": "Screenwriting"
+      },
+      {
+        "question": "What is the purpose of a press release in public relations?",
+        "choices": ["To share company news with the media", "To advertise a product", "To communicate internally with employees", "To create social media posts"],
+        "answer": "To share company news with the media"
+      },
+      {
+        "question": "Which social media platform is known for short, viral video content?",
+        "choices": ["LinkedIn", "Facebook", "TikTok", "Reddit"],
+        "answer": "TikTok"
+      },
+      {
+        "question": "What is the main role of a graphic designer?",
+        "choices": ["Managing marketing campaigns", "Creating visual content for branding and media", "Editing video footage", "Conducting interviews"],
+        "answer": "Creating visual content for branding and media"
+      },
+      {
+        "question": "Which principle is essential in branding and logo design?",
+        "choices": ["Simplicity", "Complexity", "Opacity", "Distortion"],
+        "answer": "Simplicity"
+      },
+      {
+        "question": "Which type of media is primarily audio-based?",
+        "choices": ["Podcast", "Infographic", "Blog post", "Photography"],
+        "answer": "Podcast"
+      },
+      {
+        "question": "What does UX stand for in design?",
+        "choices": ["User Experience", "Universal Exchange", "Unified Extension", "Ultra Execution"],
+        "answer": "User Experience"
+      }
+    ]
+  },
+  "Education": {
+    "quiz": [
+      {
+        "question": "What is the primary purpose of journalistic writing?",
+        "choices": ["To entertain readers", "To persuade audiences", "To inform the public with facts", "To promote businesses"],
+        "answer": "To inform the public with facts"
+      },
+      {
+        "question": "Which of the following is a key responsibility of an editor?",
+        "choices": ["Creating visual content", "Managing ad campaigns", "Revising and improving written content", "Filming videos"],
+        "answer": "Revising and improving written content"
+      },
+      {
+        "question": "Which design principle emphasizes the arrangement of elements to create visual harmony?",
+        "choices": ["Contrast", "Balance", "Hierarchy", "Proximity"],
+        "answer": "Balance"
+      },
+      {
+        "question": "Which file format is commonly used for high-quality printed photographs?",
+        "choices": ["JPEG", "PNG", "TIFF", "GIF"],
+        "answer": "TIFF"
+      },
+      {
+        "question": "What is the primary role of a director in filmmaking?",
+        "choices": ["Editing the footage", "Supervising the film's visual effects", "Overseeing the artistic and dramatic aspects", "Handling the film's finances"],
+        "answer": "Overseeing the artistic and dramatic aspects"
+      },
+      {
+        "question": "Which platform is most commonly used for professional networking in media and communication?",
+        "choices": ["Instagram", "LinkedIn", "TikTok", "Reddit"],
+        "answer": "LinkedIn"
+      },
+      {
+        "question": "What is a key responsibility of a Public Relations (PR) Specialist?",
+        "choices": ["Designing company logos", "Maintaining a positive public image for clients", "Editing newspaper articles", "Shooting and editing films"],
+        "answer": "Maintaining a positive public image for clients"
+      },
+      {
+        "question": "Which software is commonly used in animation production?",
+        "choices": ["Adobe Photoshop", "Autodesk Maya", "Final Cut Pro", "Canva"],
+        "answer": "Autodesk Maya"
+      },
+      {
+        "question": "Which of the following is an essential quality for an effective teacher?",
+        "choices": ["Strict discipline", "Clear communication", "Personal bias", "Memorization skills"],
+        "answer": "Clear communication"
+      },
+      {
+        "question": "What is the main purpose of curriculum development?",
+        "choices": ["To create engaging social media content", "To design educational programs and improve learning", "To manage school finances", "To recruit teachers"],
+        "answer": "To design educational programs and improve learning"
+      },
+      {
+        "question": "Which research method is commonly used in scientific studies?",
+        "choices": ["Experimental method", "Opinion-based surveys", "Marketing strategies", "Political debates"],
+        "answer": "Experimental method"
+      },
+      {
+        "question": "What is the primary role of a librarian?",
+        "choices": ["To write books", "To manage information resources and assist library users", "To teach science", "To design educational websites"],
+        "answer": "To manage information resources and assist library users"
+      },
+      {
+        "question": "Which skill is crucial for an educational consultant?",
+        "choices": ["Ability to create advertisements", "Expertise in learning strategies and education systems", "Programming knowledge", "Financial analysis"],
+        "answer": "Expertise in learning strategies and education systems"
+      },
+      {
+        "question": "What is an important characteristic of a scientific researcher?",
+        "choices": ["Creativity in advertising", "Critical thinking and analytical skills", "Social media expertise", "Fashion sense"],
+        "answer": "Critical thinking and analytical skills"
+      },
+      {
+        "question": "Which of the following is an example of qualitative research?",
+        "choices": ["Measuring temperature changes", "Analyzing interview transcripts", "Calculating statistical probabilities", "Counting population growth"],
+        "answer": "Analyzing interview transcripts"
+      },
+      {
+        "question": "What is one of the primary objectives of education?",
+        "choices": ["To increase social media followers", "To enhance personal and societal growth", "To create viral content", "To design websites"],
+        "answer": "To enhance personal and societal growth"
+      },
+      {
+        "question": "Which of the following is a primary source in research?",
+        "choices": ["A newspaper article summarizing a study", "An original research paper", "A social media post", "A Wikipedia entry"],
+        "answer": "An original research paper"
+      },
+      {
+        "question": "Which teaching method focuses on hands-on learning and real-world applications?",
+        "choices": ["Lecture-based learning", "Project-based learning", "Memorization drills", "Silent reading"],
+        "answer": "Project-based learning"
+      },
+      {
+        "question": "What is an essential component of effective lesson planning?",
+        "choices": ["Random selection of topics", "Clear learning objectives", "Skipping assessments", "Ignoring student engagement"],
+        "answer": "Clear learning objectives"
+      },
+      {
+        "question": "What is one key responsibility of a professor in higher education?",
+        "choices": ["Creating social media content", "Conducting academic research and teaching students", "Designing video games", "Managing company budgets"],
+        "answer": "Conducting academic research and teaching students"
+      }
+    ]
+  },
+  "Law": {
+    "quiz": [
+      {
+        "question": "What is the primary role of a lawyer?",
+        "choices": ["To create laws", "To enforce laws", "To interpret and apply laws for clients", "To manage courtrooms"],
+        "answer": "To interpret and apply laws for clients"
+      },
+      {
+        "question": "Which of the following is a responsibility of a judge?",
+        "choices": ["Defending clients", "Prosecuting criminals", "Presiding over court cases and making legal decisions", "Writing new laws"],
+        "answer": "Presiding over court cases and making legal decisions"
+      },
+      {
+        "question": "What is the main function of a paralegal?",
+        "choices": ["Representing clients in court", "Conducting legal research and assisting lawyers", "Drafting new laws", "Serving as a jury member"],
+        "answer": "Conducting legal research and assisting lawyers"
+      },
+      {
+        "question": "What is the role of a diplomat?",
+        "choices": ["Negotiating international agreements and representing their country abroad", "Enforcing local laws", "Managing national budgets", "Overseeing military operations"],
+        "answer": "Negotiating international agreements and representing their country abroad"
+      },
+      {
+        "question": "Which of the following is a key duty of a politician?",
+        "choices": ["Enforcing court decisions", "Creating and passing laws", "Judging legal disputes", "Representing individuals in legal cases"],
+        "answer": "Creating and passing laws"
+      },
+      {
+        "question": "What is the primary responsibility of a public administrator?",
+        "choices": ["Managing government policies and services", "Conducting business audits", "Developing medical treatments", "Designing legal contracts"],
+        "answer": "Managing government policies and services"
+      },
+      {
+        "question": "Which type of law deals with crimes and legal punishments?",
+        "choices": ["Civil Law", "Criminal Law", "Corporate Law", "International Law"],
+        "answer": "Criminal Law"
+      },
+      {
+        "question": "What is a legal precedent?",
+        "choices": ["A new law created by Congress", "A judge’s decision that serves as an example for future cases", "A government regulation", "A law proposed by a politician"],
+        "answer": "A judge’s decision that serves as an example for future cases"
+      },
+      {
+        "question": "Which international organization helps settle legal disputes between countries?",
+        "choices": ["United Nations", "World Trade Organization", "International Court of Justice", "Interpol"],
+        "answer": "International Court of Justice"
+      },
+      {
+        "question": "What does the term 'habeas corpus' refer to in law?",
+        "choices": ["Right to own property", "Right to challenge unlawful detention", "Right to free speech", "Right to vote"],
+        "answer": "Right to challenge unlawful detention"
+      },
+      {
+        "question": "Which of the following is an example of constitutional law?",
+        "choices": ["A traffic violation", "A dispute between two companies", "A case concerning freedom of speech", "A business contract"],
+        "answer": "A case concerning freedom of speech"
+      },
+      {
+        "question": "Which branch of government is responsible for enforcing laws?",
+        "choices": ["Legislative", "Executive", "Judicial", "Federal"],
+        "answer": "Executive"
+      },
+      {
+        "question": "Which document serves as the fundamental law of a country?",
+        "choices": ["The Constitution", "A Supreme Court ruling", "A government policy", "A civil code"],
+        "answer": "The Constitution"
+      },
+      {
+        "question": "What does a prosecutor do?",
+        "choices": ["Defends individuals accused of crimes", "Represents the government in criminal cases", "Creates laws", "Enforces international treaties"],
+        "answer": "Represents the government in criminal cases"
+      },
+      {
+        "question": "Which of the following is a fundamental right protected by most democratic constitutions?",
+        "choices": ["The right to free speech", "The right to own any business", "The right to avoid paying taxes", "The right to unlimited property"],
+        "answer": "The right to free speech"
+      },
+      {
+        "question": "What is the purpose of administrative law?",
+        "choices": ["To govern the actions of government agencies", "To resolve conflicts between individuals", "To handle international relations", "To regulate private businesses"],
+        "answer": "To govern the actions of government agencies"
+      },
+      {
+        "question": "Which type of lawyer specializes in defending individuals accused of crimes?",
+        "choices": ["Corporate Lawyer", "Defense Attorney", "Civil Rights Lawyer", "Environmental Lawyer"],
+        "answer": "Defense Attorney"
+      },
+      {
+        "question": "What is one of the key roles of a Supreme Court?",
+        "choices": ["Creating laws", "Interpreting constitutional laws", "Managing elections", "Prosecuting criminals"],
+        "answer": "Interpreting constitutional laws"
+      },
+      {
+        "question": "Which legal document formally initiates a lawsuit?",
+        "choices": ["A contract", "A will", "A complaint", "A subpoena"],
+        "answer": "A complaint"
+      },
+      {
+        "question": "What is the main function of international law?",
+        "choices": ["Regulating laws within a country", "Governing relations between countries", "Managing private business contracts", "Overseeing local government policies"],
+        "answer": "Governing relations between countries"
+      }
+    ]
+  },
+  "Science": {
+    "quiz": [
+      {
+        "question": "What is the primary role of a biologist?",
+        "choices": ["Study the Earth's atmosphere", "Analyze chemical reactions", "Study living organisms and their interactions", "Investigate celestial bodies"],
+        "answer": "Study living organisms and their interactions"
+      },
+      {
+        "question": "Which field of science focuses on the composition and reactions of substances?",
+        "choices": ["Physics", "Astronomy", "Chemistry", "Biology"],
+        "answer": "Chemistry"
+      },
+      {
+        "question": "What do physicists primarily study?",
+        "choices": ["The behavior of matter and energy", "The structure of living organisms", "The chemical composition of substances", "The formation of mountains"],
+        "answer": "The behavior of matter and energy"
+      },
+      {
+        "question": "Which profession studies the Earth's physical structure and history?",
+        "choices": ["Meteorologist", "Geologist", "Biologist", "Astronomer"],
+        "answer": "Geologist"
+      },
+      {
+        "question": "What does an environmental scientist primarily focus on?",
+        "choices": ["The study of celestial bodies", "The impact of human activities on nature", "The laws of motion", "The chemical properties of elements"],
+        "answer": "The impact of human activities on nature"
+      },
+      {
+        "question": "Which atmospheric scientist predicts weather patterns?",
+        "choices": ["Geologist", "Astronomer", "Meteorologist", "Physicist"],
+        "answer": "Meteorologist"
+      },
+      {
+        "question": "What is the primary focus of an astronomer?",
+        "choices": ["The study of space and celestial bodies", "The study of Earth's ecosystems", "The study of animal behavior", "The study of ocean currents"],
+        "answer": "The study of space and celestial bodies"
+      },
+      {
+        "question": "What is an ecosystem?",
+        "choices": ["A collection of chemical elements", "A system of interacting organisms and their environment", "A group of stars forming a constellation", "A cycle of weather patterns"],
+        "answer": "A system of interacting organisms and their environment"
+      },
+      {
+        "question": "Which of the following is NOT a state of matter?",
+        "choices": ["Solid", "Liquid", "Gas", "Energy"],
+        "answer": "Energy"
+      },
+      {
+        "question": "What is the chemical symbol for gold?",
+        "choices": ["Ag", "Au", "Pb", "Fe"],
+        "answer": "Au"
+      },
+      {
+        "question": "What causes earthquakes?",
+        "choices": ["Shifts in the Earth's tectonic plates", "Changes in atmospheric pressure", "Erosion of soil", "Gravitational pull of the moon"],
+        "answer": "Shifts in the Earth's tectonic plates"
+      },
+      {
+        "question": "What is the process by which plants make their own food?",
+        "choices": ["Respiration", "Photosynthesis", "Fermentation", "Combustion"],
+        "answer": "Photosynthesis"
+      },
+      {
+        "question": "Which branch of physics deals with motion and force?",
+        "choices": ["Quantum Mechanics", "Thermodynamics", "Classical Mechanics", "Optics"],
+        "answer": "Classical Mechanics"
+      },
+      {
+        "question": "Which layer of the Earth's atmosphere contains the ozone layer?",
+        "choices": ["Troposphere", "Stratosphere", "Mesosphere", "Exosphere"],
+        "answer": "Stratosphere"
+      },
+      {
+        "question": "What type of rock is formed from cooled magma or lava?",
+        "choices": ["Sedimentary rock", "Metamorphic rock", "Igneous rock", "Fossil rock"],
+        "answer": "Igneous rock"
+      },
+      {
+        "question": "Which of the following is an example of renewable energy?",
+        "choices": ["Coal", "Petroleum", "Solar power", "Natural gas"],
+        "answer": "Solar power"
+      },
+      {
+        "question": "What is the greenhouse effect?",
+        "choices": ["The trapping of heat in Earth's atmosphere by gases", "The destruction of plant life due to pollution", "The warming of ocean currents", "The depletion of the ozone layer"],
+        "answer": "The trapping of heat in Earth's atmosphere by gases"
+      },
+      {
+        "question": "Which gas is most abundant in Earth's atmosphere?",
+        "choices": ["Oxygen", "Carbon dioxide", "Nitrogen", "Helium"],
+        "answer": "Nitrogen"
+      },
+      {
+        "question": "What does a paleontologist study?",
+        "choices": ["Living animals", "Chemical reactions", "Fossils and prehistoric life", "Weather patterns"],
+        "answer": "Fossils and prehistoric life"
+      },
+      {
+        "question": "What force keeps planets in orbit around the Sun?",
+        "choices": ["Magnetism", "Gravity", "Electricity", "Pressure"],
+        "answer": "Gravity"
+      }
+    ]
+  },
+  "Aviation": {
+    "quiz": [
+      {
+        "question": "What is the primary role of a biologist?",
+        "choices": ["Study the Earth's atmosphere", "Analyze chemical reactions", "Study living organisms and their interactions", "Investigate celestial bodies"],
+        "answer": "Study living organisms and their interactions"
+      },
+      {
+        "question": "Which field of science focuses on the composition and reactions of substances?",
+        "choices": ["Physics", "Astronomy", "Chemistry", "Biology"],
+        "answer": "Chemistry"
+      },
+      {
+        "question": "What do physicists primarily study?",
+        "choices": ["The behavior of matter and energy", "The structure of living organisms", "The chemical composition of substances", "The formation of mountains"],
+        "answer": "The behavior of matter and energy"
+      },
+      {
+        "question": "Which profession studies the Earth's physical structure and history?",
+        "choices": ["Meteorologist", "Geologist", "Biologist", "Astronomer"],
+        "answer": "Geologist"
+      },
+      {
+        "question": "What does an environmental scientist primarily focus on?",
+        "choices": ["The study of celestial bodies", "The impact of human activities on nature", "The laws of motion", "The chemical properties of elements"],
+        "answer": "The impact of human activities on nature"
+      },
+      {
+        "question": "Which of the following is responsible for controlling air traffic and ensuring safe takeoffs and landings?",
+        "choices": ["Pilot", "Marine Engineer", "Air Traffic Controller", "Seafarer"],
+        "answer": "Air Traffic Controller"
+      },
+      {
+        "question": "What does an aeronautical engineer primarily work on?",
+        "choices": ["Designing and testing aircraft", "Operating radar systems", "Managing flight schedules", "Repairing marine engines"],
+        "answer": "Designing and testing aircraft"
+      },
+      {
+        "question": "Which professional is responsible for commanding and navigating a ship?",
+        "choices": ["Pilot", "Marine Engineer", "Ship Captain", "Aeronautical Engineer"],
+        "answer": "Ship Captain"
+      },
+      {
+        "question": "What is the primary function of a pilot?",
+        "choices": ["Designing aircraft engines", "Flying and operating an aircraft", "Monitoring weather conditions", "Managing airport logistics"],
+        "answer": "Flying and operating an aircraft"
+      },
+      {
+        "question": "Which of the following professionals specializes in maintaining and designing marine propulsion systems?",
+        "choices": ["Aeronautical Engineer", "Marine Engineer", "Air Traffic Controller", "Seafarer"],
+        "answer": "Marine Engineer"
+      },
+      {
+        "question": "Which type of engineer primarily deals with aircraft structures and aerodynamics?",
+        "choices": ["Electrical Engineer", "Civil Engineer", "Aeronautical Engineer", "Mechanical Engineer"],
+        "answer": "Aeronautical Engineer"
+      },
+      {
+        "question": "Which of the following is an essential skill for a commercial pilot?",
+        "choices": ["Understanding chemical reactions", "Proficiency in navigation and flight controls", "Designing naval ships", "Programming software applications"],
+        "answer": "Proficiency in navigation and flight controls"
+      },
+      {
+        "question": "What is the primary responsibility of an air traffic controller?",
+        "choices": ["Designing airports", "Ensuring safe aircraft movement in the airspace", "Repairing aircraft engines", "Operating marine vessels"],
+        "answer": "Ensuring safe aircraft movement in the airspace"
+      },
+      {
+        "question": "Which professional is responsible for designing and improving naval vessels and offshore structures?",
+        "choices": ["Aeronautical Engineer", "Marine Engineer", "Ship Captain", "Air Traffic Controller"],
+        "answer": "Marine Engineer"
+      },
+      {
+        "question": "Which license is required for a commercial pilot to legally fly passengers?",
+        "choices": ["Private Pilot License (PPL)", "Student Pilot License (SPL)", "Commercial Pilot License (CPL)", "Remote Pilot License (RPL)"],
+        "answer": "Commercial Pilot License (CPL)"
+      },
+      {
+        "question": "Which type of transportation professional ensures that marine vessels comply with safety and environmental regulations?",
+        "choices": ["Aeronautical Engineer", "Marine Engineer", "Air Traffic Controller", "Seafarer"],
+        "answer": "Marine Engineer"
+      },
+      {
+        "question": "Which of the following is the responsibility of a ship captain?",
+        "choices": ["Overseeing the construction of naval aircraft", "Managing cargo logistics and navigation at sea", "Controlling airport ground operations", "Repairing marine engines"],
+        "answer": "Managing cargo logistics and navigation at sea"
+      },
+      {
+        "question": "Which engineering field is heavily involved in designing propulsion systems for aircraft?",
+        "choices": ["Civil Engineering", "Chemical Engineering", "Aeronautical Engineering", "Biomedical Engineering"],
+        "answer": "Aeronautical Engineering"
+      },
+      {
+        "question": "What is one of the major challenges marine engineers face when designing ships?",
+        "choices": ["Improving fuel efficiency", "Enhancing digital communication systems", "Developing land-based infrastructure", "Managing air traffic congestion"],
+        "answer": "Improving fuel efficiency"
+      },
+      {
+        "question": "What is the primary purpose of an aircraft's black box?",
+        "choices": ["Store critical flight data and cockpit conversations", "Assist pilots with navigation", "Monitor passenger safety compliance", "Control fuel efficiency"],
+        "answer": "Store critical flight data and cockpit conversations"
+      }
+    ]
+  },
+  "Sports": {
+    "quiz": [
+      {
+        "question": "What is the primary role of a biologist?",
+        "choices": ["Study the Earth's atmosphere", "Analyze chemical reactions", "Study living organisms and their interactions", "Investigate celestial bodies"],
+        "answer": "Study living organisms and their interactions"
+      },
+      {
+        "question": "Which field of science focuses on the composition and reactions of substances?",
+        "choices": ["Physics", "Astronomy", "Chemistry", "Biology"],
+        "answer": "Chemistry"
+      },
+      {
+        "question": "What do physicists primarily study?",
+        "choices": ["The behavior of matter and energy", "The structure of living organisms", "The chemical composition of substances", "The formation of mountains"],
+        "answer": "The behavior of matter and energy"
+      },
+      {
+        "question": "Which profession studies the Earth's physical structure and history?",
+        "choices": ["Meteorologist", "Geologist", "Biologist", "Astronomer"],
+        "answer": "Geologist"
+      },
+      {
+        "question": "What does an environmental scientist primarily focus on?",
+        "choices": ["The study of celestial bodies", "The impact of human activities on nature", "The laws of motion", "The chemical properties of elements"],
+        "answer": "The impact of human activities on nature"
+      },
+      {
+        "question": "Which of the following is responsible for controlling air traffic and ensuring safe takeoffs and landings?",
+        "choices": ["Pilot", "Marine Engineer", "Air Traffic Controller", "Seafarer"],
+        "answer": "Air Traffic Controller"
+      },
+      {
+        "question": "What does an aeronautical engineer primarily work on?",
+        "choices": ["Designing and testing aircraft", "Operating radar systems", "Managing flight schedules", "Repairing marine engines"],
+        "answer": "Designing and testing aircraft"
+      },
+      {
+        "question": "Which professional is responsible for commanding and navigating a ship?",
+        "choices": ["Pilot", "Marine Engineer", "Ship Captain", "Aeronautical Engineer"],
+        "answer": "Ship Captain"
+      },
+      {
+        "question": "What is the primary function of a pilot?",
+        "choices": ["Designing aircraft engines", "Flying and operating an aircraft", "Monitoring weather conditions", "Managing airport logistics"],
+        "answer": "Flying and operating an aircraft"
+      },
+      {
+        "question": "Which of the following professionals specializes in maintaining and designing marine propulsion systems?",
+        "choices": ["Aeronautical Engineer", "Marine Engineer", "Air Traffic Controller", "Seafarer"],
+        "answer": "Marine Engineer"
+      },
+      {
+        "question": "What is the primary responsibility of a sports coach?",
+        "choices": ["Creating game strategies and training athletes", "Managing team finances", "Officiating games", "Selling sports equipment"],
+        "answer": "Creating game strategies and training athletes"
+      },
+      {
+        "question": "Which of the following is an essential skill for a professional athlete?",
+        "choices": ["Financial management", "Physical endurance and skill", "Graphic design", "Legal analysis"],
+        "answer": "Physical endurance and skill"
+      },
+      {
+        "question": "What does a sports analyst primarily do?",
+        "choices": ["Manage athlete endorsements", "Analyze and interpret sports performance data", "Train athletes in a gym", "Write legal contracts"],
+        "answer": "Analyze and interpret sports performance data"
+      },
+      {
+        "question": "What is the primary focus of a fitness instructor?",
+        "choices": ["Teaching proper exercise techniques and routines", "Selling sports merchandise", "Officiating professional games", "Managing a sports team"],
+        "answer": "Teaching proper exercise techniques and routines"
+      },
+      {
+        "question": "Which type of coach specializes in strength training and conditioning for athletes?",
+        "choices": ["Technical Coach", "Strength and Conditioning Coach", "Sports Analyst", "Marketing Manager"],
+        "answer": "Strength and Conditioning Coach"
+      },
+      {
+        "question": "Which of the following is an example of a team sport?",
+        "choices": ["Tennis", "Basketball", "Golf", "Running"],
+        "answer": "Basketball"
+      },
+      {
+        "question": "What is the purpose of sports nutrition?",
+        "choices": ["To improve athletic performance through diet and hydration", "To create new workout routines", "To analyze game statistics", "To develop game strategies"],
+        "answer": "To improve athletic performance through diet and hydration"
+      },
+      {
+        "question": "What is a key responsibility of a personal trainer?",
+        "choices": ["Designing personalized workout programs", "Officiating soccer matches", "Managing stadium events", "Selling gym equipment"],
+        "answer": "Designing personalized workout programs"
+      },
+      {
+        "question": "Which of the following best describes an endurance sport?",
+        "choices": ["Weightlifting", "Marathon running", "Golf", "Table tennis"],
+        "answer": "Marathon running"
+      },
+      {
+        "question": "What is a major benefit of resistance training?",
+        "choices": ["Improved cardiovascular endurance", "Increased muscle strength and bone density", "Better hand-eye coordination", "Faster reflexes"],
+        "answer": "Increased muscle strength and bone density"
+      }
+    ]
+  },
+  "Entertainment": {
+    "quiz": [
+      {
+        "question": "What is the primary role of a biologist?",
+        "choices": ["Study the Earth's atmosphere", "Analyze chemical reactions", "Study living organisms and their interactions", "Investigate celestial bodies"],
+        "answer": "Study living organisms and their interactions"
+      },
+      {
+        "question": "Which field of science focuses on the composition and reactions of substances?",
+        "choices": ["Physics", "Astronomy", "Chemistry", "Biology"],
+        "answer": "Chemistry"
+      },
+      {
+        "question": "What do physicists primarily study?",
+        "choices": ["The behavior of matter and energy", "The structure of living organisms", "The chemical composition of substances", "The formation of mountains"],
+        "answer": "The behavior of matter and energy"
+      },
+      {
+        "question": "Which profession studies the Earth's physical structure and history?",
+        "choices": ["Meteorologist", "Geologist", "Biologist", "Astronomer"],
+        "answer": "Geologist"
+      },
+      {
+        "question": "What does an environmental scientist primarily focus on?",
+        "choices": ["The study of celestial bodies", "The impact of human activities on nature", "The laws of motion", "The chemical properties of elements"],
+        "answer": "The impact of human activities on nature"
+      },
+      {
+        "question": "What is the primary role of an actor/actress?",
+        "choices": ["Direct films", "Perform in theater, film, or television", "Write scripts", "Manage film production"],
+        "answer": "Perform in theater, film, or television"
+      },
+      {
+        "question": "Which of the following is a key skill for a musician?",
+        "choices": ["Financial analysis", "Instrument playing and music composition", "Legal writing", "Graphic design"],
+        "answer": "Instrument playing and music composition"
+      },
+      {
+        "question": "What does a dancer primarily do?",
+        "choices": ["Create animated films", "Choreograph and perform dance routines", "Edit movies", "Write music"],
+        "answer": "Choreograph and perform dance routines"
+      },
+      {
+        "question": "Which profession involves using voice to bring characters to life in animation, video games, and commercials?",
+        "choices": ["Actor/Actress", "Comedian", "Voice Actor", "Musician"],
+        "answer": "Voice Actor"
+      },
+      {
+        "question": "What is the main role of a comedian?",
+        "choices": ["Write novels", "Create humorous performances for entertainment", "Produce films", "Manage a theater company"],
+        "answer": "Create humorous performances for entertainment"
+      }
+    ]
+  },
+  "Skill Trade": {
+    "quiz": [
+      {
+        "question": "What is the primary role of a biologist?",
+        "choices": ["Study the Earth's atmosphere", "Analyze chemical reactions", "Study living organisms and their interactions", "Investigate celestial bodies"],
+        "answer": "Study living organisms and their interactions"
+      },
+      {
+        "question": "Which field of science focuses on the composition and reactions of substances?",
+        "choices": ["Physics", "Astronomy", "Chemistry", "Biology"],
+        "answer": "Chemistry"
+      },
+      {
+        "question": "What do physicists primarily study?",
+        "choices": ["The behavior of matter and energy", "The structure of living organisms", "The chemical composition of substances", "The formation of mountains"],
+        "answer": "The behavior of matter and energy"
+      },
+      {
+        "question": "Which profession studies the Earth's physical structure and history?",
+        "choices": ["Meteorologist", "Geologist", "Biologist", "Astronomer"],
+        "answer": "Geologist"
+      },
+      {
+        "question": "What does an environmental scientist primarily focus on?",
+        "choices": ["The study of celestial bodies", "The impact of human activities on nature", "The laws of motion", "The chemical properties of elements"],
+        "answer": "The impact of human activities on nature"
+      },
+      {
+        "question": "What is the primary role of an actor/actress?",
+        "choices": ["Direct films", "Perform in theater, film, or television", "Write scripts", "Manage film production"],
+        "answer": "Perform in theater, film, or television"
+      },
+      {
+        "question": "Which of the following is a key skill for a musician?",
+        "choices": ["Financial analysis", "Instrument playing and music composition", "Legal writing", "Graphic design"],
+        "answer": "Instrument playing and music composition"
+      },
+      {
+        "question": "What does a dancer primarily do?",
+        "choices": ["Create animated films", "Choreograph and perform dance routines", "Edit movies", "Write music"],
+        "answer": "Choreograph and perform dance routines"
+      },
+      {
+        "question": "Which profession involves using voice to bring characters to life in animation, video games, and commercials?",
+        "choices": ["Actor/Actress", "Comedian", "Voice Actor", "Musician"],
+        "answer": "Voice Actor"
+      },
+      {
+        "question": "What is the main role of a comedian?",
+        "choices": ["Write novels", "Create humorous performances for entertainment", "Produce films", "Manage a theater company"],
+        "answer": "Create humorous performances for entertainment"
+      },
+      {
+        "question": "What is the primary role of an electrician?",
+        "choices": ["Fix plumbing systems", "Install and maintain electrical systems", "Repair automotive engines", "Construct wooden structures"],
+        "answer": "Install and maintain electrical systems"
+      },
+      {
+        "question": "Which skilled trade focuses on installing and repairing pipes and water systems?",
+        "choices": ["Carpenter", "Electrician", "Plumber", "Mechanic"],
+        "answer": "Plumber"
+      },
+      {
+        "question": "What does a mechanic primarily work on?",
+        "choices": ["Electrical systems", "Wooden structures", "Engines and automotive systems", "Food preparation"],
+        "answer": "Engines and automotive systems"
+      },
+      {
+        "question": "Which profession specializes in building and repairing wooden structures?",
+        "choices": ["Carpenter", "Plumber", "Electrician", "Chef"],
+        "answer": "Carpenter"
+      },
+      {
+        "question": "What is the main responsibility of a chef?",
+        "choices": ["Cooking and food preparation", "Managing electrical installations", "Repairing vehicles", "Building wooden houses"],
+        "answer": "Cooking and food preparation"
+      }
+    ]
+  }
+}
+
+
+

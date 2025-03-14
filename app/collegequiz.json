@@ -1,0 +1,1432 @@
+{
+  "Mathematics": {
+    "quiz": [
+      {
+        "question": "What is half of 12?",
+        "options": [
+          "6",
+          "4",
+          "5",
+          "3"
+        ],
+        "answer": "6"
+      },
+      {
+        "question": "What is the square root of 144?",
+        "options": [
+          "12",
+          "14",
+          "10",
+          "16"
+        ],
+        "answer": "12"
+      },
+      {
+        "question": "The sum of the angles in a triangle is:",
+        "options": [
+          "90°",
+          "180°",
+          "360°",
+          "270°"
+        ],
+        "answer": "180°"
+      },
+      {
+        "question": "Which of the following is a Pythagorean triple?",
+        "options": [
+          "(3, 4, 5)",
+          "(5, 10, 12)",
+          "(8, 9, 10)",
+          "(6, 7, 8)"
+        ],
+        "answer": "(3, 4, 5)"
+      },
+      {
+        "question": "What is the sine of 45°?",
+        "options": [
+          "1/√2",
+          "√2/2",
+          "1/2",
+          "1"
+        ],
+        "answer": "√2/2"
+      },
+      {
+        "question": "The mode in a data set is:",
+        "options": [
+          "The most frequently occurring number",
+          "The average value",
+          "The middle number",
+          "The highest value"
+        ],
+        "answer": "The most frequently occurring number"
+      },
+      {
+        "question": "A quadratic function is:",
+        "options": [
+          "Linear",
+          "Quadratic",
+          "Cubic",
+          "Logarithmic"
+        ],
+        "answer": "Quadratic"
+      },
+      {
+        "question": "What is the derivative of x²?",
+        "options": [
+          "2x",
+          "x",
+          "x²",
+          "2"
+        ],
+        "answer": "2x"
+      },
+      {
+        "question": "What is the integral of x?",
+        "options": [
+          "x²/2",
+          "x²",
+          "2x",
+          "ln x"
+        ],
+        "answer": "x²/2"
+      },
+      {
+        "question": "The logarithm of 1 is:",
+        "options": [
+          "1",
+          "0",
+          "Undefined",
+          "∞"
+        ],
+        "answer": "0"
+      },
+      {
+        "question": "Solve for x in the equation 2x = 4:",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "answer": "2"
+      },
+      {
+        "question": "The hypotenuse of a right triangle with legs of length 6 and 8 is:",
+        "options": [
+          "10",
+          "12",
+          "14",
+          "16"
+        ],
+        "answer": "10"
+      },
+      {
+        "question": "The probability of getting heads in a fair coin toss is:",
+        "options": [
+          "1",
+          "0.5",
+          "0.25",
+          "0.75"
+        ],
+        "answer": "0.5"
+      },
+      {
+        "question": "What is the value of cos(0°)?",
+        "options": [
+          "1",
+          "0",
+          "-1",
+          "Undefined"
+        ],
+        "answer": "1"
+      },
+      {
+        "question": "If 3x = 9, what is x?",
+        "options": [
+          "3",
+          "6",
+          "9",
+          "12"
+        ],
+        "answer": "3"
+      },
+      {
+        "question": "A circle has a radius of 5 cm. What is its area?",
+        "options": [
+          "25π",
+          "10π",
+          "50π",
+          "5π"
+        ],
+        "answer": "25π"
+      },
+      {
+        "question": "If a triangle has sides 7 cm, 24 cm, and 25 cm, what type of triangle is it?",
+        "options": [
+          "Equilateral",
+          "Isosceles",
+          "Right",
+          "Scalene"
+        ],
+        "answer": "Right"
+      },
+      {
+        "question": "The range of the function f(x) = x² is:",
+        "options": [
+          "(-∞, ∞)",
+          "[0, ∞)",
+          "(-∞, 0]",
+          "(0, ∞)"
+        ],
+        "answer": "[0, ∞)"
+      },
+      {
+        "question": "The derivative of sin(x) is:",
+        "options": [
+          "cos(x)",
+          "-sin(x)",
+          "-cos(x)",
+          "tan(x)"
+        ],
+        "answer": "cos(x)"
+      },
+      {
+        "question": "Convert 30 degrees to radians:",
+        "options": [
+          "π/6",
+          "π/3",
+          "π/4",
+          "π/2"
+        ],
+        "answer": "π/6"
+      }
+    ]
+  },
+  "Science": {
+    "quiz": [
+      {
+        "question": "What is the smallest unit of life?",
+        "options": [
+          "Atom",
+          "Cell",
+          "Molecule",
+          "Organ"
+        ],
+        "answer": "Cell"
+      },
+      {
+        "question": "What is the atomic number of Oxygen?",
+        "options": [
+          "6",
+          "8",
+          "10",
+          "12"
+        ],
+        "answer": "8"
+      },
+      {
+        "question": "Which law states that for every action, there is an equal and opposite reaction?",
+        "options": [
+          "Newton’s First Law",
+          "Newton’s Second Law",
+          "Newton’s Third Law",
+          "Law of Universal Gravitation"
+        ],
+        "answer": "Newton’s Third Law"
+      },
+      {
+        "question": "The powerhouse of the cell is the:",
+        "options": [
+          "Nucleus",
+          "Mitochondria",
+          "Ribosome",
+          "Endoplasmic Reticulum"
+        ],
+        "answer": "Mitochondria"
+      },
+      {
+        "question": "What type of rock is formed from cooled magma or lava?",
+        "options": [
+          "Sedimentary",
+          "Igneous",
+          "Metamorphic",
+          "Fossilized"
+        ],
+        "answer": "Igneous"
+      },
+      {
+        "question": "The chemical formula for water is:",
+        "options": [
+          "CO2",
+          "H2O",
+          "O2",
+          "H2SO4"
+        ],
+        "answer": "H2O"
+      },
+      {
+        "question": "What is the acceleration due to gravity on Earth?",
+        "options": [
+          "9.8 m/s²",
+          "8.5 m/s²",
+          "12.3 m/s²",
+          "7.2 m/s²"
+        ],
+        "answer": "9.8 m/s²"
+      },
+      {
+        "question": "What organ in the human body is responsible for filtering blood?",
+        "options": [
+          "Heart",
+          "Liver",
+          "Kidney",
+          "Lungs"
+        ],
+        "answer": "Kidney"
+      },
+      {
+        "question": "What is the pH of a neutral solution?",
+        "options": [
+          "0",
+          "7",
+          "14",
+          "5"
+        ],
+        "answer": "7"
+      },
+      {
+        "question": "The main gas responsible for global warming is:",
+        "options": [
+          "Oxygen",
+          "Nitrogen",
+          "Carbon dioxide",
+          "Hydrogen"
+        ],
+        "answer": "Carbon dioxide"
+      },
+      {
+        "question": "Which planet is known as the Red Planet?",
+        "options": [
+          "Earth",
+          "Venus",
+          "Mars",
+          "Jupiter"
+        ],
+        "answer": "Mars"
+      },
+      {
+        "question": "What type of energy is produced by moving water?",
+        "options": [
+          "Solar energy",
+          "Wind energy",
+          "Hydroelectric energy",
+          "Geothermal energy"
+        ],
+        "answer": "Hydroelectric energy"
+      },
+      {
+        "question": "What is the most abundant gas in Earth’s atmosphere?",
+        "options": [
+          "Oxygen",
+          "Nitrogen",
+          "Carbon dioxide",
+          "Argon"
+        ],
+        "answer": "Nitrogen"
+      },
+      {
+        "question": "Which part of the brain controls balance and coordination?",
+        "options": [
+          "Cerebrum",
+          "Cerebellum",
+          "Medulla oblongata",
+          "Hypothalamus"
+        ],
+        "answer": "Cerebellum"
+      },
+      {
+        "question": "What force keeps planets in orbit around the sun?",
+        "options": [
+          "Friction",
+          "Electromagnetic force",
+          "Gravity",
+          "Nuclear force"
+        ],
+        "answer": "Gravity"
+      },
+      {
+        "question": "The periodic table is arranged by increasing:",
+        "options": [
+          "Atomic mass",
+          "Atomic number",
+          "Electronegativity",
+          "Density"
+        ],
+        "answer": "Atomic number"
+      },
+      {
+        "question": "What is the function of white blood cells?",
+        "options": [
+          "Transport oxygen",
+          "Fight infections",
+          "Help digestion",
+          "Carry nutrients"
+        ],
+        "answer": "Fight infections"
+      },
+      {
+        "question": "The speed of light in a vacuum is approximately:",
+        "options": [
+          "300,000 m/s",
+          "3,000 km/s",
+          "300,000 km/s",
+          "3,000 m/s"
+        ],
+        "answer": "300,000 km/s"
+      },
+      {
+        "question": "Which scientist proposed the theory of relativity?",
+        "options": [
+          "Isaac Newton",
+          "Albert Einstein",
+          "Galileo Galilei",
+          "Nikola Tesla"
+        ],
+        "answer": "Albert Einstein"
+      },
+      {
+        "question": "What type of bond is formed when atoms share electrons?",
+        "options": [
+          "Ionic bond",
+          "Covalent bond",
+          "Metallic bond",
+          "Hydrogen bond"
+        ],
+        "answer": "Covalent bond"
+      }
+    ]
+  },
+  "English Language Proficiency": {
+    "quiz": [
+      {
+        "question": "Which sentence is grammatically correct?",
+        "options": [
+          "She don’t like pizza.",
+          "She doesn’t likes pizza.",
+          "She doesn’t like pizza.",
+          "She didn’t liked pizza."
+        ],
+        "answer": "She doesn’t like pizza."
+      },
+      {
+        "question": "Choose the correct word: “The cat licked ___ paws.”",
+        "options": [
+          "it’s",
+          "its",
+          "their",
+          "they’re"
+        ],
+        "answer": "its"
+      },
+      {
+        "question": "What is the synonym of 'benevolent'?",
+        "options": [
+          "Kind",
+          "Mean",
+          "Angry",
+          "Sad"
+        ],
+        "answer": "Kind"
+      },
+      {
+        "question": "Identify the correct sentence structure:",
+        "options": [
+          "Running fast the race was won by her.",
+          "She won the race by running fast.",
+          "Fast running the race she won.",
+          "By running the race fast won she."
+        ],
+        "answer": "She won the race by running fast."
+      },
+      {
+        "question": "What is the antonym of 'opaque'?",
+        "options": [
+          "Transparent",
+          "Dark",
+          "Solid",
+          "Heavy"
+        ],
+        "answer": "Transparent"
+      },
+      {
+        "question": "What is the correct past tense of 'go'?",
+        "options": [
+          "Goed",
+          "Going",
+          "Gone",
+          "Went"
+        ],
+        "answer": "Went"
+      },
+      {
+        "question": "Choose the sentence with correct subject-verb agreement:",
+        "options": [
+          "The team are winning.",
+          "The team is winning.",
+          "The team were winning.",
+          "The team be winning."
+        ],
+        "answer": "The team is winning."
+      },
+      {
+        "question": "What is the correct plural form of 'child'?",
+        "options": [
+          "Childs",
+          "Childes",
+          "Children",
+          "Childrens"
+        ],
+        "answer": "Children"
+      },
+      {
+        "question": "What is the meaning of the idiom 'hit the nail on the head'?",
+        "options": [
+          "To hurt someone",
+          "To do something exactly right",
+          "To break something",
+          "To miss the point"
+        ],
+        "answer": "To do something exactly right"
+      },
+      {
+        "question": "Choose the correct form: 'Neither of the boys ___ coming to the party.'",
+        "options": [
+          "is",
+          "are",
+          "were",
+          "be"
+        ],
+        "answer": "is"
+      },
+      {
+        "question": "What is the comparative form of 'happy'?",
+        "options": [
+          "Happiest",
+          "More happy",
+          "Happier",
+          "Most happy"
+        ],
+        "answer": "Happier"
+      },
+      {
+        "question": "Identify the correct sentence:",
+        "options": [
+          "I have went to the store.",
+          "I has gone to the store.",
+          "I have gone to the store.",
+          "I gone to the store."
+        ],
+        "answer": "I have gone to the store."
+      },
+      {
+        "question": "What is the opposite of 'generous'?",
+        "options": [
+          "Selfish",
+          "Kind",
+          "Giving",
+          "Friendly"
+        ],
+        "answer": "Selfish"
+      },
+      {
+        "question": "Choose the correctly punctuated sentence:",
+        "options": [
+          "I love apples bananas, and grapes.",
+          "I love apples, bananas and grapes.",
+          "I love apples, bananas, and grapes.",
+          "I love apples; bananas and grapes."
+        ],
+        "answer": "I love apples, bananas, and grapes."
+      },
+      {
+        "question": "What is the superlative form of 'good'?",
+        "options": [
+          "Goodest",
+          "More good",
+          "Best",
+          "Better"
+        ],
+        "answer": "Best"
+      },
+      {
+        "question": "What is the correct indirect speech for: She said, 'I am happy'?",
+        "options": [
+          "She said that she was happy.",
+          "She said that she is happy.",
+          "She said that I am happy.",
+          "She said that she happy."
+        ],
+        "answer": "She said that she was happy."
+      },
+      {
+        "question": "What part of speech is the word 'quickly'?",
+        "options": [
+          "Noun",
+          "Verb",
+          "Adjective",
+          "Adverb"
+        ],
+        "answer": "Adverb"
+      },
+      {
+        "question": "What is the correct spelling?",
+        "options": [
+          "Accomodate",
+          "Accommodate",
+          "Acommodate",
+          "Accomadate"
+        ],
+        "answer": "Accommodate"
+      },
+      {
+        "question": "Choose the correct sentence:",
+        "options": [
+          "I could of gone to the mall.",
+          "I should of gone to the mall.",
+          "I could have gone to the mall.",
+          "I should have went to the mall."
+        ],
+        "answer": "I could have gone to the mall."
+      },
+      {
+        "question": "What is a synonym for 'elated'?",
+        "options": [
+          "Happy",
+          "Sad",
+          "Angry",
+          "Tired"
+        ],
+        "answer": "Happy"
+      }
+    ]
+  },
+  "Engineering & Technology": {
+    "quiz": [
+      {
+        "question": "What is the derivative of x²?",
+        "options": [
+          "x",
+          "2x",
+          "x²",
+          "2"
+        ],
+        "answer": "2x"
+      },
+      {
+        "question": "Newton’s Second Law of Motion states that:",
+        "options": [
+          "An object in motion stays in motion.",
+          "Force equals mass times acceleration.",
+          "Every action has an equal and opposite reaction.",
+          "Energy cannot be created or destroyed."
+        ],
+        "answer": "Force equals mass times acceleration."
+      },
+      {
+        "question": "If a function is continuous and differentiable, it means:",
+        "options": [
+          "It has breaks or gaps.",
+          "It has a derivative at every point.",
+          "It is undefined.",
+          "It cannot be graphed."
+        ],
+        "answer": "It has a derivative at every point."
+      },
+      {
+        "question": "The SI unit of force is:",
+        "options": [
+          "Joule",
+          "Pascal",
+          "Newton",
+          "Watt"
+        ],
+        "answer": "Newton"
+      },
+      {
+        "question": "What is the integral of 3x²?",
+        "options": [
+          "x³",
+          "3x³",
+          "x³ + C",
+          "3x² + C"
+        ],
+        "answer": "x³ + C"
+      },
+      {
+        "question": "What is the acceleration due to gravity on Earth?",
+        "options": [
+          "9.8 m/s²",
+          "10 m/s²",
+          "12 m/s²",
+          "15 m/s²"
+        ],
+        "answer": "9.8 m/s²"
+      },
+      {
+        "question": "In logic, what does the OR operator (∨) signify?",
+        "options": [
+          "Both conditions must be true.",
+          "At least one condition must be true.",
+          "Both conditions must be false.",
+          "The output is always false."
+        ],
+        "answer": "At least one condition must be true."
+      },
+      {
+        "question": "What is the voltage if the current is 2A and the resistance is 5Ω?",
+        "options": [
+          "2V",
+          "5V",
+          "10V",
+          "20V"
+        ],
+        "answer": "10V"
+      },
+      {
+        "question": "What type of bridge is supported primarily by cables?",
+        "options": [
+          "Beam bridge",
+          "Suspension bridge",
+          "Arch bridge",
+          "Truss bridge"
+        ],
+        "answer": "Suspension bridge"
+      },
+      {
+        "question": "In Boolean algebra, what is the result of 1 AND 0?",
+        "options": [
+          "1",
+          "0",
+          "10",
+          "Undefined"
+        ],
+        "answer": "0"
+      },
+      {
+        "question": "A force of 50N is applied to an object of mass 10kg. What is the acceleration?",
+        "options": [
+          "2 m/s²",
+          "5 m/s²",
+          "10 m/s²",
+          "20 m/s²"
+        ],
+        "answer": "5 m/s²"
+      },
+      {
+        "question": "The area under a velocity-time graph represents:",
+        "options": [
+          "Velocity",
+          "Acceleration",
+          "Displacement",
+          "Force"
+        ],
+        "answer": "Displacement"
+      },
+      {
+        "question": "The logic gate that outputs true only when both inputs are true is:",
+        "options": [
+          "OR",
+          "AND",
+          "NOT",
+          "NOR"
+        ],
+        "answer": "AND"
+      },
+      {
+        "question": "What is the main purpose of a capacitor?",
+        "options": [
+          "Store electrical energy",
+          "Resist electrical current",
+          "Convert AC to DC",
+          "Increase resistance"
+        ],
+        "answer": "Store electrical energy"
+      },
+      {
+        "question": "The moment of inertia depends on:",
+        "options": [
+          "Mass distribution",
+          "Velocity",
+          "Force",
+          "Power"
+        ],
+        "answer": "Mass distribution"
+      },
+      {
+        "question": "If a system is in equilibrium, the net force acting on it is:",
+        "options": [
+          "Positive",
+          "Negative",
+          "Zero",
+          "Infinite"
+        ],
+        "answer": "Zero"
+      },
+      {
+        "question": "The fundamental frequency of a string depends on:",
+        "options": [
+          "Length and tension",
+          "Weight and speed",
+          "Density and force",
+          "Amplitude and phase"
+        ],
+        "answer": "Length and tension"
+      },
+      {
+        "question": "What is the determinant of the matrix [[2,3],[4,5]]?",
+        "options": [
+          "-2",
+          "-3",
+          "-4",
+          "-5"
+        ],
+        "answer": "-2"
+      },
+      {
+        "question": "What is the purpose of a transformer in an electrical circuit?",
+        "options": [
+          "Convert DC to AC",
+          "Step up or step down voltage",
+          "Store electrical charge",
+          "Increase current"
+        ],
+        "answer": "Step up or step down voltage"
+      },
+      {
+        "question": "Which shape has the highest structural efficiency?",
+        "options": [
+          "Square",
+          "Triangle",
+          "Circle",
+          "Pentagon"
+        ],
+        "answer": "Triangle"
+      }
+    ]
+  },
+  "Medicine & Health Sciences": {
+    "quiz": [
+      {
+        "question": "What is the functional unit of the kidney?",
+        "options": [
+          "Neuron",
+          "Nephron",
+          "Alveolus",
+          "Axon"
+        ],
+        "answer": "Nephron"
+      },
+      {
+        "question": "Which blood type is known as the universal donor?",
+        "options": [
+          "A",
+          "B",
+          "AB",
+          "O"
+        ],
+        "answer": "O"
+      },
+      {
+        "question": "The process of breaking down food into simpler substances is called:",
+        "options": [
+          "Absorption",
+          "Digestion",
+          "Excretion",
+          "Circulation"
+        ],
+        "answer": "Digestion"
+      },
+      {
+        "question": "What is the primary function of red blood cells?",
+        "options": [
+          "Fight infections",
+          "Transport oxygen",
+          "Produce hormones",
+          "Digest food"
+        ],
+        "answer": "Transport oxygen"
+      },
+      {
+        "question": "Which is the largest organ in the human body?",
+        "options": [
+          "Heart",
+          "Liver",
+          "Skin",
+          "Brain"
+        ],
+        "answer": "Skin"
+      },
+      {
+        "question": "Which vitamin is essential for blood clotting?",
+        "options": [
+          "Vitamin A",
+          "Vitamin B",
+          "Vitamin C",
+          "Vitamin K"
+        ],
+        "answer": "Vitamin K"
+      },
+      {
+        "question": "The part of the brain responsible for coordination and balance is:",
+        "options": [
+          "Cerebrum",
+          "Cerebellum",
+          "Medulla oblongata",
+          "Hypothalamus"
+        ],
+        "answer": "Cerebellum"
+      },
+      {
+        "question": "What is the main function of the small intestine?",
+        "options": [
+          "Absorption of nutrients",
+          "Filtration of blood",
+          "Production of insulin",
+          "Pumping of blood"
+        ],
+        "answer": "Absorption of nutrients"
+      },
+      {
+        "question": "Which organ produces insulin?",
+        "options": [
+          "Liver",
+          "Pancreas",
+          "Kidney",
+          "Stomach"
+        ],
+        "answer": "Pancreas"
+      },
+      {
+        "question": "What is the primary function of hemoglobin?",
+        "options": [
+          "To fight infections",
+          "To transport oxygen",
+          "To store energy",
+          "To digest proteins"
+        ],
+        "answer": "To transport oxygen"
+      },
+      {
+        "question": "How many bones does the adult human body have?",
+        "options": [
+          "200",
+          "206",
+          "212",
+          "218"
+        ],
+        "answer": "206"
+      },
+      {
+        "question": "The process of inhaling and exhaling is called:",
+        "options": [
+          "Digestion",
+          "Circulation",
+          "Respiration",
+          "Excretion"
+        ],
+        "answer": "Respiration"
+      },
+      {
+        "question": "What is the smallest unit of life?",
+        "options": [
+          "Tissue",
+          "Organ",
+          "Cell",
+          "Organ system"
+        ],
+        "answer": "Cell"
+      },
+      {
+        "question": "Which of the following is a function of the liver?",
+        "options": [
+          "Pumping blood",
+          "Producing bile",
+          "Filtering urine",
+          "Producing insulin"
+        ],
+        "answer": "Producing bile"
+      },
+      {
+        "question": "What type of muscle is the heart made of?",
+        "options": [
+          "Skeletal muscle",
+          "Smooth muscle",
+          "Cardiac muscle",
+          "Voluntary muscle"
+        ],
+        "answer": "Cardiac muscle"
+      },
+      {
+        "question": "Which part of the eye allows vision in dim light?",
+        "options": [
+          "Retina",
+          "Rod cells",
+          "Cone cells",
+          "Cornea"
+        ],
+        "answer": "Rod cells"
+      },
+      {
+        "question": "Which of the following is NOT part of the respiratory system?",
+        "options": [
+          "Trachea",
+          "Lungs",
+          "Esophagus",
+          "Bronchi"
+        ],
+        "answer": "Esophagus"
+      },
+      {
+        "question": "What is the main structural component of the cell membrane?",
+        "options": [
+          "Carbohydrates",
+          "Proteins",
+          "Phospholipids",
+          "Nucleic acids"
+        ],
+        "answer": "Phospholipids"
+      },
+      {
+        "question": "What is the primary waste product excreted by the kidneys?",
+        "options": [
+          "Carbon dioxide",
+          "Urea",
+          "Glucose",
+          "Oxygen"
+        ],
+        "answer": "Urea"
+      },
+      {
+        "question": "Which part of the nervous system controls involuntary actions?",
+        "options": [
+          "Somatic nervous system",
+          "Autonomic nervous system",
+          "Central nervous system",
+          "Peripheral nervous system"
+        ],
+        "answer": "Autonomic nervous system"
+      }
+    ]
+  },
+  "Business & Economics": {
+    "quiz": [
+      {
+        "question": "What is the basic accounting equation?",
+        "options": [
+          "Assets = Liabilities + Equity",
+          "Revenue = Expenses + Profit",
+          "Assets = Revenue - Liabilities",
+          "Liabilities = Assets + Equity"
+        ],
+        "answer": "Assets = Liabilities + Equity"
+      },
+      {
+        "question": "What does ROI stand for in business?",
+        "options": [
+          "Return on Investment",
+          "Rate of Interest",
+          "Revenue of Industry",
+          "Risk of Investment"
+        ],
+        "answer": "Return on Investment"
+      },
+      {
+        "question": "Which financial statement shows a company’s revenues and expenses?",
+        "options": [
+          "Balance Sheet",
+          "Cash Flow Statement",
+          "Income Statement",
+          "Equity Statement"
+        ],
+        "answer": "Income Statement"
+      },
+      {
+        "question": "What is the primary goal of an entrepreneur?",
+        "options": [
+          "To maximize profit",
+          "To minimize expenses",
+          "To invest in stocks",
+          "To pay taxes"
+        ],
+        "answer": "To maximize profit"
+      },
+      {
+        "question": "What does GDP stand for?",
+        "options": [
+          "Gross Development Plan",
+          "General Domestic Policy",
+          "Gross Domestic Product",
+          "General Demand Price"
+        ],
+        "answer": "Gross Domestic Product"
+      },
+      {
+        "question": "What is the role of a business plan?",
+        "options": [
+          "To manage employees",
+          "To outline business goals and strategies",
+          "To track daily expenses",
+          "To file for bankruptcy"
+        ],
+        "answer": "To outline business goals and strategies"
+      },
+      {
+        "question": "Which pricing strategy sets prices lower than competitors to attract customers?",
+        "options": [
+          "Cost-Plus Pricing",
+          "Premium Pricing",
+          "Penetration Pricing",
+          "Skimming Pricing"
+        ],
+        "answer": "Penetration Pricing"
+      },
+      {
+        "question": "What is working capital?",
+        "options": [
+          "Total assets of a company",
+          "Cash available for business operations",
+          "Money spent on advertising",
+          "Employee salaries"
+        ],
+        "answer": "Cash available for business operations"
+      },
+      {
+        "question": "What is the break-even point?",
+        "options": [
+          "When total revenue equals total costs",
+          "When profits double",
+          "When sales are higher than expenses",
+          "When business debts are paid off"
+        ],
+        "answer": "When total revenue equals total costs"
+      },
+      {
+        "question": "Which term describes a company’s ability to pay its short-term obligations?",
+        "options": [
+          "Liquidity",
+          "Profitability",
+          "Solvency",
+          "Market Share"
+        ],
+        "answer": "Liquidity"
+      },
+      {
+        "question": "What is a sole proprietorship?",
+        "options": [
+          "A business owned by one person",
+          "A business owned by two or more partners",
+          "A government-owned entity",
+          "A non-profit organization"
+        ],
+        "answer": "A business owned by one person"
+      },
+      {
+        "question": "What does SWOT analysis stand for?",
+        "options": [
+          "Strengths, Weaknesses, Opportunities, Threats",
+          "Sales, Wages, Operations, Transactions",
+          "Stocks, Wealth, Organization, Trade",
+          "Strategy, Work, Optimization, Targets"
+        ],
+        "answer": "Strengths, Weaknesses, Opportunities, Threats"
+      },
+      {
+        "question": "What is the main advantage of a limited liability company (LLC)?",
+        "options": [
+          "Unlimited liability",
+          "Protection of personal assets",
+          "High tax rates",
+          "Government ownership"
+        ],
+        "answer": "Protection of personal assets"
+      },
+      {
+        "question": "What is the term for the amount a business earns before expenses?",
+        "options": [
+          "Net Income",
+          "Gross Profit",
+          "Operating Income",
+          "Depreciation"
+        ],
+        "answer": "Gross Profit"
+      },
+      {
+        "question": "Which type of business financing does NOT require repayment?",
+        "options": [
+          "Bank Loan",
+          "Venture Capital",
+          "Government Grant",
+          "Personal Loan"
+        ],
+        "answer": "Government Grant"
+      },
+      {
+        "question": "What is the main purpose of financial literacy?",
+        "options": [
+          "To track expenses",
+          "To manage personal and business finances wisely",
+          "To increase business debt",
+          "To avoid investing"
+        ],
+        "answer": "To manage personal and business finances wisely"
+      },
+      {
+        "question": "What is an example of a fixed cost?",
+        "options": [
+          "Raw materials",
+          "Utility bills",
+          "Rent",
+          "Employee wages"
+        ],
+        "answer": "Rent"
+      },
+      {
+        "question": "What does inflation measure?",
+        "options": [
+          "Increase in GDP",
+          "Increase in the general price level",
+          "Stock market performance",
+          "National debt levels"
+        ],
+        "answer": "Increase in the general price level"
+      },
+      {
+        "question": "Which financial statement shows a company’s assets and liabilities?",
+        "options": [
+          "Income Statement",
+          "Balance Sheet",
+          "Cash Flow Statement",
+          "Profit and Loss Statement"
+        ],
+        "answer": "Balance Sheet"
+      },
+      {
+        "question": "What is the main purpose of an entrepreneur?",
+        "options": [
+          "To create and manage a business",
+          "To work as an employee",
+          "To invest in the stock market",
+          "To regulate economic policies"
+        ],
+        "answer": "To create and manage a business"
+      }
+    ]
+  },
+  "Information Technology & Computer Science": {
+    "quiz": [
+      {
+        "question": "What does CPU stand for?",
+        "options": [
+          "Central Processing Unit",
+          "Computer Personal Unit",
+          "Central Peripheral Unit",
+          "Core Processing Utility"
+        ],
+        "answer": "Central Processing Unit"
+      },
+      {
+        "question": "Which language is primarily used for web development?",
+        "options": [
+          "Python",
+          "JavaScript",
+          "C++",
+          "Java"
+        ],
+        "answer": "JavaScript"
+      },
+      {
+        "question": "What is the binary equivalent of the decimal number 10?",
+        "options": [
+          "1010",
+          "1100",
+          "1001",
+          "1111"
+        ],
+        "answer": "1010"
+      },
+      {
+        "question": "Which of the following is NOT an operating system?",
+        "options": [
+          "Windows",
+          "Linux",
+          "Microsoft Office",
+          "macOS"
+        ],
+        "answer": "Microsoft Office"
+      },
+      {
+        "question": "What does HTML stand for?",
+        "options": [
+          "Hyper Text Markup Language",
+          "High Tech Machine Learning",
+          "Hyperlink and Text Management Language",
+          "Home Tool Markup Language"
+        ],
+        "answer": "Hyper Text Markup Language"
+      },
+      {
+        "question": "What is the main purpose of an algorithm?",
+        "options": [
+          "To store data",
+          "To solve a problem step-by-step",
+          "To create a database",
+          "To format a computer"
+        ],
+        "answer": "To solve a problem step-by-step"
+      },
+      {
+        "question": "Which data structure uses LIFO (Last In, First Out) principle?",
+        "options": [
+          "Queue",
+          "Stack",
+          "Linked List",
+          "Array"
+        ],
+        "answer": "Stack"
+      },
+      {
+        "question": "What is the function of an IP address?",
+        "options": [
+          "To identify a device on a network",
+          "To store cookies",
+          "To secure a website",
+          "To control user permissions"
+        ],
+        "answer": "To identify a device on a network"
+      },
+      {
+        "question": "Which of these is a relational database management system?",
+        "options": [
+          "MySQL",
+          "Photoshop",
+          "Firefox",
+          "Windows"
+        ],
+        "answer": "MySQL"
+      },
+      {
+        "question": "What does URL stand for?",
+        "options": [
+          "Uniform Resource Locator",
+          "Universal Reference Link",
+          "Unified Routing Language",
+          "User Resource Link"
+        ],
+        "answer": "Uniform Resource Locator"
+      },
+      {
+        "question": "Which of these is NOT a programming language?",
+        "options": [
+          "Java",
+          "Python",
+          "HTML",
+          "C#"
+        ],
+        "answer": "HTML"
+      },
+      {
+        "question": "What is the primary purpose of a firewall?",
+        "options": [
+          "To prevent unauthorized access to a network",
+          "To increase internet speed",
+          "To delete unwanted files",
+          "To back up data"
+        ],
+        "answer": "To prevent unauthorized access to a network"
+      },
+      {
+        "question": "What is the main function of an operating system?",
+        "options": [
+          "To run application software",
+          "To design websites",
+          "To edit photos",
+          "To create spreadsheets"
+        ],
+        "answer": "To run application software"
+      },
+      {
+        "question": "What does SQL stand for?",
+        "options": [
+          "Structured Query Language",
+          "System Quality Logic",
+          "Standard Query Layout",
+          "Sequential Query List"
+        ],
+        "answer": "Structured Query Language"
+      },
+      {
+        "question": "Which of these is NOT a type of malware?",
+        "options": [
+          "Virus",
+          "Worm",
+          "Firewall",
+          "Trojan"
+        ],
+        "answer": "Firewall"
+      },
+      {
+        "question": "What is the purpose of an API (Application Programming Interface)?",
+        "options": [
+          "To facilitate communication between software components",
+          "To increase CPU speed",
+          "To format hard drives",
+          "To store user passwords"
+        ],
+        "answer": "To facilitate communication between software components"
+      },
+      {
+        "question": "What does RAM stand for?",
+        "options": [
+          "Random Access Memory",
+          "Read-Only Memory",
+          "Rapid Application Management",
+          "Remote Access Module"
+        ],
+        "answer": "Random Access Memory"
+      },
+      {
+        "question": "What is a loop in programming?",
+        "options": [
+          "A repeated sequence of instructions",
+          "A storage location for data",
+          "A connection between two computers",
+          "A type of database"
+        ],
+        "answer": "A repeated sequence of instructions"
+      },
+      {
+        "question": "What is the purpose of a compiler?",
+        "options": [
+          "To translate source code into machine code",
+          "To connect computers to the internet",
+          "To store large files",
+          "To create web pages"
+        ],
+        "answer": "To translate source code into machine code"
+      },
+      {
+        "question": "What is cloud computing?",
+        "options": [
+          "Storing and accessing data over the internet",
+          "Using a physical hard drive for storage",
+          "A type of programming language",
+          "A method for cooling computers"
+        ],
+        "answer": "Storing and accessing data over the internet"
+      }
+    ]
+  }
+}
+
+

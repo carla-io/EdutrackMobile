@@ -1,0 +1,396 @@
+{
+  "Junior High School": [
+    {
+      "text": "Which of these activities do you enjoy the most?",
+      "type": "radio",
+      "name": "preferred-activity",
+      "options": [
+        "Solving math problems and analyzing data",
+        "Conducting science experiments and research",
+        "Writing essays, stories, or public speaking",
+        "Managing business, marketing, or finances",
+        "Creating art, music, films, or designs",
+        "Working with technology, coding, or hands-on projects",
+        "Playing sports and engaging in physical activities",
+        "Helping others, teaching, or discussing social issues",
+        "Cooking, baking, or preparing food",
+        "Working with plants, animals, or agricultural activities"
+      ]
+    },
+    {
+      "text": "Which school subject do you perform best in?",
+      "type": "radio",
+      "name": "best-subject",
+      "options": [
+        "Mathematics",
+        "Science",
+        "English or Literature",
+        "Business and Economics",
+        "Technology and Computer Science",
+        "Arts, Music, or Media Studies",
+        "Physical Education and Sports",
+        "Social Studies or Philosophy",
+        "Home Economics or Culinary Arts",
+        "Agriculture or Fisheries"
+      ]
+    },
+    {
+      "text": "What type of career do you see yourself in the future?",
+      "type": "radio",
+      "name": "career-goal",
+      "options": [
+        "Engineer, Scientist, or IT Professional",
+        "Doctor, Nurse, or Health Professional",
+        "Business Owner, Manager, or Accountant",
+        "Teacher, Psychologist, or Lawyer",
+        "Artist, Designer, Filmmaker, or Musician",
+        "Athlete, Coach, or Sports Analyst",
+        "Technician, Electrician, or Skilled Worker",
+        "Chef, Baker, or Culinary Expert",
+        "Farmer, Fisherman, or Agricultural Worker",
+        "Media Professional (Journalist, Broadcaster, or Content Creator)",
+        "Still unsure, exploring options"
+      ]
+    },
+    {
+      "text": "If given a project, what role do you usually take?",
+      "type": "radio",
+      "name": "project-role",
+      "options": [
+        "Leader or strategist who organizes and makes decisions",
+        "Researcher who gathers and analyzes data",
+        "Creative designer who makes visuals, videos, or presentations",
+        "Speaker or presenter who explains and engages with an audience",
+        "Hands-on worker who builds, fixes, or assembles things",
+        "Problem solver who finds logical solutions",
+        "Team player who supports and motivates others",
+        "Innovator who comes up with new ideas and strategies"
+      ]
+    },
+    {
+      "text": "How do you prefer to solve problems?",
+      "type": "radio",
+      "name": "problem-solving",
+      "options": [
+        "Using logic, numbers, and analysis",
+        "Experimenting and testing different solutions",
+        "Thinking creatively and coming up with unique ideas",
+        "Discussing and debating different viewpoints",
+        "Using hands-on skills and practical knowledge",
+        "Seeking advice from mentors, books, or online sources",
+        "Trying different artistic or design-based approaches",
+        "Testing ideas in a business or entrepreneurial way"
+      ]
+    },
+    {
+      "text": "If you had to choose a project, which would you enjoy the most?",
+      "type": "radio",
+      "name": "preferred-project",
+      "options": [
+        "Building a robot, coding an app, or designing a tech solution",
+        "Writing and directing a play, film, or story",
+        "Planning and starting a small business or marketing campaign",
+        "Researching and analyzing social issues or psychology",
+        "Creating an artwork, digital design, or music composition",
+        "Training and preparing for a sports competition",
+        "Cooking a new recipe or preparing a full-course meal",
+        "Growing plants, raising animals, or working on an agricultural project",
+        "Installing, fixing, or designing a technical or industrial system"
+      ]
+    },
+    {
+      "text": "Which of these skills do you think is your strongest?",
+      "type": "radio",
+      "name": "strongest-skill",
+      "options": [
+        "Mathematical and analytical thinking",
+        "Scientific research and problem-solving",
+        "Business planning and leadership",
+        "Public speaking and communication",
+        "Creativity and artistic expression",
+        "Technical and hands-on skills",
+        "Sportsmanship and physical ability",
+        "Understanding people and social interactions",
+        "Cooking, baking, or food preparation",
+        "Agricultural or environmental management"
+      ]
+    },
+    {
+      "text": "Which of these school activities do you enjoy the most?",
+      "type": "radio",
+      "name": "school-activity",
+      "options": [
+        "Math or Science Club",
+        "Entrepreneurship or Business Club",
+        "Debate Team or Writing Club",
+        "Art, Music, Media, or Theater Club",
+        "Technology or Robotics Club",
+        "Sports Team or Physical Training",
+        "Culinary Club or Home Economics Activities",
+        "Agriculture, Gardening, or Environmental Club",
+        "Community Service or Social Outreach Programs"
+      ]
+    },
+    {
+      "text": "What motivates you the most when choosing a career?",
+      "type": "radio",
+      "name": "career-motivation",
+      "options": [
+        "Earning a high salary",
+        "Doing something I love and enjoy",
+        "Helping others and making an impact",
+        "Having job security and stability",
+        "Being my own boss and having independence",
+        "Working on creative and innovative projects",
+        "Being recognized for my talents and achievements",
+        "Building or designing something useful for society",
+        "Contributing to environmental or agricultural sustainability"
+      ]
+    },
+    {
+      "text": "How confident are you in your career choice?",
+      "type": "radio",
+      "name": "career-confidence",
+      "options": [
+        "Very confident – I already know my path",
+        "Somewhat confident – I have an idea but need more information",
+        "Unsure – I am still exploring my options",
+        "Not confident – I have no idea what I want to do yet"
+      ]
+    }
+  ]
+,
+
+
+
+  "Senior High School": [
+    {
+      "text": "Which subjects do you get the highest grades in?",
+      "type": "checkbox",
+      "name": "high-grades-subjects",
+      "options": [
+        "Mathematics (Algebra, Calculus, Statistics)",
+        "Science (Biology, Chemistry, Physics)",
+        "Information Technology (Programming, Computer Science)",
+        "Business & Finance (Accounting, Economics, Marketing)",
+        "Arts & Humanities (Literature, Communication, Creative Writing)",
+        "Social Sciences (Psychology, Political Science, History)",
+        "Engineering & Technical subjects (Drafting, Robotics, Applied Sciences)",
+        "Health & Medical subjects (Anatomy, Health Science, Nutrition)"
+      ]
+    },
+    {
+      "text": "Which subjects do you enjoy learning the most?",
+      "type": "checkbox",
+      "name": "favorite-subjects",
+      "options": [
+        "Mathematics (Algebra, Calculus, Statistics)",
+        "Science (Biology, Chemistry, Physics)",
+        "Information Technology (Programming, Computer Science)",
+        "Business & Finance (Accounting, Economics, Marketing)",
+        "Arts & Humanities (Literature, Communication, Creative Writing)",
+        "Social Sciences (Psychology, Political Science, History)",
+        "Engineering & Technical subjects (Drafting, Robotics, Applied Sciences)",
+        "Health & Medical subjects (Anatomy, Health Science, Nutrition)"
+      ]
+    },
+    {
+      "text": "What type of activities do you enjoy the most?",
+      "type": "checkbox",
+      "name": "favorite-activities",
+      "options": [
+        "Solving math and logic problems",
+        "Experimenting in a science lab",
+        "Coding, programming, or working with computers",
+        "Managing money, business, or investments",
+        "Writing, storytelling, or public speaking",
+        "Designing, drawing, or creating things",
+        "Analyzing data and statistics",
+        "Helping people through advice, teaching, or healthcare"
+      ]
+    },
+    {
+      "text": "Which careers interest you the most?",
+      "type": "checkbox",
+      "name": "career-interests",
+      "options": [
+        "Engineering (Civil, Mechanical, Electrical, etc.)",
+        "Medicine & Healthcare (Doctor, Nurse, Pharmacist, Medical Technologist)",
+        "Business & Management (Entrepreneur, Accountant, Marketing)",
+        "IT & Technology (Software Developer, Data Scientist, Cybersecurity)",
+        "Law & Politics (Lawyer, Politician, Public Administrator)",
+        "Arts & Media (Journalist, Filmmaker, Designer, Musician)",
+        "Social Sciences (Psychologist, Teacher, Human Resource Specialist)",
+        "Science & Research (Biologist, Chemist, Environmental Scientist)"
+      ]
+    },
+    {
+      "text": "Why do you want to take a college course?",
+      "type": "radio",
+      "name": "college-motivation",
+      "options": [
+        "To follow my passion and interests",
+        "To have better job opportunities in the future",
+        "Because my parents/guardians expect me to",
+        "To earn a high salary in the future"
+      ]
+    },
+    {
+      "text": "Do you plan to take a college course related to your SHS strand?",
+      "type": "radio",
+      "name": "shs-course-relation",
+      "options": [
+        "Yes, I want to continue in the same field.",
+        "No, I want to shift to a different field.",
+        "I'm still unsure."
+      ]
+    },
+    {
+      "text": "If you want to shift, why?",
+      "type": "radio",
+      "name": "shs-course-decision",
+      "options": [
+        "I discovered new interests outside my strand.",
+        "My SHS strand does not match my career goals.",
+        "Job demand and salary influenced my choice.",
+        "My parents/guardians influenced my decision."
+      ]
+    },
+    {
+      "text": "What is your biggest concern in choosing a college course?",
+      "type": "checkbox",
+      "name": "college-course-concern",
+      "options": [
+        "Difficulty of the course",
+        "Tuition fees and financial constraints",
+        "Future job opportunities",
+        "Family pressure to choose a specific course",
+        "Uncertainty about my own interests and skills"
+      ]
+    },
+    {
+      "text": "Have you thought about taking a break before college (gap year)?",
+      "type": "radio",
+      "name": "gap-year-consideration",
+      "options": [
+        "Yes, to explore options or work first.",
+        "No, I want to go to college immediately.",
+        "Maybe, depending on my situation."
+      ]
+    },
+    {
+      "text": "How confident are you in your chosen college course?",
+      "type": "radio",
+      "name": "college-confidence-level",
+      "options": [
+        "1-3 (Not confident, still unsure)",
+        "4-6 (Somewhat confident, but open to changes)",
+        "7-10 (Very confident, I know what I want)"
+      ]
+    },
+    {
+      "text": "What support would help you decide better?",
+      "type": "checkbox",
+      "name": "college-decision-support",
+      "options": [
+        "Career counseling and guidance",
+        "More exposure to professionals in the field",
+        "Internship or hands-on experience",
+        "Financial aid or scholarship options"
+      ]
+    }
+  ],
+
+
+  "College": [
+    {
+      "text": "What career path are you currently considering?",
+      "type": "radio",
+      "name": "career-path",
+      "options": [
+        "Corporate/Business", "Entrepreneurship", "Healthcare/Medical Field",
+        "Education/Academia", "Government/Public Service", "IT/Technology",
+        "Arts and Creative Industry", "Other"
+      ]
+    },
+    {
+      "text": "How closely is your chosen career related to your college degree?",
+      "type": "radio",
+      "name": "career-degree-relation",
+      "options": ["Very closely related", "Somewhat related", "Not related at all"]
+    },
+    {
+      "text": "What is the biggest factor influencing your career choice?",
+      "type": "radio",
+      "name": "career-choice-factor",
+      "options": [
+        "Passion and interest", "Salary and financial stability",
+        "Work-life balance", "Job availability"
+      ]
+    },
+    {
+      "text": "Would you consider shifting to a different field?",
+      "type": "radio",
+      "name": "career-shift",
+      "options": [
+        "Yes, if better opportunities arise.",
+        "No, I want to stick to my field.",
+        "Maybe, if I develop new interests."
+      ]
+    },
+    {
+      "text": "How confident are you in securing a job in your field?",
+      "type": "radio",
+      "name": "job-confidence-level",
+      "options": [
+        "1-3 (Not confident)",
+        "4-6 (Somewhat confident)",
+        "7-10 (Very confident)"
+      ]
+    },
+    {
+      "text": "Are you willing to take further training or certifications?",
+      "type": "radio",
+      "name": "further-training",
+      "options": [
+        "Yes, to improve my skills.",
+        "No, I feel prepared enough.",
+        "Maybe, if required for a job."
+      ]
+    },
+    {
+      "text": "What is your biggest fear about working?",
+      "type": "radio",
+      "name": "work-fear",
+      "options": [
+        "Difficulty finding a job",
+        "Workplace stress and burnout",
+        "Low salary and financial struggles",
+        "Work-life balance issues"
+      ]
+    },
+    {
+      "text": "Would you prefer to work in the Philippines or abroad?",
+      "type": "radio",
+      "name": "work-location-preference",
+      "options": ["Philippines", "Abroad", "No preference"]
+    },
+    {
+      "text": "How important is work-life balance in choosing your career?",
+      "type": "radio",
+      "name": "work-life-balance-importance",
+      "options": ["Very important", "Somewhat important", "Not important"]
+    },
+    {
+      "text": "What kind of support would help you feel more prepared for your career?",
+      "type": "radio",
+      "name": "career-preparation-support",
+      "options": [
+        "Career coaching and mentoring",
+        "More job market information",
+        "Networking and job opportunities",
+        "Personal development training"
+      ]
+    }
+  ]
+}
