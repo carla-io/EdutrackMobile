@@ -6,9 +6,9 @@ import { useNavigation } from "@react-navigation/native";
 import { Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as FileSystem from "expo-file-system";
-import * as Sharing from "expo-sharing";
-import { captureRef } from "react-native-view-shot";
 import { useRouter } from "expo-router";
+import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
+import * as Print from "expo-print";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -184,41 +184,68 @@ const OverallResult = () => {
   }, [user, topChoices]);
   
   const downloadPDF = async () => {
-    if (!chartRef.current) {
-      Alert.alert("Chart not found!");
-      return;
-    }
-  
     try {
-      const uri = await captureRef(chartRef.current, {
-        format: "png",
-        quality: 1,
-      });
-      const pdfUri = `${FileSystem.documentDirectory}chart.pdf`;
+      const uri = await chartRef.current.capture();
   
-      await FileSystem.writeAsStringAsync(pdfUri, uri, { encoding: FileSystem.EncodingType.Base64 });
-      await Sharing.shareAsync(pdfUri);
+      const htmlContent = `
+        <html>
+          <body style="text-align: center;">
+            <h1>Overall SHS Strand Predictions</h1>
+            <img src="${uri}" width="100%" />
+          </body>
+        </html>
+      `;
+  
+      const { uri: pdfUri } = await Print.printToFileAsync({
+        html: htmlContent,
+        base64: false,
+      });
+  
+      Alert.alert("Success", `PDF saved at: ${pdfUri}`);
     } catch (error) {
-      console.error("Failed to generate PDF", error);
-      Alert.alert("Error", "Failed to generate PDF. Please try again.");
+      console.error("Download PDF error:", error);
+      Alert.alert("Error", "Failed to download PDF");
+    }
+};
+
+  
+const printChart = async () => {
+    try {
+      const uri = await chartRef.current.capture();
+  
+      const htmlContent = `
+        <html>
+          <body style="text-align: center;">
+            <h1>Overall SHS Strand Predictions</h1>
+            <img src="${uri}" width="100%" />
+          </body>
+        </html>
+      `;
+  
+      await Print.printAsync({ html: htmlContent });
+    } catch (error) {
+      console.error("Print error:", error);
+      Alert.alert("Error", "Failed to print");
     }
   };
+  
 
   const sendEmail = async () => {
-    if (!user || !user.email) {
-      Alert.alert("User email not found!");
-      return;
-    }
-    if (!chartRef.current) {
-      Alert.alert("Chart not found!");
+    if (!user?.email) {
+      Alert.alert("Error", "User email not found!");
       return;
     }
     try {
-      const uri = await captureRef(chartRef.current, {
-        format: "jpg",
-        quality: 0.5,
-      });
-      const base64Image = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
+      const uri = await chartRef.current.capture();
+  
+      // Reduce image size
+      const resizedUri = await manipulateAsync(
+        uri,
+        [{ resize: { width: 500 } }], // Resize width to 500px (adjustable)
+        { compress: 0.5, format: SaveFormat.JPEG } // Compress to 50% quality
+      );
+  
+      const base64Image = await FileSystem.readAsStringAsync(resizedUri.uri, { encoding: FileSystem.EncodingType.Base64 });
   
       await axios.post("http://192.168.100.171:4000/api/auth/send-graph-email", {
         image: `data:image/jpeg;base64,${base64Image}`,
@@ -227,28 +254,10 @@ const OverallResult = () => {
   
       Alert.alert("Success", "Email sent successfully!");
     } catch (error) {
-      console.error("Failed to send email", error);
+      console.error("Failed to send email:", error);
       Alert.alert("Error", "Failed to send email. Please try again.");
     }
   };
-  
-  const printChart = async () => {
-    if (!chartRef.current) {
-      Alert.alert("Chart not found!");
-      return;
-    }
-    try {
-      const uri = await captureRef(chartRef.current, {
-        format: "png",
-        quality: 1,
-      });
-      await Sharing.shareAsync(uri);
-    } catch (error) {
-      console.error("Failed to print chart", error);
-      Alert.alert("Error", "Failed to print chart. Please try again.");
-    }
-  };
-  
   
 
   return (

@@ -33,7 +33,7 @@ const Portal = () => {
     let newGradeLevel = "";
 
     if (portalType === "shs") {
-      if (gradeLevel === "Senior High School" || gradeLevel === "College") {
+      if (gradeLevel === "Junior High School" || gradeLevel === "Senior High School" || gradeLevel === "College") {
         Toast.show({ type: "error", text1: "🚫 You cannot access the SHS portal." });
         return;
       }

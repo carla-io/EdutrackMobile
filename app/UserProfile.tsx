@@ -100,10 +100,7 @@ const UserProfile = () => {
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center", padding: 10, marginBottom: 50 }}>
       <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>USER PROFILE</Text>
 
-      <Image
-        source={{ uri: "https://via.placeholder.com/150" }}
-        style={{ width: 100, height: 100, borderRadius: 50, marginBottom: 10 }}
-      />
+      <Image source={{ uri: newProfilePicture || profilePictureUrl || "https://via.placeholder.com/150" }} style={{ width: 100, height: 100, borderRadius: 50, marginBottom: 10 }} />
       <TouchableOpacity onPress={handleImagePick} style={{ marginBottom: 20, backgroundColor: "#7b1111", padding: 10, borderRadius: 5 }}>
         <Text style={{ color: "white" }}>Change Profile Picture</Text>
       </TouchableOpacity>
@@ -129,7 +126,7 @@ const UserProfile = () => {
         secureTextEntry
       />
 
-      <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 5 }}>Grade Level</Text>
+      {/* <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 5 }}>Grade Level</Text> */}
       <View style={styles.pickerContainer}>
         <Picker
           selectedValue={user.gradeLevel}
