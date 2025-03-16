@@ -20,6 +20,7 @@ const OverallResultChart = () => {
     const overallChartRef = useRef(null);
     const individualRefs = useRef({});
     const chartRef = useRef(null);
+    const [saveStatus, setSaveStatus] = useState(null);
   
   useEffect(() => {
     const fetchUser = async () => {
@@ -128,6 +129,37 @@ const OverallResultChart = () => {
 
     processPredictionData();
   }, []);
+
+  useEffect(() => {
+    const savePredictions = async () => {
+      if (!user || !user._id || topChoices.length === 0) return;
+  
+      try {
+        const predictions = JSON.parse(await AsyncStorage.getItem("predictions")) || {};
+        const certprediction = JSON.parse(await AsyncStorage.getItem("certprediction")) || {};
+        const pqprediction_shs = JSON.parse(await AsyncStorage.getItem("shspqprediction")) || {}; // Updated for SHS
+        const prediction_exam_shs = JSON.parse(await AsyncStorage.getItem("prediction_exam_shs")) || {}; // Updated for SHS
+        const examScores = JSON.parse(await AsyncStorage.getItem("examScores")) || {};
+  
+        const payload = {
+          userId: user._id,
+          predictions,
+          certprediction,
+          pqprediction_shs, // Updated
+          prediction_exam_shs, // Updated
+          examScores,
+        };
+  
+        const res = await axios.post("http://192.168.100.171:4000/api/prediction_shs/save", payload);
+        console.log("Predictions saved successfully:", res.data);
+        setSaveStatus("Successfully saved to database.");
+      } catch (error) {
+        console.error("Failed to save predictions", error);
+        setSaveStatus("Failed to save data. Please try again.");
+      }
+    };
+    savePredictions();
+  }, [user, topChoices]);
 
   const downloadPDF = async () => {
     try {
@@ -258,7 +290,7 @@ const printChart = async () => {
         <TouchableOpacity onPress={printChart} style={styles.button}><Text style={styles.buttonText}>Print</Text></TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.backButton} onPress={() => router.push("/portal")}> 
+      <TouchableOpacity style={styles.backButton} onPress={() => router.push("Portal")}> 
         <Text style={styles.backButtonText}>⬅ Back to Personal Questionnaire</Text>
       </TouchableOpacity>
     </ScrollView>

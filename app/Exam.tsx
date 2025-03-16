@@ -18,7 +18,7 @@ const Exam = ({ navigation }) => {
   const [scores, setScores] = useState({});
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState(15);
   const [examCompleted, setExamCompleted] = useState(false);
   const [prediction, setPrediction] = useState(null);
   const [reloadGraph, setReloadGraph] = useState(false);
@@ -59,8 +59,10 @@ const Exam = ({ navigation }) => {
 
   useEffect(() => {
     if (!examCompleted && currentQuestion) {
+      setTimeLeft(15); // Reset timer for each question
+  
       const firstOption = currentQuestion.options?.[0] || currentQuestion.choices?.[0];
-
+  
       if (firstOption) {
         setAnswers((prev) => ({
           ...prev,
@@ -69,13 +71,24 @@ const Exam = ({ navigation }) => {
             [currentQuestion.question]: firstOption,
           },
         }));
-
-        setTimeout(() => {
-          handleNext();
-        }, 500);
       }
+  
+      // Countdown timer
+      const countdown = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev === 1) {
+            clearInterval(countdown);
+            handleNext(); // Auto-move to next question when timer reaches 0
+          }
+          return prev - 1;
+        });
+      }, 1000);
+  
+      return () => clearInterval(countdown); // Clear timer when question changes
     }
   }, [currentQuestionIndex, currentSectionIndex, examCompleted]);
+  
+  
 
   const handleAnswerChange = (selectedOption) => {
     setAnswers((prev) => ({
@@ -163,6 +176,7 @@ const Exam = ({ navigation }) => {
     } catch (error) {
       showToast('⚠️ Network error!');
     }
+    
   };
 
   const reloadGraphHandler = async () => {
