@@ -4,6 +4,7 @@ import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ToastAndroid } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 
 const UserProfile = () => {
   const [user, setUser] = useState({ name: "", email: "", password: "", gradeLevel: "" });
@@ -99,21 +100,52 @@ const UserProfile = () => {
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center", padding: 10, marginBottom: 50 }}>
       <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>USER PROFILE</Text>
 
-      <Image source={{ uri: newProfilePicture || profilePictureUrl || "https://via.placeholder.com/150" }} style={{ width: 100, height: 100, borderRadius: 50, marginBottom: 10 }} />
+      <Image
+        source={{ uri: "https://via.placeholder.com/150" }}
+        style={{ width: 100, height: 100, borderRadius: 50, marginBottom: 10 }}
+      />
       <TouchableOpacity onPress={handleImagePick} style={{ marginBottom: 20, backgroundColor: "#7b1111", padding: 10, borderRadius: 5 }}>
         <Text style={{ color: "white" }}>Change Profile Picture</Text>
       </TouchableOpacity>
 
-      <TextInput placeholder="Name" value={user.name} onChangeText={(text) => setUser({ ...user, name: text })} style={styles.input} />
-      <TextInput placeholder="Email" value={user.email} onChangeText={(text) => setUser({ ...user, email: text })} style={styles.input} keyboardType="email-address" />
-      <TextInput placeholder="Password" value={user.password} onChangeText={(text) => setUser({ ...user, password: text })} style={styles.input} secureTextEntry />
-      <TextInput placeholder="Grade Level" value={user.gradeLevel} onChangeText={(text) => setUser({ ...user, gradeLevel: text })} style={styles.input} />
-      
+      <TextInput
+        placeholder="Name"
+        value={user.name}
+        onChangeText={(text) => setUser({ ...user, name: text })}
+        style={styles.input}
+      />
+      <TextInput
+        placeholder="Email"
+        value={user.email}
+        onChangeText={(text) => setUser({ ...user, email: text })}
+        style={styles.input}
+        keyboardType="email-address"
+      />
+      <TextInput
+        placeholder="Password"
+        value={user.password}
+        onChangeText={(text) => setUser({ ...user, password: text })}
+        style={styles.input}
+        secureTextEntry
+      />
+
+      <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 5 }}>Grade Level</Text>
+      <View style={styles.pickerContainer}>
+        <Picker
+          selectedValue={user.gradeLevel}
+          onValueChange={(itemValue) => setUser({ ...user, gradeLevel: itemValue })}
+        >
+          <Picker.Item label="Select Grade Level" value="" />
+          <Picker.Item label="Junior High School" value="Junior High School" />
+          <Picker.Item label="Senior High School" value="Senior High School" />
+          <Picker.Item label="College" value="College" />
+        </Picker>
+      </View>
+
       <Button title="Update" onPress={handleSubmit} color="#7b1111" />
     </View>
   );
 };
-
 const styles = {
   input: {
     width: "100%",
@@ -122,6 +154,18 @@ const styles = {
     borderColor: "#ccc",
     borderRadius: 5,
     marginBottom: 10,
+  },
+  pickerContainer: {
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    marginBottom: 10,
+    backgroundColor: "white",
+  },
+  picker: {
+    width: "100%",
+    height: 50,
   },
 };
 

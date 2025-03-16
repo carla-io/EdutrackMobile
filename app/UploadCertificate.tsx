@@ -225,6 +225,10 @@ const UploadCertificates = () => {
                 <Image source={{ uri: item }} style={styles.previewImage} />
               )}
             />
+
+<TouchableOpacity style={styles.proceedButton} onPress={handleProceedToPQ}>
+                <Text style={styles.proceedButtonText}>Proceed to Personal Questionnaire ➡️</Text>
+              </TouchableOpacity>
       
             <TouchableOpacity style={styles.uploadButton} onPress={handleUpload} disabled={processing}>
               <Text style={styles.uploadButtonText}>{processing ? "Processing..." : "Upload & Process"}</Text>
