@@ -9,6 +9,7 @@ import * as FileSystem from "expo-file-system";
 import { useRouter } from "expo-router";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import * as Print from "expo-print";
+import Toast from "react-native-toast-message";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -51,6 +52,18 @@ const OverallResult = () => {
   const [saveStatus, setSaveStatus] = useState(null);
   const chartRef = useRef(null);
   const router = useRouter();
+
+  const showToast = (type, text1, text2) => {
+    Toast.show({
+      type: type, // 'success', 'error', or 'info'
+      text1: text1, // Main title
+      text2: text2, // Subtitle
+      position: "top",
+      visibilityTime: 3000,
+      autoHide: true,
+      topOffset: 50, // Adjust as needed
+    });
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -175,9 +188,11 @@ const OverallResult = () => {
         const res = await axios.post("http://192.168.100.171:4000/api/predictions/save", payload);
         console.log("Predictions saved successfully:", res.data);
         setSaveStatus("Successfully saved to database.");
+        showToast("success", "✅ Success", "Successfully saved to database.");
       } catch (error) {
         console.error("Failed to save predictions", error);
         setSaveStatus("Failed to save data. Please try again.");
+        showToast("error", "⚠️ Error", "Failed to save data");
       }
     };
     savePredictions();

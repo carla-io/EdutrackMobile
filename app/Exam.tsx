@@ -44,7 +44,7 @@ const Exam = ({ navigation }) => {
             selectedQuiz = shsQuiz;
           } else if (storedGradeLevel === 'shs') {
             selectedQuiz = collegeQuiz;
-          } else if (storedGradeLevel === 'college') {
+          } else if (storedGradeLevel === "college") {
             selectedQuiz = careerQuiz;
           }
 
@@ -133,51 +133,61 @@ const Exam = ({ navigation }) => {
     AsyncStorage.setItem('examScores', JSON.stringify(newScores));
   };
 
-  const handleSubmit = async () => {
-    try {
-      const storedScores = await AsyncStorage.getItem('examScores');
-      const gradeLevel = await AsyncStorage.getItem('gradeLevel');
+ 
+const handleSubmit = async () => {
+  try {
+    const storedScores = await AsyncStorage.getItem("examScores");
+    const gradeLevel = await AsyncStorage.getItem("gradeLevel");
 
-      if (!storedScores) {
-        showToast('⚠️ No exam scores found!');
-        return;
-      }
-
-      let endpoint = '';
-
-      if (gradeLevel === 'jhs') {
-        endpoint = 'http://192.168.100.171:5001/predict_exam_jhs';
-      } else if (gradeLevel === 'shs') {
-        endpoint = 'http://192.168.100.171:5001/prediction_exam_shs';
-      } else {
-        showToast('⚠️ Invalid grade level!');
-        return;
-      }
-
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ scores: JSON.parse(storedScores) }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        if (gradeLevel === 'jhs') {
-          await AsyncStorage.setItem('prediction_exam_jhs', JSON.stringify(result.strand_percentages));
-          setPrediction(result.strand_percentages);
-        } else if (gradeLevel === 'shs') {
-          await AsyncStorage.setItem('prediction_exam_shs', JSON.stringify(result.course_percentages));
-          setPrediction(result.course_percentages);
-        }
-      } else {
-        showToast('⚠️ Error in prediction!');
-      }
-    } catch (error) {
-      showToast('⚠️ Network error!');
+    if (!storedScores) {
+      ToastAndroid.show("⚠️ No exam scores found!", ToastAndroid.SHORT);
+      return;
     }
-    
-  };
+
+    let endpoint = "";
+
+    // Determine API endpoint based on grade level
+    if (gradeLevel === "jhs") {
+      endpoint = "http://localhost:5001/predict_exam_jhs";
+    } else if (gradeLevel === "shs") {
+      endpoint = "http://localhost:5001/prediction_exam_shs";
+    } else if (gradeLevel === "college") {
+      endpoint = "http://localhost:5001/prediction_exam_college";
+    } else {
+      ToastAndroid.show("⚠️ Invalid grade level!", ToastAndroid.SHORT);
+      return;
+    }
+
+    // Send data to backend
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ scores: JSON.parse(storedScores) }), // Parse storedScores before sending
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      // Save prediction results in AsyncStorage
+      if (gradeLevel === "jhs") {
+        await AsyncStorage.setItem("prediction_exam_jhs", JSON.stringify(result.strand_percentages));
+        setPrediction(result.strand_percentages);
+      } else if (gradeLevel === "shs") {
+        await AsyncStorage.setItem("prediction_exam_shs", JSON.stringify(result.course_percentages));
+        setPrediction(result.course_percentages);
+      } else if (gradeLevel === "college") {
+        await AsyncStorage.setItem("prediction_exam_college", JSON.stringify(result.career_percentages));
+        setPrediction(result.career_percentages);
+      }
+    } else {
+      ToastAndroid.show("⚠️ Error in prediction!", ToastAndroid.SHORT);
+    }
+  } catch (error) {
+    ToastAndroid.show("⚠️ Network error!", ToastAndroid.SHORT);
+  }
+};
 
   const reloadGraphHandler = async () => {
     setReloadGraph((prev) => !prev); // Toggle the reloadGraph state to force re-render
@@ -202,6 +212,9 @@ const Exam = ({ navigation }) => {
         endpoint = "http://192.168.100.171:5001/predict_exam_jhs";
       } else if (gradeLevel === "shs") {
         endpoint = "http://192.168.100.171:5001/prediction_exam_shs";
+      }
+      else if (gradeLevel === "college") {
+        endpoint = "http://192.168.100.171:5001/prediction_exam_college";
       } else {
         showToast("⚠️ Invalid grade level!");
         return;
@@ -276,6 +289,9 @@ const Exam = ({ navigation }) => {
               } else if (gradeLevel === "shs") {
                 router.push("GraphShs");
               }
+             else{
+              router.push("GraphCollege");
+             }
             }}
             style={{ marginTop: 20, backgroundColor: "#007BFF", padding: 12, borderRadius: 8, alignItems: "center" }}
           >

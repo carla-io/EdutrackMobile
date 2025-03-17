@@ -8,6 +8,7 @@ import ViewShot from "react-native-view-shot";
 import * as FileSystem from "expo-file-system";
 import * as Print from "expo-print";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
+import Toast from "react-native-toast-message";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -21,6 +22,18 @@ const OverallResultChart = () => {
     const individualRefs = useRef({});
     const chartRef = useRef(null);
     const [saveStatus, setSaveStatus] = useState(null);
+
+    const showToast = (type, text1, text2) => {
+      Toast.show({
+        type: type, // 'success', 'error', or 'info'
+        text1: text1, // Main title
+        text2: text2, // Subtitle
+        position: "top",
+        visibilityTime: 3000,
+        autoHide: true,
+        topOffset: 50, // Adjust as needed
+      });
+    };
   
   useEffect(() => {
     const fetchUser = async () => {
@@ -153,9 +166,11 @@ const OverallResultChart = () => {
         const res = await axios.post("http://192.168.100.171:4000/api/prediction_shs/save", payload);
         console.log("Predictions saved successfully:", res.data);
         setSaveStatus("Successfully saved to database.");
+        showToast("success", "✅ Success", "Successfully saved to database.");
       } catch (error) {
         console.error("Failed to save predictions", error);
         setSaveStatus("Failed to save data. Please try again.");
+        showToast("error", "⚠️ Error", "Failed to save data");
       }
     };
     savePredictions();
