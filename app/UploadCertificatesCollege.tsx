@@ -66,7 +66,16 @@ const UploadCertificates = ({ onUpload = () => {} }) => {
             const response = await axios.post("http://192.168.100.171:5001/predict-career-cert", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
-            setPredictedCareers(response.data.careers || []);
+            
+            // Get careers and sort them by score in descending order
+            const allCareers = response.data.careers || [];
+            
+            // Sort careers by score (descending) and take only top 5
+            const topFiveCareers = allCareers
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 5);
+                
+            setPredictedCareers(topFiveCareers);
             onUpload(response.data);
             Toast.show({ type: "success", text1: "Career prediction successful!" });
         } catch (error) {
@@ -102,15 +111,17 @@ const UploadCertificates = ({ onUpload = () => {} }) => {
             </TouchableOpacity>
             {predictedCareers.length > 0 && (
                 <View style={{ marginTop: 20 }}>
-                    <Text style={{ fontSize: 18, fontWeight: "bold" }}>Predicted Careers:</Text>
+                    <Text style={{ fontSize: 18, fontWeight: "bold" }}>Top 5 Predicted Careers:</Text>
                     {predictedCareers.map((career, index) => (
-                        <Text key={index}>{`${career.career}: ${career.score}%`}</Text>
+                        <Text key={index} style={{ fontSize: 16, marginTop: 5, padding: 5, backgroundColor: index === 0 ? "#e6f7ff" : "transparent" }}>
+                            {`${index + 1}. ${career.career}: ${career.score}%`}
+                        </Text>
                     ))}
                 </View>
             )}
-            <TouchableOpacity onPress={() => router.push("PQcollege")} style={{ backgroundColor: "#007bff", padding: 10, borderRadius: 5, alignItems: "center", marginTop: 20 }}>
+            {/* <TouchableOpacity onPress={() => router.push("PQcollege")} style={{ backgroundColor: "#007bff", padding: 10, borderRadius: 5, alignItems: "center", marginTop: 20 }}>
                 <Text style={{ color: "#fff" }}>Proceed</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <Toast />
         </View>
     );

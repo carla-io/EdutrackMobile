@@ -27,34 +27,33 @@ const PQ = () => {
   const [strandScoresList, setStrandScoresList] = useState([]);
   const [showProceedButton, setShowProceedButton] = useState(false);
   const currentQuestion = questions.length > 0 && currentQuestionIndex < questions.length ? questions[currentQuestionIndex] : null;
- const [gradeLevel, setGradeLevel] = useState("");
- const router = useRouter();
+  const [gradeLevel, setGradeLevel] = useState("");
+  const router = useRouter();
 
- useEffect(() => {
-  const loadAnswers = async () => {
-    try {
-      const storedAnswers = await AsyncStorage.getItem("pq-answers");
-      if (storedAnswers) {
-        setAnswers(JSON.parse(storedAnswers));
+  useEffect(() => {
+    const loadAnswers = async () => {
+      try {
+        const storedAnswers = await AsyncStorage.getItem("pq-answers");
+        if (storedAnswers) {
+          setAnswers(JSON.parse(storedAnswers));
+        }
+      } catch (error) {
+        console.error("Failed to load answers:", error);
       }
-    } catch (error) {
-      console.error("Failed to load answers:", error);
-    }
-  };
+    };
 
-  loadAnswers();
-}, []);
+    loadAnswers();
+  }, []);
 
- useEffect(() => {
-  const fetchGradeLevel = async () => {
-    const storedGradeLevel = await getGradeLevel();
-    setGradeLevel(storedGradeLevel);
-  };
+  useEffect(() => {
+    const fetchGradeLevel = async () => {
+      const storedGradeLevel = await getGradeLevel();
+      setGradeLevel(storedGradeLevel);
+    };
 
-  fetchGradeLevel();
-}, []);
+    fetchGradeLevel();
+  }, []);
 
-  
   useEffect(() => {
     const loadQuestions = async () => {
       const gradeLevel = await AsyncStorage.getItem("gradeLevel");
@@ -164,7 +163,12 @@ const PQ = () => {
   
       const data = await response.json();
       if (response.ok) {
-        setPredictionData(data?.prediction_scores || []);
+        // Sort prediction scores in descending order and take only top 5
+        const sortedScores = [...(data?.prediction_scores || [])]
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 5);
+          
+        setPredictionData(sortedScores);
         setPredictedStrand(data?.predicted_strand);
         setStrandScoresList(data?.strand_scores_list || []);
   
@@ -172,7 +176,7 @@ const PQ = () => {
         const predictionKey = gradeLevel === "shs" ? "shspqprediction" : "pqprediction";
         await AsyncStorage.setItem(predictionKey, JSON.stringify({
           predictedStrand: data?.predicted_strand,
-          predictionScores: data?.prediction_scores || [],
+          predictionScores: sortedScores,
           strandScoresList: data?.strand_scores_list || [],
         }));
   
@@ -183,8 +187,18 @@ const PQ = () => {
       }
     } catch (error) {
       Alert.alert("⚠️ Error", "Server error! Check connection.");
+      console.error("Submission error:", error);
     }
   };
+
+  // We don't need this function anymore as we're directly setting the top 5 in handleSubmit
+  // const getTopFiveStrands = () => {
+  //   if (!predictionData || predictionData.length === 0) return [];
+  //   return predictionData.slice(0, 5);
+  // };
+
+  // No need to call getTopFiveStrands() since predictionData already contains just the top 5
+  // const topFiveStrands = getTopFiveStrands();
 
   return (
     <ScrollView contentContainerStyle={{ padding: 20, flexGrow: 1 }}>
@@ -243,15 +257,19 @@ const PQ = () => {
             </TouchableOpacity>
           </View>
 
-          {/* Prediction Graph */}
+          {/* Prediction Graph - Only showing top 5 strands */}
           {predictionData.length > 0 && (
             <View style={{ marginTop: 30 }}>
               <Text style={{ fontSize: 20, fontWeight: "bold", textAlign: "center" }}>Prediction Results</Text>
               <Text style={{ textAlign: "center", marginVertical: 10 }}>
                 Predicted Strand: <Text style={{ fontWeight: "bold" }}>{predictedStrand}</Text>
               </Text>
+              
+              <Text style={{ textAlign: "center", marginBottom: 10, fontSize: 16 }}>
+                Top 5 Recommended Strands
+              </Text>
 
-              {/* Replaced VictoryChart with BarChart from react-native-chart-kit */}
+              {/* BarChart showing only top 5 strands */}
               <BarChart
                 data={{
                   labels: predictionData.map((item) => item.strand),
@@ -315,7 +333,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   option: {
-    padding: 15,
+    padding: 10,
     marginVertical: 8,
     backgroundColor: "maroon",
     borderRadius: 8,

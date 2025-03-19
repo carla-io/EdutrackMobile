@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, Image, TextInput, Alert, ScrollView, Modal, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity, Image, TextInput, Alert, ScrollView, ActivityIndicator } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -14,6 +14,7 @@ const UploadGrades = ({ navigation }) => {
   const [gradeLevel, setGradeLevel] = useState("");
   const [predictions, setPredictions] = useState(null);
   const [error, setError] = useState(null);
+  const [predicting, setPredicting] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -80,6 +81,7 @@ const UploadGrades = ({ navigation }) => {
               });
               await AsyncStorage.removeItem("extractedGrades");
               setExtractedGrades([]);
+              setPredictions(null);
             }
           },
         },
@@ -89,7 +91,6 @@ const UploadGrades = ({ navigation }) => {
     );
   };
   
-
   const handleUpload = async () => {
     if (grades.files.length === 0) {
       Alert.alert("Error", "Please upload at least one grade sheet.");
@@ -143,29 +144,49 @@ const UploadGrades = ({ navigation }) => {
         return;
       }
       await axios.post("http://192.168.100.171:5001/update-grades", { extracted_data: fullData.grades[0].data.extracted_data });
-      Alert.alert("Success", "View Prediction now?");
-      if (gradeLevel === "jhs" || gradeLevel === "shs") sendGradesForPrediction();
+      
+      Alert.alert(
+        "Success", 
+        "Grades saved successfully. Would you like to view the prediction now?",
+        [
+          {
+            text: "Yes",
+            onPress: () => {
+              if (gradeLevel === "jhs" || gradeLevel === "shs") {
+                sendGradesForPrediction();
+              }
+            }
+          },
+          {
+            text: "No",
+            style: "cancel"
+          }
+        ]
+      );
     } catch (error) {
       Alert.alert("Error", "Failed to save grades.");
     }
   };
 
   const sendGradesForPrediction = async () => {
+    setPredicting(true);
+    setError(null);
     
     try {
-      
       const apiEndpoint =
-  gradeLevel === "jhs"
-    ? "http://192.168.100.171:5001/predict-strands-jhs"
-    : gradeLevel === "shs"
-      ? "http://192.168.100.171:5001/predict-college-courses"
-      : "http://192.168.100.171:5001/predict-strands";
-  
-      const response = await axios.post(apiEndpoint, { extracted_data: extractedGrades });
+        gradeLevel === "jhs"
+          ? "http://192.168.100.171:5001/predict-strands-jhs"
+          : gradeLevel === "shs"
+            ? "http://192.168.100.171:5001/predict-college-courses"
+            : "http://192.168.100.171:5001/predict-strands";
+    
       console.log("Sending request to:", apiEndpoint);
       console.log("Payload:", JSON.stringify({ extracted_data: extractedGrades }));
-      console.log("Prediction Response:", response.data); // Debugging
+      
+      const response = await axios.post(apiEndpoint, { extracted_data: extractedGrades });
+      
       if (response.data) {
+        console.log("Prediction Response:", response.data);
         setPredictions(response.data);
       } else {
         setError("No predictions received. Please try again.");
@@ -173,77 +194,119 @@ const UploadGrades = ({ navigation }) => {
     } catch (err) {
       console.error("Prediction Error:", err);
       setError("Failed to fetch predictions. Please try again.");
+    } finally {
+      setPredicting(false);
     }
   };
-  
 
   return (
     <ScrollView style={{ padding: 20 }}>
-      <Text style={{ fontSize: 18, fontWeight: "bold", textAlign: "center" }}>Upload Your Grade Sheet</Text>
+      <Text style={{ fontSize: 18, fontWeight: "bold", textAlign: "center", marginBottom: 15 }}>Upload Your Grade Sheet</Text>
       
-      <TouchableOpacity onPress={pickImage} style={{ backgroundColor: "maroon", padding: 10, marginVertical: 10 }}>
-        <Text style={{ color: "white", textAlign: "center" }}>Choose Image</Text>
+      <TouchableOpacity onPress={pickImage} style={{ backgroundColor: "maroon", padding: 12, marginVertical: 10, borderRadius: 6 }}>
+        <Text style={{ color: "white", textAlign: "center", fontWeight: "bold" }}>Choose Image</Text>
       </TouchableOpacity>
       
-      {grades.previews.map((preview, index) => (
-        <TouchableOpacity key={index} onPress={() => setSelectedImage(preview)}>
-          <Image source={{ uri: preview }} style={{ width: 100, height: 100, margin: 5 }} />
-        </TouchableOpacity>
-      ))}
-      
-      <TouchableOpacity onPress={handleUpload} style={{ backgroundColor: "green", padding: 10, marginVertical: 10 }}>
-        <Text style={{ color: "white", textAlign: "center" }}>{processing ? "Processing..." : "Process Now"}</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-      onPress={() => router.push("UploadCertificate")}
-      style={{ backgroundColor: "blue", padding: 10, marginVertical: 10, marginBottom: 30 }}
-    >
-      <Text style={{ color: "white", textAlign: "center" }}>Next Process</Text>
-    </TouchableOpacity>
-      
-      {extractedGrades.length > 0 && extractedGrades.map((entry, index) => (
-        <View key={index}>
-          <TextInput value={entry.subject} onChangeText={(text) => handleGradeChange(index, "subject", text)} placeholder="Subject" />
-          <TextInput value={entry.final_grade} onChangeText={(text) => handleGradeChange(index, "final_grade", text)} placeholder="Final Grade" keyboardType="numeric" />
+      {grades.previews.length > 0 && (
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', marginVertical: 10 }}>
+          {grades.previews.map((preview, index) => (
+            <TouchableOpacity key={index} onPress={() => setSelectedImage(preview)}>
+              <Image source={{ uri: preview }} style={{ width: 100, height: 100, margin: 5, borderRadius: 4 }} />
+            </TouchableOpacity>
+          ))}
         </View>
-      ))}
-
+      )}
+      
+      <TouchableOpacity 
+        onPress={handleUpload} 
+        style={{ 
+          backgroundColor: processing ? "#a0a0a0" : "green", 
+          padding: 12, 
+          marginVertical: 10, 
+          borderRadius: 6,
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+        disabled={processing}
+      >
+        {processing && <ActivityIndicator size="small" color="white" style={{ marginRight: 8 }} />}
+        <Text style={{ color: "white", textAlign: "center", fontWeight: "bold" }}>
+          {processing ? "Processing..." : "Process Now"}
+        </Text>
+      </TouchableOpacity>
+      
       {extractedGrades.length > 0 && (
-        <TouchableOpacity onPress={saveEditedGrades} style={{ backgroundColor: "orange", padding: 10, marginVertical: 10 }}>
-          <Text style={{ color: "white", textAlign: "center" }}>Save Edited Grades</Text>
-        </TouchableOpacity>
+        <View style={{ marginVertical: 10, borderWidth: 1, borderColor: '#ddd', borderRadius: 6, padding: 10 }}>
+          <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 10 }}>Extracted Grades</Text>
+          {extractedGrades.map((entry, index) => (
+            <View key={index} style={{ flexDirection: 'row', marginBottom: 8 }}>
+              <TextInput 
+                value={entry.subject} 
+                onChangeText={(text) => handleGradeChange(index, "subject", text)} 
+                placeholder="Subject" 
+                style={{ flex: 2, borderWidth: 1, borderColor: '#ccc', padding: 8, marginRight: 5, borderRadius: 4 }}
+              />
+              <TextInput 
+                value={entry.final_grade} 
+                onChangeText={(text) => handleGradeChange(index, "final_grade", text)} 
+                placeholder="Final Grade" 
+                keyboardType="numeric" 
+                style={{ flex: 1, borderWidth: 1, borderColor: '#ccc', padding: 8, borderRadius: 4 }}
+              />
+            </View>
+          ))}
+          
+          <TouchableOpacity 
+            onPress={saveEditedGrades} 
+            style={{ backgroundColor: "orange", padding: 12, marginTop: 10, borderRadius: 6 }}
+          >
+            <Text style={{ color: "white", textAlign: "center", fontWeight: "bold" }}>Save & Generate Prediction</Text>
+          </TouchableOpacity>
+        </View>
       )}
 
-      {predictions && <PredictionGraph predictions={predictions} />}
-      {error && <Text style={{ color: "red" }}>{error}</Text>}
+      {predicting && (
+        <View style={{ alignItems: 'center', marginVertical: 20 }}>
+          <ActivityIndicator size="large" color="#007bff" />
+          <Text style={{ marginTop: 10, textAlign: 'center' }}>Generating predictions...</Text>
+        </View>
+      )}
+
+      {error && (
+        <View style={{ padding: 10, backgroundColor: '#ffeeee', borderRadius: 6, marginVertical: 10 }}>
+          <Text style={{ color: "red", textAlign: 'center' }}>{error}</Text>
+        </View>
+      )}
 
       {predictions ? (
-  <View>
-    <Text style={{ fontSize: 18, fontWeight: "bold", textAlign: "center", marginTop: 10 }}>
-      Prediction Results
-    </Text>
-    <PredictionGraph predictions={predictions} />
+        <View style={{ marginTop: 20 }}>
+          <Text style={{ fontSize: 18, fontWeight: "bold", textAlign: "center", marginBottom: 15 }}>
+            Top 5 Prediction Results
+          </Text>
+          <PredictionGraph predictions={predictions} type={gradeLevel} />
 
-    {/* Next Process Button */}
-    {/* <TouchableOpacity
-      onPress={() => router.push("UploadCertificate")}
-      style={{ backgroundColor: "blue", padding: 10, marginVertical: 10, marginBottom: 30 }}
-    >
-      <Text style={{ color: "white", textAlign: "center" }}>Next Process</Text>
-    </TouchableOpacity> */}
-  </View>
-) : (
-  <Text style={{ textAlign: "center", color: "gray", marginTop: 10 }}>
-    No predictions available yet.
-  </Text>
-)}
+          <TouchableOpacity
+            onPress={() => router.push("UploadCertificate")}
+            style={{ backgroundColor: "blue", padding: 12, marginVertical: 20, borderRadius: 6 }}
+          >
+            <Text style={{ color: "white", textAlign: "center", fontWeight: "bold" }}>Next Process</Text>
+          </TouchableOpacity>
+        </View>
+      ) : extractedGrades.length > 0 ? (
+        <Text style={{ textAlign: "center", color: "gray", marginTop: 20, marginBottom: 10 }}>
+          Save grades and generate prediction to view results.
+        </Text>
+      ) : null}
 
-
-
+{/* <TouchableOpacity
+            onPress={() => router.push("UploadCertificate")}
+            style={{ backgroundColor: "blue", padding: 12, marginVertical: 20, borderRadius: 6 }}
+          >
+            <Text style={{ color: "white", textAlign: "center", fontWeight: "bold" }}>Next Process</Text>
+          </TouchableOpacity> */}
     </ScrollView>
   );
-
 };
 
 export default UploadGrades;

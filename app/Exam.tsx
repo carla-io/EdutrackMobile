@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Alert, Dimensions, ToastAndroid, Platform, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Dimensions, ToastAndroid, Platform, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+import { RadioButton } from "react-native-paper";
+import { BarChart } from "react-native-chart-kit";
+import { useRouter } from "expo-router";
 import shsQuiz from './shsquiz.json';
 import collegeQuiz from './collegequiz.json';
 import careerQuiz from './careerquiz.json';
-import ResultsGraph from './ResultsGraph';
-import { useRouter } from "expo-router";
-import { RadioButton } from "react-native-paper";
-import { BarChart } from "react-native-chart-kit";
 
 const Exam = ({ navigation }) => {
   const [examQuestions, setExamQuestions] = useState([]);
@@ -23,6 +21,10 @@ const Exam = ({ navigation }) => {
   const [prediction, setPrediction] = useState(null);
   const [reloadGraph, setReloadGraph] = useState(false);
   const router = useRouter();
+  
+  // Get screen dimensions for responsive design
+  const screenWidth = Dimensions.get("window").width;
+  const screenHeight = Dimensions.get("window").height;
 
   const showToast = (message) => {
     if (Platform.OS === 'android') {
@@ -148,11 +150,11 @@ const handleSubmit = async () => {
 
     // Determine API endpoint based on grade level
     if (gradeLevel === "jhs") {
-      endpoint = "http://localhost:5001/predict_exam_jhs";
+      endpoint = "http://192.168.100.171:5001/predict_exam_jhs";
     } else if (gradeLevel === "shs") {
-      endpoint = "http://localhost:5001/prediction_exam_shs";
+      endpoint = "http://192.168.100.171:5001/prediction_exam_shs";
     } else if (gradeLevel === "college") {
-      endpoint = "http://localhost:5001/prediction_exam_college";
+      endpoint = "http://192.168.100.171:5001/prediction_exam_college";
     } else {
       ToastAndroid.show("⚠️ Invalid grade level!", ToastAndroid.SHORT);
       return;
@@ -259,27 +261,90 @@ const handleSubmit = async () => {
     }
   };
 
+
+  // Prepare data for the improved chart
+  const prepareChartData = () => {
+    if (!prediction) return null;
+    
+    // Get the top 5 predictions for better visualization
+    const entries = Object.entries(prediction)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5); // Take top 5 for readability
+    
+    // Create shortened labels for better display
+    const labels = entries.map(([key]) => {
+      // Shorten long labels to fit better on the chart
+      return key.length > 10 ? key.substring(0, 10) + '...' : key;
+    });
+    
+    // Extract the values
+    const data = entries.map(([_, value]) => value);
+    
+    return {
+      labels,
+      datasets: [
+        {
+          data,
+          // Use colors that stand out
+          colors: [
+            (opacity = 1) => `rgba(71, 130, 218, ${opacity})`,
+            (opacity = 1) => `rgba(245, 130, 49, ${opacity})`,
+            (opacity = 1) => `rgba(59, 174, 159, ${opacity})`,
+            (opacity = 1) => `rgba(204, 87, 120, ${opacity})`,
+            (opacity = 1) => `rgba(156, 115, 220, ${opacity})`,
+          ]
+        }
+      ]
+    };
+  };
+
+  // Enhanced chart config
+  const chartConfig = {
+    backgroundGradientFrom: "white",
+    backgroundGradientTo: "white",
+    color: (opacity = 1) => `rgba(0, 104, 116, ${opacity})`,
+    strokeWidth: 2,
+    barPercentage: 0.7,
+    decimalPlaces: 1,
+    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    style: {
+      borderRadius: 16,
+    },
+    propsForLabels: {
+      fontSize: 12,
+      fontWeight: "bold",
+    },
+    propsForVerticalLabels: {
+      rotation: 45,
+      fontSize: 12,
+      fontWeight: "bold",
+    },
+    formatYLabel: (value) => `${parseFloat(value).toFixed(1)}%`,
+  };
+
   const sections = Object.keys(quizData);
   const currentSection = sections[currentSectionIndex];
   const questions = quizData[currentSection]?.quiz || [];
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 20, flexGrow: 1 }}>
-      <View style={{ alignItems: "center", marginBottom: 20 }}>
-        <Text style={{ fontSize: 22, fontWeight: "bold", textAlign: "center" }}>
-          Welcome to Your {gradeLevel} Exam
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>
+          Welcome to Your {gradeLevel?.toUpperCase()} Exam
         </Text>
       </View>
 
       {examCompleted ? (
-        <View style={{ padding: 15, backgroundColor: "#fff", borderRadius: 10, elevation: 5 }}>
-          <Text style={{ fontSize: 20, fontWeight: "bold", textAlign: "center" }}>Exam Completed! 🎉</Text>
-          <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 10 }}>Your Scores per Category:</Text>
+        <View style={styles.resultContainer}>
+          <Text style={styles.resultTitle}>Exam Completed! 🎉</Text>
+          <Text style={styles.sectionTitle}>Your Scores per Category:</Text>
+          
           {Object.entries(scores).map(([section, score], index) => (
-            <Text key={index} style={{ fontSize: 16, marginTop: 5 }}>
-              <Text style={{ fontWeight: "bold" }}>{section}:</Text> {score}
-            </Text>
+            <View key={index} style={styles.scoreRow}>
+              <Text style={styles.sectionLabel}>{section}:</Text>
+              <Text style={styles.scoreValue}>{score}</Text>
+            </View>
           ))}
 
           <TouchableOpacity
@@ -288,173 +353,333 @@ const handleSubmit = async () => {
                 router.push("GraphJhs");
               } else if (gradeLevel === "shs") {
                 router.push("GraphShs");
+              } else {
+                router.push("GraphCollege");
               }
-             else{
-              router.push("GraphCollege");
-             }
             }}
-            style={{ marginTop: 20, backgroundColor: "#007BFF", padding: 12, borderRadius: 8, alignItems: "center" }}
+            style={styles.viewResultsButton}
           >
-            <Text style={{ fontSize: 16, color: "#fff" }}>View Results (Graph)</Text>
+            <Text style={styles.buttonText}>View Results (Graph)</Text>
           </TouchableOpacity>
 
-          {/* Display the prediction graph */}
+          {/* Improved chart display */}
           {prediction && (
-  <BarChart
-    data={{
-      labels: Object.keys(prediction), // Assuming prediction is an object with keys as labels
-      datasets: [{ data: Object.values(prediction) }], // Assuming values are the scores
-    }}
-    width={Dimensions.get("window").width - 40}
-    height={300}
-    yAxisLabel=""
-    chartConfig={{
-      backgroundGradientFrom: "#fff",
-      backgroundGradientTo: "#fff",
-      color: (opacity = 1) => `rgba(76, 175, 80, ${opacity})`,
-      strokeWidth: 2,
-    }}
-    style={{ marginVertical: 10, borderRadius: 8 }}
-  />
-)}
-
+            <View style={styles.chartContainer}>
+              <Text style={styles.chartTitle}>Prediction Results</Text>
+              
+              {/* Legend for top 5 items */}
+              <View style={styles.legendContainer}>
+                {Object.entries(prediction)
+                  .sort((a, b) => b[1] - a[1])
+                  .slice(0, 5)
+                  .map(([key, value], index) => (
+                    <View key={index} style={styles.legendItem}>
+                      <View style={[styles.legendColor, { backgroundColor: getColorForIndex(index) }]} />
+                      <Text style={styles.legendText}>
+                        {key}: {value.toFixed(1)}%
+                      </Text>
+                    </View>
+                  ))}
+              </View>
+              
+              <BarChart
+                data={prepareChartData()}
+                width={screenWidth - 40}
+                height={300}
+                yAxisLabel=""
+                yAxisSuffix="%"
+                showValuesOnTopOfBars={true}
+                chartConfig={chartConfig}
+                style={styles.chart}
+                verticalLabelRotation={30}
+                fromZero={true}
+              />
+              
+              <Text style={styles.chartNotes}>Top 5 predictions shown</Text>
+            </View>
+          )}
 
           <TouchableOpacity
             onPress={handleSubmit}
-            style={{ marginTop: 20, backgroundColor: "#4CAF50", padding: 12, borderRadius: 8, alignItems: "center" }}
+            style={styles.submitButton}
           >
-            <Text style={{ fontSize: 16, color: "#fff" }}>Submit Prediction</Text>
+            <Text style={styles.buttonText}>Generate Prediction</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={reloadGraphHandler}
-            style={{ marginTop: 10, backgroundColor: "#FF9800", padding: 12, borderRadius: 8, alignItems: "center" }}
+            style={styles.reloadButton}
           >
-            <Text style={{ fontSize: 16, color: "#fff" }}>Reload Graph</Text>
+            <Text style={styles.buttonText}>Reload Graph</Text>
           </TouchableOpacity>
         </View>
       ) : sections.length > 0 ? (
-        <View style={{ padding: 15, backgroundColor: "#fff", borderRadius: 10, elevation: 5 }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>{currentSection}</Text>
-          <Text style={{ fontSize: 16 }}>{currentQuestionIndex + 1}. {currentQuestion?.question}</Text>
-          <Text style={{ fontSize: 14, color: "red", marginVertical: 5 }}>⏳ Time left: {timeLeft}s</Text>
+        <View style={styles.quizContainer}>
+          <Text style={styles.sectionTitle}>{currentSection}</Text>
+          <Text style={styles.questionText}>{currentQuestionIndex + 1}. {currentQuestion?.question}</Text>
+          <Text style={styles.timerText}>⏳ Time left: {timeLeft}s</Text>
 
           <RadioButton.Group onValueChange={handleAnswerChange} value={answers[currentSection]?.[currentQuestion.question] || ""}>
             {currentQuestion.options?.map((option, optIndex) => (
-              <TouchableOpacity key={optIndex} onPress={() => handleAnswerChange(option)} style={{ flexDirection: "row", alignItems: "center", marginVertical: 5 }}>
-                <RadioButton value={option} />
-                <Text style={{ fontSize: 16, marginLeft: 10 }}>{option}</Text>
+              <TouchableOpacity 
+                key={optIndex} 
+                onPress={() => handleAnswerChange(option)} 
+                style={styles.optionRow}
+              >
+                <RadioButton 
+                  value={option} 
+                  color="#4CAF50"
+                />
+                <Text style={styles.optionText}>{option}</Text>
               </TouchableOpacity>
             ))}
           </RadioButton.Group>
 
-          <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
-            <TouchableOpacity onPress={handleBack} disabled={currentSectionIndex === 0 && currentQuestionIndex === 0} style={{ backgroundColor: "#ccc", padding: 12, borderRadius: 8 }}>
-              <Text style={{ fontSize: 16 }}>Back</Text>
+          <View style={styles.navigationButtons}>
+            <TouchableOpacity 
+              onPress={handleBack} 
+              disabled={currentSectionIndex === 0 && currentQuestionIndex === 0} 
+              style={[
+                styles.backButton, 
+                (currentSectionIndex === 0 && currentQuestionIndex === 0) && styles.disabledButton
+              ]}
+            >
+              <Text style={styles.backButtonText}>Back</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleNext} style={{ backgroundColor: "#4CAF50", padding: 12, borderRadius: 8 }}>
-              <Text style={{ fontSize: 16, color: "#fff" }}>
-                {currentSectionIndex === sections.length - 1 && currentQuestionIndex === questions.length - 1 ? "Finish" : "Next"}
+            
+            <TouchableOpacity 
+              onPress={handleNext} 
+              style={styles.nextButton}
+            >
+              <Text style={styles.buttonText}>
+                {currentSectionIndex === sections.length - 1 && currentQuestionIndex === questions.length - 1 
+                  ? "Finish" 
+                  : "Next"
+                }
               </Text>
             </TouchableOpacity>
           </View>
         </View>
       ) : (
-        <Text style={{ textAlign: "center", fontSize: 18 }}>No quiz available for your grade level.</Text>
+        <Text style={styles.noQuizText}>No quiz available for your grade level.</Text>
       )}
     </ScrollView>
   );
 };
 
-export default Exam;
+// Helper function for chart colors
+const getColorForIndex = (index) => {
+  const colors = [
+    '#4782DA', // Blue
+    '#F58231', // Orange
+    '#3BAE9F', // Teal
+    '#CC5778', // Pink
+    '#9C73DC'  // Purple
+  ];
+  return colors[index % colors.length];
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  scrollContainer: {
+    flexGrow: 1,
     padding: 20,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "white"
   },
-  title: {
+  header: {
+    alignItems: "center",
+    marginBottom: 20,
+    paddingVertical: 15
+  },
+  headerTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "#333"
+  },
+  resultContainer: {
+    padding: 20,
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10
+  },
+  resultTitle: {
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 20,
-  },
-  subTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  resultsSection: {
-    alignItems: "center",
-  },
-  scoreItem: {
-    fontSize: 16,
-    marginVertical: 5,
-  },
-  bold: {
-    fontWeight: "bold",
-  },
-  button: {
-    backgroundColor: "#007BFF",
-    padding: 12,
-    borderRadius: 8,
-    marginVertical: 8,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  disabledButton: {
-    backgroundColor: "#ccc",
-  },
-  quizSection: {
-    marginTop: 20,
+    color: "#4CAF50"
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 15,
+    marginBottom: 10,
+    color: "#333"
+  },
+  scoreRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee"
+  },
+  sectionLabel: {
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "#444"
+  },
+  scoreValue: {
+    fontSize: 16,
+    color: "#4CAF50"
+  },
+  chartContainer: {
+    marginTop: 25,
+    marginBottom: 15,
+    backgroundColor: "#f9f9f9",
+    borderRadius: 12,
+    padding: 15,
+    borderWidth: 1,
+    borderColor: "#e0e0e0"
+  },
+  chartTitle: {
+    fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 15,
+    color: "#333"
   },
-  questionBox: {
+  chart: {
+    marginVertical: 10,
+    borderRadius: 12,
+    padding: 10
+  },
+  legendContainer: {
+    marginBottom: 15
+  },
+  legendItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 4
+  },
+  legendColor: {
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+    marginRight: 8
+  },
+  legendText: {
+    fontSize: 14,
+    color: "#333"
+  },
+  chartNotes: {
+    textAlign: "center",
+    fontStyle: "italic",
+    fontSize: 12,
+    color: "#666",
+    marginTop: 5
+  },
+  viewResultsButton: {
+    marginTop: 20,
+    backgroundColor: "#007BFF",
     padding: 15,
+    borderRadius: 10,
+    alignItems: "center"
+  },
+  submitButton: {
+    marginTop: 20,
+    backgroundColor: "#4CAF50",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center"
+  },
+  reloadButton: {
+    marginTop: 12,
+    backgroundColor: "#FF9800",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center"
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#fff"
+  },
+  quizContainer: {
+    padding: 20,
     backgroundColor: "#fff",
-    borderRadius: 8,
+    borderRadius: 15,
+    elevation: 4,
     shadowColor: "#000",
-    shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
-    elevation: 2,
+    shadowOpacity: 0.1,
+    shadowRadius: 8
   },
   questionText: {
     fontSize: 18,
-    fontWeight: "bold",
+    marginBottom: 10,
+    lineHeight: 24,
+    color: "#333"
   },
-  timer: {
+  timerText: {
     fontSize: 16,
-    color: "red",
-    marginVertical: 8,
+    color: "#f44336",
+    marginVertical: 10,
+    fontWeight: "bold"
   },
-  optionItem: {
-    backgroundColor: "#e0e0e0",
-    padding: 12,
+  optionRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
     marginVertical: 5,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
     borderRadius: 8,
+    backgroundColor: "#f9f9f9"
   },
   optionText: {
     fontSize: 16,
+    marginLeft: 10,
+    flex: 1,
+    color: "#333"
   },
-  buttonContainer: {
+  navigationButtons: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 20,
+    marginTop: 25
   },
-  noQuiz: {
-    textAlign: "center",
+  backButton: {
+    backgroundColor: "#e0e0e0",
+    padding: 15,
+    borderRadius: 10,
+    minWidth: 100,
+    alignItems: "center"
+  },
+  backButtonText: {
     fontSize: 16,
-    color: "gray",
-    marginTop: 20,
+    fontWeight: "bold",
+    color: "#555"
   },
+  nextButton: {
+    backgroundColor: "#4CAF50",
+    padding: 15,
+    borderRadius: 10,
+    minWidth: 100,
+    alignItems: "center"
+  },
+  disabledButton: {
+    backgroundColor: "#cccccc",
+    opacity: 0.7
+  },
+  noQuizText: {
+    textAlign: "center",
+    fontSize: 18,
+    color: "#999",
+    marginTop: 50
+  }
 });
+
+export default Exam;

@@ -18,27 +18,34 @@ const ResultsGraph = ({ prediction }) => {
     ],
   };
 
+  // Calculate appropriate width based on number of bars to prevent overlapping
+  const chartWidth = Math.max(screenWidth, labels.length * 70);
+
   return (
-    <ScrollView horizontal>
+    <ScrollView horizontal showsHorizontalScrollIndicator={true}>
       <View>
         <BarChart
           data={data}
-          width={Math.max(screenWidth, labels.length * 60)} // Ensure proper spacing
-          height={300}
-          yAxisSuffix="%"
-          fromZero
+          width={chartWidth}
+          height={220}
+          yAxisLabel="%"
           chartConfig={{
-            backgroundGradientFrom: "#ffffff",
-            backgroundGradientTo: "#ffffff",
-            decimalPlaces: 0,
+            backgroundColor: '#ffffff',
+            backgroundGradientFrom: '#ffffff',
+            backgroundGradientTo: '#ffffff',
+            decimalPlaces: 1,
             color: (opacity = 1) => `rgba(75, 192, 192, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
             style: {
               borderRadius: 16,
             },
-            barPercentage: 0.5,
+            barPercentage: 0.6,
+            spacing: 0.2,
           }}
-          verticalLabelRotation={30}
+          fromZero
+          showValuesOnTopOfBars
+          verticalLabelRotation={45}
+          horizontalLabelRotation={-45}
         />
       </View>
     </ScrollView>
