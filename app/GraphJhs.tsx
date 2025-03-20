@@ -168,39 +168,39 @@ const OverallResult = () => {
     loadData();
   }, []);
 
-  // useEffect(() => {
-  //   const saveToServer = async () => {
-  //     if (!user || !user._id || topChoices.length === 0) return;
+  useEffect(() => {
+    const saveToServer = async () => {
+      if (!user || !user._id || topChoices.length === 0) return;
 
-  //     try {
-  //       const predictions = await AsyncStorage.getItem('predictions');
-  //       const certprediction = await AsyncStorage.getItem('certprediction');
-  //       const pqprediction = await AsyncStorage.getItem('pqprediction');
-  //       const prediction_exam_jhs = await AsyncStorage.getItem('prediction_exam_jhs');
-  //       const examScores = await AsyncStorage.getItem('examScores');
+      try {
+        const predictions = await AsyncStorage.getItem('predictions');
+        const certprediction = await AsyncStorage.getItem('certprediction');
+        const pqprediction = await AsyncStorage.getItem('pqprediction');
+        const prediction_exam_jhs = await AsyncStorage.getItem('prediction_exam_jhs');
+        const examScores = await AsyncStorage.getItem('examScores');
 
-  //       const payload = {
-  //         userId: user._id,
-  //         predictions: predictions ? JSON.parse(predictions) : {},
-  //         certprediction: certprediction ? JSON.parse(certprediction) : {},
-  //         pqprediction_jhs: pqprediction ? JSON.parse(pqprediction) : {},
-  //         prediction_exam_jhs: prediction_exam_jhs ? JSON.parse(prediction_exam_jhs) : {},
-  //         examScores: examScores ? JSON.parse(examScores) : {}
-  //       };
+        const payload = {
+          userId: user._id,
+          predictions: predictions ? JSON.parse(predictions) : {},
+          certprediction: certprediction ? JSON.parse(certprediction) : {},
+          pqprediction_jhs: pqprediction ? JSON.parse(pqprediction) : {},
+          prediction_exam_jhs: prediction_exam_jhs ? JSON.parse(prediction_exam_jhs) : {},
+          examScores: examScores ? JSON.parse(examScores) : {}
+        };
 
-  //       const response = await axios.post('http://192.168.100.171:4000/api/predictions/save', payload);
-  //       console.log('Predictions saved successfully:', response.data);
-  //       setSaveStatus('Successfully saved to database.');
-  //       Alert.alert('Success', '✅ Successfully saved to database!');
-  //     } catch (error) {
-  //       console.error('Failed to save predictions', error);
-  //       setSaveStatus('Failed to save data. Please try again.');
-  //       Alert.alert('Error', '❌ Failed to save data. Please try again.');
-  //     }
-  //   };
+        const response = await axios.post('http://192.168.100.171:4000/api/predictions/save', payload);
+        console.log('Predictions saved successfully:', response.data);
+        setSaveStatus('Successfully saved to database.');
+        Alert.alert('Success', '✅ Successfully saved to database!');
+      } catch (error) {
+        console.error('Failed to save predictions', error);
+        setSaveStatus('Failed to save data. Please try again.');
+        Alert.alert('Error', '❌ Failed to save data. Please try again.');
+      }
+    };
 
-  //   saveToServer();
-  // }, [user, topChoices]);
+    saveToServer();
+  }, [user, topChoices]);
 
   const downloadPDF = async () => {
     if (!chartRef.current) {
