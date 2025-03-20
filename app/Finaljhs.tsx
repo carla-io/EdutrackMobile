@@ -1,31 +1,66 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
-import { VictoryBar, VictoryChart, VictoryRadar, VictoryTheme, VictoryAxis, VictoryPolarAxis } from "victory-native";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import * as FileSystem from "expo-file-system";
-import * as Sharing from "expo-sharing";
-import ViewShot from "react-native-view-shot";
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Dimensions } from 'react-native';
+import { BarChart } from 'react-native-chart-kit';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { useRouter } from 'expo-router';
 
-const OverallResult = () => {
-// Strand descriptions and career pathways (truncated for brevity)
+const screenWidth = Dimensions.get('window').width;
+
 const strandDescriptions = {
   STEM: "Science, Technology, Engineering, and Mathematics (STEM) is for students interested in scientific innovations, engineering, and technological advancements.",
-  ABM: "The Accountancy, Business, and Management (ABM) strand is designed for students who aspire to become entrepreneurs, corporate professionals, and financial experts.",
-  HUMSS: "The Humanities and Social Sciences (HUMSS) strand is perfect for students passionate about history, culture, communication, and public service.",
-  // Add other strand descriptions as needed
+  ABM: "The Accountancy, Business, and Management (ABM) strand is designed for students who aspire to become entrepreneurs and business professionals.",
+  HUMSS: "The Humanities and Social Sciences (HUMSS) strand is perfect for students passionate about history, culture, and communication.",
+  GAS: "The General Academic Strand (GAS) is for students who are still exploring their career path with a flexible curriculum.",
+  "Home Economics": "The Home Economics (HE) strand focuses on skills-based training in hospitality, culinary arts, and caregiving.",
+  ICT: "The Information and Communications Technology (ICT) strand is ideal for tech-savvy students interested in programming and digital arts.",
 };
 
 const careerPathways = {
-  STEM: ["Medicine", "Engineering", "Architecture", "Data Science", "Research Scientist"],
-  ABM: ["Entrepreneur", "Accountant", "Business Manager", "Financial Analyst", "Marketing Executive"],
+  STEM: ["Medicine", "Engineering", "Architecture", "Data Science", "Research"],
+  ABM: ["Entrepreneur", "Accountant", "Business Manager", "Financial Analyst", "Marketing"],
   HUMSS: ["Lawyer", "Journalist", "Psychologist", "Teacher", "Social Worker"],
-  // Add other career pathways as needed
+  GAS: ["Public Administrator", "Education", "Government Service", "Management"],
+  "Home Economics": ["Chef", "Hotel Manager", "Fashion Designer", "Event Planner"],
+  ICT: ["Software Developer", "Web Designer", "Game Developer", "IT Support"],
 };
 
+
 const getPersonalizedMessage = (topStrand, secondStrand, thirdStrand) => {
-  return `Your assessment results indicate that your primary strength lies in the ${topStrand} strand, with significant aptitude also showing in ${secondStrand} and ${thirdStrand}. This unique combination reflects your diverse talents and interests, creating a promising foundation for your academic journey.`;
+  return `
+  # Your Academic and Career Path: A Personalized Analysis
+
+  ## Understanding Your Results
+  
+  Your assessment results indicate that your primary strength lies in the **${topStrand}** strand, with significant aptitude also showing in **${secondStrand}** and **${thirdStrand}**. This unique combination reflects your diverse talents and interests, creating a promising foundation for your academic journey.
+  
+  ## Your Primary Path: ${topStrand}
+  
+  Your high alignment with the ${topStrand} strand suggests that you possess the core traits and abilities valued in this field. Students who excel in ${topStrand} typically demonstrate ${getTraitsForStrand(topStrand)}.
+  
+  The curriculum will challenge and develop your ${getSkillsForStrand(topStrand)}. These skills are highly transferable and will serve you well regardless of your ultimate career choice.
+  
+  ## Complementary Strengths
+  
+  Your secondary alignment with ${secondStrand} adds valuable versatility to your profile. This complementary strength means you can approach ${topStrand} challenges with insights from the ${secondStrand} perspective, potentially leading to innovative solutions and approaches that purely ${topStrand}-focused students might miss.
+  
+  Similarly, your tertiary strength in ${thirdStrand} provides yet another dimension to your skill set. This multi-faceted capability is increasingly valued in today's interconnected world.
+  
+  ## Career Possibilities
+  
+  With your ${topStrand} foundation, career paths such as ${getTopCareersForStrand(topStrand).join(", ")} would be natural fits for your abilities. Your ${secondStrand} aptitude opens additional possibilities in ${getTopCareersForStrand(secondStrand).slice(0, 3).join(", ")}.
+  
+  ## Recommendations for Success
+  
+  1. **Core Focus**: Fully engage with the ${topStrand} curriculum to build your fundamental knowledge and skills.
+  2. **Strategic Electives**: Consider electives that leverage your ${secondStrand} and ${thirdStrand} strengths.
+  3. **Experiential Learning**: Seek internships, projects, or volunteer opportunities that let you apply your ${topStrand} skills in real-world settings.
+  4. **Mentorship**: Connect with professionals who have successfully combined ${topStrand} with other interests.
+  5. **Continuous Self-Assessment**: Your interests and goals may evolve; remain open to adjusting your path accordingly.
+  
+  Remember that this assessment is a starting point for exploration, not a rigid determination of your capabilities. Your unique combination of strengths gives you advantages that extend beyond any single strand classification.
+  `;
 };
 
 const getTraitsForStrand = (strand) => {
@@ -33,7 +68,17 @@ const getTraitsForStrand = (strand) => {
     STEM: "analytical thinking, problem-solving aptitude, and systematic approach to challenges",
     ABM: "business acumen, financial literacy, and leadership potential",
     HUMSS: "strong communication skills, empathy, and social awareness",
-    // Add other traits as needed
+    GAS: "adaptability, balanced capabilities across multiple disciplines, and a holistic perspective",
+    "Home Economics": "practical creativity, attention to detail, and service orientation",
+    ICT: "technical problem-solving, digital literacy, and logical thinking",
+    "Industrial Arts": "spatial awareness, practical problem-solving, and technical precision",
+    "Agri-Fishery Arts": "environmental awareness, resource management skills, and practical scientific understanding",
+    Cookery: "creativity with precision, sensory awareness, and attention to detail",
+    "Performing Arts": "expressive capabilities, kinesthetic intelligence, and emotional depth",
+    "Visual Arts": "visual creativity, aesthetic sensibility, and innovative thinking",
+    "Media Arts": "visual storytelling ability, technical creativity, and communication skills",
+    "Literary Arts": "verbal fluency, narrative thinking, and analytical reading skills",
+    Sports: "physical coordination, team leadership, and performance under pressure"
   };
   return traits[strand] || "diverse skills and interests";
 };
@@ -43,65 +88,65 @@ const getSkillsForStrand = (strand) => {
     STEM: "quantitative reasoning, scientific methodology, and analytical capabilities",
     ABM: "financial analysis, organizational management, and strategic planning",
     HUMSS: "critical thinking, cultural competence, and effective communication",
-    // Add other skills as needed
+    GAS: "interdisciplinary thinking, adaptability, and foundational knowledge across domains",
+    "Home Economics": "service management, design thinking, and practical implementation",
+    ICT: "computational thinking, technical problem-solving, and digital creation",
+    "Industrial Arts": "technical drawing, mechanical reasoning, and hands-on construction",
+    "Agri-Fishery Arts": "sustainable practices, biological systems management, and practical ecology",
+    Cookery: "culinary techniques, food science principles, and sensory evaluation",
+    "Performing Arts": "performance techniques, bodily-kinesthetic awareness, and emotional expression",
+    "Visual Arts": "design principles, visual composition, and creative expression",
+    "Media Arts": "multimedia storytelling, production techniques, and digital composition",
+    "Literary Arts": "rhetorical skills, narrative construction, and critical analysis",
+    Sports: "physical conditioning, strategic thinking, and teamwork dynamics"
   };
   return skills[strand] || "various academic and practical abilities";
 };
 
+const getTopCareersForStrand = (strand) => {
+  return careerPathways[strand] || ["Various professional roles"];
+};
 
-  const [chartData, setChartData] = useState([]);
-  const [radarData, setRadarData] = useState([]);
+
+const OverallResult = () => {
+  const [chartData, setChartData] = useState(null);
   const [topChoices, setTopChoices] = useState([]);
   const [user, setUser] = useState(null);
-  const [personalizedMessage, setPersonalizedMessage] = useState("");
   const navigation = useNavigation();
-  const viewShotRef = React.useRef();
+  const router = useRouter();
 
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchUser();
-      processStrandData();
-    }, [])
-  );
-
-  const fetchUser = async () => {
-    try {
-      const token = await AsyncStorage.getItem("auth-token");
-      if (!token) return;
-
-      const res = await axios.post("http://localhost:4000/api/auth/user", { token });
-      setUser(res.data.user);
-    } catch (error) {
-      console.error("User fetch failed", error);
-    }
-  };
-
-  const processStrandData = async () => {
-    const sources = {
-      "Overall Prediction": ["predictions", "certprediction", "pqprediction", "prediction_exam_jhs"],
-      "From Grades": ["predictions"],
-      "From Certificate": ["certprediction"],
-      "From Personal Questionnaire": ["pqprediction"],
-      "From Exam Results": ["prediction_exam_jhs"]
+  useEffect(() => {
+    // Load user data
+    const fetchUser = async () => {
+      try {
+        const userData = await AsyncStorage.getItem('user');
+        if (userData) {
+          setUser(JSON.parse(userData));
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data", error);
+      }
     };
-
-    const allStrands = {};
-    const colorPalette = [
-      'rgba(255, 99, 132, 0.7)',
-      'rgba(54, 162, 235, 0.7)',
-      'rgba(255, 206, 86, 0.7)',
-      'rgba(75, 192, 192, 0.7)',
-      'rgba(153, 102, 255, 0.7)',
-    ];
-
-    try {
-      for (const [label, keys] of Object.entries(sources)) {
-        for (const key of keys) {
+    fetchUser();
+    
+    // Process stored prediction data
+    const processData = async () => {
+      const sources = {
+        "predictions": "From Grades",
+        "certprediction": "From Certificate",
+        "pqprediction": "From Personal Questionnaire",
+        "prediction_exam_jhs": "From Exam Results"
+      };
+      
+      const allStrands = {};
+      
+      for (const [key, label] of Object.entries(sources)) {
+        try {
           const storedData = await AsyncStorage.getItem(key);
           if (!storedData) continue;
-
+          
           const data = JSON.parse(storedData);
-
+          
           if (key === "predictions") {
             Object.entries(data).forEach(([strand, values]) => {
               if (values.percentage !== undefined) {
@@ -120,495 +165,322 @@ const getSkillsForStrand = (strand) => {
               allStrands[strand] = (allStrands[strand] || 0) + numericValue;
             });
           }
+        } catch (error) {
+          console.error(`Error processing ${key}:`, error);
         }
       }
-
-      // Sort strands by score and take top 5
-      const sortedStrands = Object.entries(allStrands)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 5);
-
+      
+      const sortedStrands = Object.entries(allStrands).sort((a, b) => b[1] - a[1]);
+      setTopChoices(sortedStrands);
+      
       if (sortedStrands.length > 0) {
-        setTopChoices(sortedStrands);
-        
-        // Format data for Victory charts
-        setChartData(
-          sortedStrands.map(([strand, percentage], index) => ({
-            strand,
-            percentage,
-            fill: colorPalette[index % colorPalette.length]
-          }))
-        );
-        
-        setRadarData(
-          sortedStrands.map(([strand, percentage]) => ({
-            strand,
-            percentage
-          }))
-        );
-        
-        // Create personalized message if we have at least 3 strands
-        if (sortedStrands.length >= 3) {
-          const topStrand = sortedStrands[0][0];
-          const secondStrand = sortedStrands[1][0];
-          const thirdStrand = sortedStrands[2][0];
-          setPersonalizedMessage(getPersonalizedMessage(topStrand, secondStrand, thirdStrand));
-        }
+        setChartData({
+          labels: sortedStrands.slice(0, 5).map(([strand]) => strand),
+          datasets: [
+            {
+              data: sortedStrands.slice(0, 5).map(([_, percentage]) => percentage),
+            }
+          ]
+        });
       }
-    } catch (error) {
-      console.error("Error processing strand data:", error);
-    }
-  };
-
-  const downloadReport = async () => {
-    try {
-      const uri = await viewShotRef.current.capture();
-      
-      const filename = `SHS_Strand_Prediction_${Date.now()}.png`;
-      const filePath = `${FileSystem.documentDirectory}${filename}`;
-      
-      await FileSystem.moveAsync({
-        from: uri,
-        to: filePath
-      });
-      
-      if (await Sharing.isAvailableAsync()) {
-        await Sharing.shareAsync(filePath);
-      } else {
-        Alert.alert("Sharing not available");
-      }
-    } catch (error) {
-      console.error("Error downloading report:", error);
-      Alert.alert("Error", "Could not download report.");
-    }
-  };
+    };
+    
+    processData();
+  }, []);
 
   const sendEmail = async () => {
     try {
-      const uri = await viewShotRef.current.capture();
-      const userData = await AsyncStorage.getItem("user");
-      
-      if (!userData) {
-        Alert.alert("Error", "User information not found.");
+      if (!user || !user.email) {
+        Alert.alert("Error", "User email not found!");
         return;
       }
       
-      const user = JSON.parse(userData);
-      if (!user.email) {
-        Alert.alert("Error", "User email not found.");
-        return;
-      }
-      
-      // Convert image to base64
-      const base64Image = await FileSystem.readAsStringAsync(uri, {
-        encoding: FileSystem.EncodingType.Base64
+      await axios.post("http://192.168.100.171:4000/api/auth/send-prediction-email", {
+        email: user.email,
+        topChoices: topChoices.slice(0, 3),
       });
       
-      await axios.post("http://localhost:4000/api/auth/send-graph-email", {
-        image: `data:image/png;base64,${base64Image}`,
-        email: user.email
-      });
-      
-      Alert.alert("Success", "Report sent to your email successfully!");
+      Alert.alert("Success", "Your prediction report has been sent to your email!");
     } catch (error) {
       console.error("Error sending email:", error);
-      Alert.alert("Error", "Failed to send email.");
+      Alert.alert("Error", "Failed to send email. Please try again later.");
     }
   };
 
   return (
     <ScrollView style={styles.container}>
-      <ViewShot ref={viewShotRef} options={{ format: "png", quality: 0.9 }} style={styles.reportContainer}>
-        <View style={styles.reportHeader}>
-          <Text style={styles.titleText}>Senior High School Strand Prediction Report</Text>
-          {user && <Text style={styles.subtitleText}>Student: {user.name || "Anonymous Student"}</Text>}
-          <Text style={styles.dateText}>Generated on: {new Date().toLocaleDateString()}</Text>
-        </View>
-
-        {/* Top Recommendations */}
-        {topChoices.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Recommended Strands</Text>
-            
-            {topChoices.slice(0, 3).map(([strand, score], index) => (
-              <View key={strand} style={[styles.recommendationCard, 
-                index === 0 ? styles.primaryCard : 
-                index === 1 ? styles.secondaryCard : styles.tertiaryCard]}>
-                <View style={styles.cardHeader}>
-                  <View style={styles.rankBadge}>
-                    <Text style={styles.rankText}>{index === 0 ? '1st' : index === 1 ? '2nd' : '3rd'}</Text>
-                  </View>
-                  <Text style={styles.cardTitle}>{strand}</Text>
-                  <View style={styles.scoreContainer}>
-                    <Text style={styles.scoreValue}>{score.toFixed(1)}%</Text>
-                    <Text style={styles.scoreLabel}>Compatibility</Text>
-                  </View>
-                </View>
-                
-                <View style={styles.cardBody}>
-                  <Text style={styles.description}>{strandDescriptions[strand]}</Text>
-                  <Text style={styles.careerTitle}>Potential Career Paths:</Text>
-                  {careerPathways[strand]?.slice(0, 3).map(career => (
-                    <Text key={career} style={styles.careerItem}>• {career}</Text>
-                  ))}
-                </View>
-              </View>
-            ))}
-          </View>
-        )}
-
-        {/* Charts */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Assessment Results</Text>
-          
-          {chartData.length > 0 && (
-            <View style={styles.chartContainer}>
-              <Text style={styles.chartTitle}>Top 5 Strand Compatibility</Text>
-              <VictoryChart
-                theme={VictoryTheme.material}
-                domainPadding={20}
-                height={300}
-              >
-                <VictoryAxis
-                  tickFormat={(x) => x}
-                  style={{
-                    tickLabels: { fontSize: 10, padding: 5, angle: -45 }
-                  }}
-                />
-                <VictoryAxis
-                  dependentAxis
-                  tickFormat={(t) => `${t}%`}
-                />
-                <VictoryBar
-                  data={chartData}
-                  x="strand"
-                  y="percentage"
-                  style={{
-                    data: { fill: ({ datum }) => datum.fill }
-                  }}
-                />
-              </VictoryChart>
-            </View>
-          )}
-          
-          {radarData.length > 0 && (
-            <View style={styles.chartContainer}>
-              <Text style={styles.chartTitle}>Strand Comparison</Text>
-              <VictoryChart
-                polar
-                theme={VictoryTheme.material}
-                domain={{ y: [0, 100] }}
-                height={300}
-              >
-                <VictoryPolarAxis
-                  tickFormat={t => ""}
-                  style={{
-                    grid: { stroke: "lightgray", strokeWidth: 0.5 }
-                  }}
-                />
-                {radarData.map((d, i) => (
-                  <VictoryPolarAxis
-                    key={i}
-                    dependentAxis
-                    style={{
-                      tickLabels: { fill: "none" },
-                      grid: { stroke: "lightgray", strokeWidth: 0.5 }
-                    }}
-                    axisValue={d.strand}
-                    label={d.strand}
-                    labelPlacement="vertical"
-                  />
-                ))}
-                <VictoryRadar
-                  style={{
-                    data: { fill: "rgba(54, 162, 235, 0.2)", stroke: "rgb(54, 162, 235)", strokeWidth: 2 }
-                  }}
-                  data={radarData}
-                  x="strand"
-                  y="percentage"
-                />
-              </VictoryChart>
-            </View>
-          )}
-        </View>
-
-        {/* Personalized Analysis */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Your Personalized Analysis</Text>
-          <Text style={styles.analysisText}>{personalizedMessage}</Text>
-        </View>
-
-        {/* Next Steps */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Recommended Next Steps</Text>
-          
-          <View style={styles.stepItem}>
-            <View style={styles.stepNumber}>
-              <Text style={styles.stepNumberText}>1</Text>
-            </View>
-            <View style={styles.stepContent}>
-              <Text style={styles.stepTitle}>Review Your Results</Text>
-              <Text style={styles.stepDescription}>Take time to carefully review and reflect on your strand compatibility results.</Text>
-            </View>
-          </View>
-          
-          <View style={styles.stepItem}>
-            <View style={styles.stepNumber}>
-              <Text style={styles.stepNumberText}>2</Text>
-            </View>
-            <View style={styles.stepContent}>
-              <Text style={styles.stepTitle}>Research Each Strand</Text>
-              <Text style={styles.stepDescription}>Learn more about the curriculum and requirements for your top recommended strands.</Text>
-            </View>
-          </View>
-          
-          <View style={styles.stepItem}>
-            <View style={styles.stepNumber}>
-              <Text style={styles.stepNumberText}>3</Text>
-            </View>
-            <View style={styles.stepContent}>
-              <Text style={styles.stepTitle}>Speak with Counselors</Text>
-              <Text style={styles.stepDescription}>Schedule a meeting with your school's guidance counselor to discuss your results.</Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.disclaimer}>
-          <Text style={styles.disclaimerTitle}>Important Note</Text>
-          <Text style={styles.disclaimerText}>
-            This assessment is based on your responses to our questionnaires, academic records, and exam results. 
-            While our prediction system is designed to provide accurate guidance, it should be considered as one 
-            of many factors in your decision-making process.
-          </Text>
-        </View>
-      </ViewShot>
+      <View style={styles.header}>
+        <Text style={styles.title}>Senior High School Strand Prediction</Text>
+        {user && <Text style={styles.subtitle}>Student: {user.name || "Anonymous"}</Text>}
+        <Text style={styles.date}>Generated on: {new Date().toLocaleDateString()}</Text>
+      </View>
       
-      {/* Action Buttons */}
-      <View style={styles.actionButtons}>
-        <TouchableOpacity style={styles.primaryButton} onPress={downloadReport}>
-          <Text style={styles.buttonText}>Download Report</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.secondaryButton} onPress={sendEmail}>
+      {topChoices.length > 0 ? (
+        <View style={styles.summaryContainer}>
+          <Text style={styles.sectionTitle}>Top Recommendations</Text>
+          
+          {topChoices.slice(0, 3).map(([strand, score], index) => (
+            <View key={strand} style={[styles.card, index === 0 && styles.primaryCard]}>
+              <View style={styles.cardHeader}>
+                <Text style={styles.rankBadge}>{index === 0 ? '1st' : index === 1 ? '2nd' : '3rd'}</Text>
+                <Text style={styles.strandName}>{strand}</Text>
+                <Text style={styles.score}>{score.toFixed(1)}%</Text>
+              </View>
+              <Text style={styles.description}>{strandDescriptions[strand] || ""}</Text>
+              <Text style={styles.careerTitle}>Career Paths:</Text>
+              <Text style={styles.careerPaths}>
+                {careerPathways[strand]?.slice(0, 3).join(", ")}
+              </Text>
+            </View>
+          ))}
+        </View>
+      ) : (
+        <Text style={styles.loading}>Loading results...</Text>
+      )}
+      
+      {chartData && (
+        <View style={styles.chartContainer}>
+          <Text style={styles.sectionTitle}>Overall Strand Compatibility</Text>
+          <BarChart
+            data={chartData}
+            width={screenWidth - 40}
+            height={220}
+            yAxisLabel=""
+            yAxisSuffix="%"
+            chartConfig={{
+              backgroundColor: '#ffffff',
+              backgroundGradientFrom: '#ffffff',
+              backgroundGradientTo: '#ffffff',
+              decimalPlaces: 0,
+              color: (opacity = 1) => `rgba(54, 162, 235, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              style: {
+                borderRadius: 16,
+              },
+            }}
+            style={styles.chart}
+          />
+        </View>
+      )}
+      
+      <View style={styles.nextSteps}>
+        <Text style={styles.sectionTitle}>Next Steps</Text>
+        <View style={styles.step}>
+          <Text style={styles.stepNumber}>1</Text>
+          <View style={styles.stepContent}>
+            <Text style={styles.stepTitle}>Review Your Results</Text>
+            <Text style={styles.stepText}>Consider how they align with your interests and goals.</Text>
+          </View>
+        </View>
+        <View style={styles.step}>
+          <Text style={styles.stepNumber}>2</Text>
+          <View style={styles.stepContent}>
+            <Text style={styles.stepTitle}>Research Each Strand</Text>
+            <Text style={styles.stepText}>Learn more about curriculum and requirements.</Text>
+          </View>
+        </View>
+        <View style={styles.step}>
+          <Text style={styles.stepNumber}>3</Text>
+          <View style={styles.stepContent}>
+            <Text style={styles.stepTitle}>Speak with Guidance Counselors</Text>
+            <Text style={styles.stepText}>Get personalized advice about your options.</Text>
+          </View>
+        </View>
+      </View>
+      
+      <View style={styles.actions}>
+        <TouchableOpacity style={styles.button} onPress={sendEmail}>
           <Text style={styles.buttonText}>Send to My Email</Text>
         </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate("Dashboard")}>
+        <TouchableOpacity style={styles.button} onPress={() => router.push("Dashboard")}>
           <Text style={styles.buttonText}>Return to Dashboard</Text>
         </TouchableOpacity>
       </View>
+      
+      <View style={styles.disclaimer}>
+        <Text style={styles.disclaimerTitle}>Important Note</Text>
+        <Text style={styles.disclaimerText}>
+          This assessment is based on your responses and academic records. While designed to provide guidance, 
+          it should be considered as one of many factors in your decision-making process.
+        </Text>
+      </View>
     </ScrollView>
   );
-
-  
 };
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: '#f5f5f5',
   },
-  reportContainer: {
-    padding: 16,
-    backgroundColor: "#ffffff",
-    margin: 8,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+  header: {
+    padding: 20,
+    backgroundColor: '#ffffff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
   },
-  reportHeader: {
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  titleText: {
+  title: {
     fontSize: 22,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 8,
+    fontWeight: 'bold',
+    color: '#333',
   },
-  subtitleText: {
-    fontSize: 18,
-    marginBottom: 4,
+  subtitle: {
+    fontSize: 16,
+    color: '#666',
+    marginTop: 5,
   },
-  dateText: {
+  date: {
     fontSize: 14,
-    color: "#666",
+    color: '#888',
+    marginTop: 5,
   },
-  section: {
-    marginBottom: 20,
+  summaryContainer: {
+    padding: 20,
+    backgroundColor: '#ffffff',
+    marginTop: 10,
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 12,
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    color: '#333',
   },
-  recommendationCard: {
-    borderRadius: 8,
-    marginBottom: 12,
-    overflow: "hidden",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 2,
+  card: {
+    backgroundColor: '#f9f9f9',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 15,
+    borderLeftWidth: 5,
+    borderLeftColor: '#3498db',
   },
   primaryCard: {
-    backgroundColor: "#e3f2fd",
-  },
-  secondaryCard: {
-    backgroundColor: "#e8f5e9",
-  },
-  tertiaryCard: {
-    backgroundColor: "#fff3e0",
+    backgroundColor: '#e8f4fd',
+    borderLeftColor: '#2980b9',
   },
   cardHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-    backgroundColor: "rgba(0,0,0,0.05)",
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
   },
   rankBadge: {
-    backgroundColor: "#3f51b5",
+    backgroundColor: '#3498db',
+    color: 'white',
+    paddingHorizontal: 10,
+    paddingVertical: 3,
     borderRadius: 12,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    marginRight: 8,
-  },
-  rankText: {
-    color: "#fff",
-    fontWeight: "bold",
     fontSize: 12,
+    fontWeight: 'bold',
+    marginRight: 10,
   },
-  cardTitle: {
+  strandName: {
+    fontSize: 16,
+    fontWeight: 'bold',
     flex: 1,
+  },
+  score: {
     fontSize: 16,
-    fontWeight: "bold",
-  },
-  scoreContainer: {
-    alignItems: "center",
-  },
-  scoreValue: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  scoreLabel: {
-    fontSize: 12,
-    color: "#666",
-  },
-  cardBody: {
-    padding: 12,
+    fontWeight: 'bold',
+    color: '#3498db',
   },
   description: {
     fontSize: 14,
-    marginBottom: 8,
+    color: '#555',
+    marginBottom: 10,
   },
   careerTitle: {
     fontSize: 14,
-    fontWeight: "bold",
-    marginBottom: 4,
+    fontWeight: 'bold',
+    color: '#333',
+    marginTop: 5,
   },
-  careerItem: {
+  careerPaths: {
     fontSize: 14,
-    marginLeft: 8,
-    marginBottom: 2,
+    color: '#555',
+  },
+  loading: {
+    fontSize: 16,
+    textAlign: 'center',
+    margin: 20,
   },
   chartContainer: {
-    marginBottom: 20,
-    padding: 8,
-    backgroundColor: "#fff",
-    borderRadius: 8,
+    backgroundColor: '#ffffff',
+    padding: 20,
+    marginTop: 10,
+    alignItems: 'center',
   },
-  chartTitle: {
-    textAlign: "center",
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 10,
+  chart: {
+    marginVertical: 8,
+    borderRadius: 16,
   },
-  analysisText: {
-    fontSize: 14,
-    lineHeight: 20,
+  nextSteps: {
+    padding: 20,
+    backgroundColor: '#ffffff',
+    marginTop: 10,
   },
-  stepItem: {
-    flexDirection: "row",
-    marginBottom: 10,
+  step: {
+    flexDirection: 'row',
+    marginBottom: 15,
   },
   stepNumber: {
+    backgroundColor: '#3498db',
+    color: 'white',
     width: 30,
     height: 30,
     borderRadius: 15,
-    backgroundColor: "#3f51b5",
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 10,
-  },
-  stepNumberText: {
-    color: "#fff",
-    fontWeight: "bold",
+    textAlign: 'center',
+    lineHeight: 30,
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginRight: 15,
   },
   stepContent: {
     flex: 1,
   },
   stepTitle: {
     fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 4,
+    fontWeight: 'bold',
+    color: '#333',
   },
-  stepDescription: {
+  stepText: {
     fontSize: 14,
-    color: "#444",
+    color: '#555',
+  },
+  actions: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 20,
+    backgroundColor: '#ffffff',
+    marginTop: 10,
+  },
+  button: {
+    backgroundColor: '#3498db',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    flex: 0.48,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   disclaimer: {
-    padding: 12,
-    backgroundColor: "#f9f9f9",
-    borderRadius: 8,
+    padding: 20,
+    backgroundColor: '#f9f9f9',
     marginTop: 10,
+    marginBottom: 20,
   },
   disclaimerTitle: {
     fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 6,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 5,
   },
   disclaimerText: {
-    fontSize: 13,
-    color: "#555",
-  },
-  actionButtons: {
-    flexDirection: "column",
-    padding: 16,
-  },
-  primaryButton: {
-    backgroundColor: "#3f51b5",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  secondaryButton: {
-    backgroundColor: "#009688",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  tertiaryButton: {
-    backgroundColor: "#ff9800",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 14,
+    color: '#555',
   },
 });
-
 
 export default OverallResult;

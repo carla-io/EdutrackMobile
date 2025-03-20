@@ -122,7 +122,7 @@ const Dashboard = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { padding: 5 },
+  container: { padding: 20, marginTop: 20 },
   loader: { flex: 1, justifyContent: "center" },
   profileHeader: {
     backgroundColor: "#800000",

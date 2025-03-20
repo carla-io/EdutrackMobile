@@ -67,7 +67,7 @@ const OverallResult = () => {
       const token = await AsyncStorage.getItem('auth-token');
       if (!token) return;
       try {
-        const res = await axios.post('http://localhost:4000/api/auth/user', { token });
+        const res = await axios.post('http://192.168.100.171:4000/api/auth/user', { token });
         setUser(res.data.user);
       } catch (error) {
         console.error('User fetch failed', error);
@@ -168,39 +168,39 @@ const OverallResult = () => {
     loadData();
   }, []);
 
-  useEffect(() => {
-    const saveToServer = async () => {
-      if (!user || !user._id || topChoices.length === 0) return;
+  // useEffect(() => {
+  //   const saveToServer = async () => {
+  //     if (!user || !user._id || topChoices.length === 0) return;
 
-      try {
-        const predictions = await AsyncStorage.getItem('predictions');
-        const certprediction = await AsyncStorage.getItem('certprediction');
-        const pqprediction = await AsyncStorage.getItem('pqprediction');
-        const prediction_exam_jhs = await AsyncStorage.getItem('prediction_exam_jhs');
-        const examScores = await AsyncStorage.getItem('examScores');
+  //     try {
+  //       const predictions = await AsyncStorage.getItem('predictions');
+  //       const certprediction = await AsyncStorage.getItem('certprediction');
+  //       const pqprediction = await AsyncStorage.getItem('pqprediction');
+  //       const prediction_exam_jhs = await AsyncStorage.getItem('prediction_exam_jhs');
+  //       const examScores = await AsyncStorage.getItem('examScores');
 
-        const payload = {
-          userId: user._id,
-          predictions: predictions ? JSON.parse(predictions) : {},
-          certprediction: certprediction ? JSON.parse(certprediction) : {},
-          pqprediction_jhs: pqprediction ? JSON.parse(pqprediction) : {},
-          prediction_exam_jhs: prediction_exam_jhs ? JSON.parse(prediction_exam_jhs) : {},
-          examScores: examScores ? JSON.parse(examScores) : {}
-        };
+  //       const payload = {
+  //         userId: user._id,
+  //         predictions: predictions ? JSON.parse(predictions) : {},
+  //         certprediction: certprediction ? JSON.parse(certprediction) : {},
+  //         pqprediction_jhs: pqprediction ? JSON.parse(pqprediction) : {},
+  //         prediction_exam_jhs: prediction_exam_jhs ? JSON.parse(prediction_exam_jhs) : {},
+  //         examScores: examScores ? JSON.parse(examScores) : {}
+  //       };
 
-        const response = await axios.post('http://localhost:4000/api/predictions/save', payload);
-        console.log('Predictions saved successfully:', response.data);
-        setSaveStatus('Successfully saved to database.');
-        Alert.alert('Success', '✅ Successfully saved to database!');
-      } catch (error) {
-        console.error('Failed to save predictions', error);
-        setSaveStatus('Failed to save data. Please try again.');
-        Alert.alert('Error', '❌ Failed to save data. Please try again.');
-      }
-    };
+  //       const response = await axios.post('http://192.168.100.171:4000/api/predictions/save', payload);
+  //       console.log('Predictions saved successfully:', response.data);
+  //       setSaveStatus('Successfully saved to database.');
+  //       Alert.alert('Success', '✅ Successfully saved to database!');
+  //     } catch (error) {
+  //       console.error('Failed to save predictions', error);
+  //       setSaveStatus('Failed to save data. Please try again.');
+  //       Alert.alert('Error', '❌ Failed to save data. Please try again.');
+  //     }
+  //   };
 
-    saveToServer();
-  }, [user, topChoices]);
+  //   saveToServer();
+  // }, [user, topChoices]);
 
   const downloadPDF = async () => {
     if (!chartRef.current) {
@@ -256,39 +256,50 @@ const OverallResult = () => {
         Alert.alert("Error", "User information not found. Please log in again.");
         return;
       }
-      
+  
       const user = JSON.parse(storedUser);
-      if (!user || !user.email) {
+      if (!user?.email) {
         Alert.alert("Error", "User email not found!");
         return;
       }
-      
+  
       if (!reportRef.current) {
         Alert.alert("Error", "Report not ready yet!");
         return;
       }
-      
-      // Capture report as image
+  
+      // Capture the view as an image
       const uri = await captureRef(reportRef, {
         format: "jpg",
-        quality: 0.5,
+        quality: 0.3, // Reduce quality
       });
-      
-      // Convert image to base64
-      const base64Image = await FileSystem.readAsStringAsync(uri, {
-        encoding: FileSystem.EncodingType.Base64,
-      });
-      
-      // Send email with report
-      await axios.post("http://192.168.100.171:4000/api/auth/send-graph-email", {
-        image: `data:image/jpeg;base64,${base64Image}`,
-        email: user.email,
-      });
-      
-      Alert.alert(
-        "Success", 
-        "Your college course prediction report has been sent to your email successfully!"
-      );
+  
+      // Convert image URI to base64
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+  
+      reader.onloadend = async () => {
+        const base64Image = reader.result.split(",")[1]; // Extract base64 part
+  
+        // Send email with report
+        await axios.post(
+          "http://192.168.100.171:4000/api/auth/send-graph-email",
+          {
+            image: `data:image/jpeg;base64,${base64Image}`,
+            email: user.email,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+  
+        Alert.alert(
+          "Success",
+          "Your college course prediction report has been sent to your email successfully!"
+        );
+      };
     } catch (error) {
       console.error("Error sending email:", error);
       Alert.alert("Error", "Failed to send email. Please try again later.");
@@ -316,7 +327,7 @@ const OverallResult = () => {
   };
 
   const navigateToFinalResultJHS = () => {
-    router.push('FinalGraphJHS');
+    router.push('Finaljhs');
   };
 
   const chartConfig = {
@@ -359,7 +370,14 @@ const OverallResult = () => {
         ))}
       </View>
 
-      <ViewShot ref={chartRef} style={styles.chartContainer}>
+      <ViewShot 
+  ref={(ref) => {
+    chartRef.current = ref;
+    reportRef.current = ref;
+  }} 
+  style={styles.chartContainer}
+>
+
         {chartData && (
           <View style={styles.chartWrapper}>
             <Text style={styles.chartTitle}>Overall Prediction</Text>

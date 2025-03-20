@@ -119,9 +119,9 @@ const UploadCertificates = ({ onUpload = () => {} }) => {
                     ))}
                 </View>
             )}
-            {/* <TouchableOpacity onPress={() => router.push("PQcollege")} style={{ backgroundColor: "#007bff", padding: 10, borderRadius: 5, alignItems: "center", marginTop: 20 }}>
+            <TouchableOpacity onPress={() => router.push("PQcollege")} style={{ backgroundColor: "#007bff", padding: 10, borderRadius: 5, alignItems: "center", marginTop: 20 }}>
                 <Text style={{ color: "#fff" }}>Proceed</Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
             <Toast />
         </View>
     );

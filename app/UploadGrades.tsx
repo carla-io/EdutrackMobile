@@ -299,12 +299,12 @@ const UploadGrades = ({ navigation }) => {
         </Text>
       ) : null}
 
-{/* <TouchableOpacity
+<TouchableOpacity
             onPress={() => router.push("UploadCertificate")}
             style={{ backgroundColor: "blue", padding: 12, marginVertical: 20, borderRadius: 6 }}
           >
             <Text style={{ color: "white", textAlign: "center", fontWeight: "bold" }}>Next Process</Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
     </ScrollView>
   );
 };

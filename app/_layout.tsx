@@ -27,12 +27,12 @@ const Layout = () => {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
   },
   content: {
     flex: 1,
-    marginTop: 60,
-    paddingHorizontal: 16,
+    marginTop: 10,
+    paddingHorizontal: 0,
   },
 });
 
