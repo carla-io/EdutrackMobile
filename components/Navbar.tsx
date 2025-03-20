@@ -112,6 +112,36 @@ const Navbar = () => {
                   >
                     <Text style={styles.navLink}>User Profile</Text>
                   </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.navItem}
+                    onPress={() => router.push("/Career")}
+                  >
+                    <Text style={styles.navLink}>Career</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.navItem}
+                    onPress={() => router.push("/SHSstrands")}
+                  >
+                    <Text style={styles.navLink}>SHS Strands</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.navItem}
+                    onPress={() => router.push("/Contact")}
+                  >
+                    <Text style={styles.navLink}>Contact</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.navItem}
+                    onPress={() => router.push("/Courses")}
+                  >
+                    <Text style={styles.navLink}>Courses</Text>
+                  </TouchableOpacity>
+
+               
                 </>
               )}
 
