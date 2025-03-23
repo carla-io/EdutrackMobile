@@ -24,6 +24,7 @@ import {
   Ionicons
 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router"
 
 const { width } = Dimensions.get("window");
 
@@ -35,6 +36,7 @@ const Dashboard = ({ navigation }) => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
   const chartRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -414,7 +416,7 @@ const Dashboard = ({ navigation }) => {
             
             <TouchableOpacity 
               style={styles.actionButton}
-              onPress={() => navigation.navigate("Portal")}
+              onPress={() => router.push("Portal")}
             >
               <View style={styles.buttonContent}>
                 <View style={[styles.buttonIcon, styles.assessmentIcon]}>
