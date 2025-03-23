@@ -53,105 +53,121 @@ const OverallResult = () => {
       "From Personal Questionnaire": ["shspqprediction"],
       "From Exam Results": ["prediction_exam_shs"]
     };
-
+  
     const allStrands = {};
     const individualData = [];
-
+  
     const loadData = async () => {
-      for (const [label, keys] of Object.entries(sources)) {
-        const strandScores = {};
-
-        for (const key of keys) {
-          const storedData = await AsyncStorage.getItem(key);
-          if (!storedData) continue;
-
-          let data;
-          try {
-            data = JSON.parse(storedData);
-          } catch (error) {
-            console.error(`Error parsing AsyncStorage data for ${key}:`, error);
-            continue;
+      try {
+        for (const [label, keys] of Object.entries(sources)) {
+          const strandScores = {};
+  
+          for (const key of keys) {
+            const storedData = await AsyncStorage.getItem(key);
+            if (!storedData) continue;
+  
+            let data;
+            try {
+              data = JSON.parse(storedData);
+            } catch (error) {
+              console.error(`Error parsing AsyncStorage data for ${key}:`, error);
+              continue;
+            }
+  
+            if (key === "predictions") {
+              Object.entries(data).forEach(([strand, values]) => {
+                if (values.percentage !== undefined) {
+                  const numericPercentage = parseFloat(values.percentage) || 0;
+                  strandScores[strand] = (strandScores[strand] || 0) + numericPercentage;
+                  allStrands[strand] = (allStrands[strand] || 0) + numericPercentage;
+                }
+              });
+            } else if (key === "shspqprediction" && data.predictionScores) {
+              data.predictionScores.forEach(({ strand, score }) => {
+                const numericScore = parseFloat(score) || 0;
+                strandScores[strand] = (strandScores[strand] || 0) + numericScore;
+                allStrands[strand] = (allStrands[strand] || 0) + numericScore;
+              });
+            } else if (key === "certprediction" || key === "prediction_exam_shs") {
+              Object.entries(data).forEach(([strand, value]) => {
+                const numericValue = parseFloat(value) || 0;
+                strandScores[strand] = (strandScores[strand] || 0) + numericValue;
+                allStrands[strand] = (allStrands[strand] || 0) + numericValue;
+              });
+            }
           }
-
-          if (key === "predictions") {
-            Object.entries(data).forEach(([strand, values]) => {
-              if (values.percentage !== undefined) {
-                const numericPercentage = parseFloat(values.percentage) || 0;
-                strandScores[strand] = (strandScores[strand] || 0) + numericPercentage;
-                allStrands[strand] = (allStrands[strand] || 0) + numericPercentage;
+  
+          if (label !== "Overall Prediction" && Object.keys(strandScores).length > 0) {
+            individualData.push({
+              label,
+              chart: {
+                labels: Object.keys(strandScores),
+                datasets: [
+                  {
+                    label: "Percentage",
+                    data: Object.values(strandScores),
+                    backgroundColor: ["#6a11cb", "#2575fc", "#ff416c", "#ff4b2b", "#33FF57"],
+                    borderColor: "#000",
+                    borderWidth: 1
+                  }
+                ]
               }
             });
-          } else if (key === "shspqprediction" && data.predictionScores) {
-            data.predictionScores.forEach(({ strand, score }) => {
-              const numericScore = parseFloat(score) || 0;
-              strandScores[strand] = (strandScores[strand] || 0) + numericScore;
-              allStrands[strand] = (allStrands[strand] || 0) + numericScore;
-            });
-          } else if (key === "certprediction" || key === "prediction_exam_shs") {
-            Object.entries(data).forEach(([strand, value]) => {
-              const numericValue = parseFloat(value) || 0;
-              strandScores[strand] = (strandScores[strand] || 0) + numericValue;
-              allStrands[strand] = (allStrands[strand] || 0) + numericValue;
-            });
           }
         }
-
-        if (label !== "Overall Prediction" && Object.keys(strandScores).length > 0) {
-          // Sort strands by score and get top 5
-          const sortedStrands = Object.entries(strandScores)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 5);
-          
-          individualData.push({
-            label,
-            chart: {
-              labels: sortedStrands.map(([strand]) => strand),
-              datasets: [
-                {
-                  data: sortedStrands.map(([_, score]) => score)
-                }
-              ]
-            }
+  
+        const sortedStrands = Object.entries(allStrands)
+          .sort((a, b) => b[1] - a[1]);
+        
+        // Convert to object before saving
+        const overallPredictionObj = Object.fromEntries(sortedStrands);
+  
+        if (sortedStrands.length > 0) {
+          setTopChoices(sortedStrands);
+          setChartData({
+            labels: sortedStrands.map(([strand]) => strand),
+            datasets: [
+              {
+                label: "Strand Percentage",
+                data: sortedStrands.map(([_, percentage]) => percentage),
+                backgroundColor: ["#6a11cb", "#2575fc", "#ff416c", "#ff4b2b", "#33FF57"],
+                borderColor: "#000",
+                borderWidth: 1
+              }
+            ]
           });
         }
-      }
-
-      const sortedStrands = Object.entries(allStrands)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 5); // Get only top 5 strands
-
-      if (sortedStrands.length > 0) {
-        setTopChoices(sortedStrands);
-        setChartData({
-          labels: sortedStrands.map(([strand]) => strand),
-          datasets: [
-            {
-              data: sortedStrands.map(([_, percentage]) => percentage)
-            }
-          ]
+  
+        // Save the overall prediction as an object
+        await AsyncStorage.setItem("overallprediction_shs", JSON.stringify(overallPredictionObj));
+        setIndividualCharts(individualData);
+      } catch (error) {
+        console.error('Error loading data:', error);
+        Toast.show({
+          type: 'error',
+          text1: 'Failed to load prediction data',
         });
       }
-
-      setIndividualCharts(individualData);
     };
-
+  
     loadData();
   }, []);
-
+  
   useEffect(() => {
     const saveData = async () => {
       if (!user || !user._id || topChoices.length === 0) return;
-
-      const payload = {
-        userId: user._id,
-        predictions: JSON.parse(await AsyncStorage.getItem("predictions")) || {},
-        certprediction: JSON.parse(await AsyncStorage.getItem("certprediction")) || {},
-        shspqprediction: JSON.parse(await AsyncStorage.getItem("shspqprediction")) || {},
-        prediction_exam_shs: JSON.parse(await AsyncStorage.getItem("prediction_exam_shs")) || {},
-        examScores: JSON.parse(await AsyncStorage.getItem("examScores")) || {}
-      };
-
+  
       try {
+        const payload = {
+          userId: user._id,
+          predictions: JSON.parse(await AsyncStorage.getItem("predictions")) || {},
+          certprediction: JSON.parse(await AsyncStorage.getItem("certprediction")) || {},
+          shspqprediction: JSON.parse(await AsyncStorage.getItem("shspqprediction")) || {},
+          prediction_exam_shs: JSON.parse(await AsyncStorage.getItem("prediction_exam_shs")) || {},
+          overallprediction_shs: JSON.parse(await AsyncStorage.getItem("overallprediction_shs")) || {}, // Added this line
+          examScores: JSON.parse(await AsyncStorage.getItem("examScores")) || {}
+        };
+  
         const res = await axios.post("http://192.168.100.171:4000/api/prediction_shs/save", payload);
         console.log("Predictions saved successfully:", res.data);
         setSaveStatus("Successfully saved to database.");
@@ -168,7 +184,7 @@ const OverallResult = () => {
         });
       }
     };
-
+  
     saveData();
   }, [user, topChoices]);
 

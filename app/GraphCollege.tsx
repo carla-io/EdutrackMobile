@@ -50,7 +50,7 @@ const CareerPredictionDashboard = () => {
     { key: "college_cert_predict", label: "Skills & Certifications" },
     { key: "prediction_exam_college", label: "Career Aptitude Test" }
   ];
-
+  
   const safeParseJSON = (jsonString) => {
     try {
       return JSON.parse(jsonString);
@@ -59,7 +59,7 @@ const CareerPredictionDashboard = () => {
       return null;
     }
   };
-
+  
   const extractCareers = (parsedData) => {
     if (!parsedData) return [];
     let careersArray = [];
@@ -75,61 +75,82 @@ const CareerPredictionDashboard = () => {
     }
     return careersArray.filter(item => !isNaN(item.score));
   };
-
+  
   useEffect(() => {
     const loadData = async () => {
-      const dataBySource = {};
-      let combined = {};
-
-      for (const { key, label } of sources) {
-        const storedData = await AsyncStorage.getItem(key);
-        if (storedData) {
-          const parsedData = safeParseJSON(storedData);
-          const careers = extractCareers(parsedData);
-          dataBySource[key] = {
-            label,
-            data: careers
-              .map(({ career, score }) => ({ career, score: parseFloat(score.toFixed(2)) }))
-              .sort((a, b) => b.score - a.score)
-          };
-
-          careers.forEach(({ career, score }) => {
-            combined[career] = (combined[career] || 0) + score;
-          });
+      try {
+        const dataBySource = {};
+        let combined = {};
+  
+        for (const { key, label } of sources) {
+          const storedData = await AsyncStorage.getItem(key);
+          if (storedData) {
+            const parsedData = safeParseJSON(storedData);
+            const careers = extractCareers(parsedData);
+            dataBySource[key] = {
+              label,
+              data: careers
+                .map(({ career, score }) => ({ career, score: parseFloat(score.toFixed(2)) }))
+                .sort((a, b) => b.score - a.score)
+            };
+  
+            careers.forEach(({ career, score }) => {
+              combined[career] = (combined[career] || 0) + score;
+            });
+          }
         }
+  
+        const sortedCombined = Object.entries(combined)
+          .map(([career, score]) => ({ career, score: parseFloat(score.toFixed(2)) }))
+          .sort((a, b) => b.score - a.score);
+  
+        // Store the sorted array in AsyncStorage
+        await AsyncStorage.setItem("overallprediction_college", JSON.stringify(sortedCombined));
+        await AsyncStorage.setItem("combined_scores", JSON.stringify(sortedCombined));
+  
+        setSourceData(dataBySource);
+        setCombinedData(sortedCombined);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error loading data:", error);
+        showNotification("Failed to load prediction data", "error");
       }
-
-      const sortedCombined = Object.entries(combined)
-        .map(([career, score]) => ({ career, score: parseFloat(score.toFixed(2)) }))
-        .sort((a, b) => b.score - a.score);
-
-      setSourceData(dataBySource);
-      setCombinedData(sortedCombined);
-      setLoading(false);
     };
+  
+    // Check if we have stored combined data
+    const checkStoredData = async () => {
+      try {
+        const storedCombinedData = await AsyncStorage.getItem("overallprediction_college");
+        if (storedCombinedData) {
+          const parsedCombinedData = safeParseJSON(storedCombinedData);
+          if (Array.isArray(parsedCombinedData)) {
+            setCombinedData(parsedCombinedData);
+          }
+        }
+      } catch (error) {
+        console.error("Error checking stored data:", error);
+      }
+    };
+  
+    checkStoredData();
     loadData();
   }, []);
-
+  
   useEffect(() => {
     const saveData = async () => {
       if (!user || !user._id) return;
-
+  
       try {
-        const collegeData = await AsyncStorage.getItem("college_cert_predict");
-        const courseData = await AsyncStorage.getItem("college_course_predict");
-        const pqData = await AsyncStorage.getItem("college_pq_predict");
-        const examData = await AsyncStorage.getItem("prediction_exam_college");
-        const scoreData = await AsyncStorage.getItem("examScores");
-
         const payload = {
           userId: user._id,
-          college_cert_predict: safeParseJSON(collegeData) || {},
-          college_course_prediction: safeParseJSON(courseData) || {},
-          college_pq_predict: safeParseJSON(pqData) || {},
-          prediction_exam_college: safeParseJSON(examData) || {},
-          examScores: safeParseJSON(scoreData) || {},
+          college_cert_predict: safeParseJSON(await AsyncStorage.getItem("college_cert_predict")) || {},
+          college_course_prediction: safeParseJSON(await AsyncStorage.getItem("college_course_predict")) || {},
+          college_pq_predict: safeParseJSON(await AsyncStorage.getItem("college_pq_predict")) || {},
+          prediction_exam_college: safeParseJSON(await AsyncStorage.getItem("prediction_exam_college")) || {},
+          examScores: safeParseJSON(await AsyncStorage.getItem("examScores")) || {},
+          overallprediction_college: combinedData, // Added this line for overall prediction
         };
-
+  
         await axios.post("http://192.168.100.171:4000/api/prediction_college/save", payload);
         showNotification("✅ Successfully saved to database!", "success");
       } catch (error) {
@@ -137,9 +158,9 @@ const CareerPredictionDashboard = () => {
         showNotification("❌ Failed to save data. Please try again.", "error");
       }
     };
-
+  
     saveData();
-  }, [user]);
+  }, [user, combinedData]); // Added combinedData as dependency to trigger save when it changes
 
   // Format data for the chart kit
   const getChartData = (data, count = 10) => {

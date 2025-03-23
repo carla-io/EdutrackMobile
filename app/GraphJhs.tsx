@@ -86,18 +86,18 @@ const OverallResult = () => {
           'From Personal Questionnaire': ['pqprediction'],
           'From Exam Results': ['prediction_exam_jhs']
         };
-
+  
         const allStrands = {};
         const individualData = [];
-
+  
         // Process each data source
         for (const [label, keys] of Object.entries(sources)) {
           const strandScores = {};
-
+  
           for (const key of keys) {
             const storedData = await AsyncStorage.getItem(key);
             if (!storedData) continue;
-
+  
             let data;
             try {
               data = JSON.parse(storedData);
@@ -105,7 +105,7 @@ const OverallResult = () => {
               console.error(`Error parsing AsyncStorage data for ${key}:`, error);
               continue;
             }
-
+  
             if (key === 'predictions') {
               Object.entries(data).forEach(([strand, values]) => {
                 if (values.percentage !== undefined) {
@@ -128,66 +128,84 @@ const OverallResult = () => {
               });
             }
           }
-
+  
           if (label !== 'Overall Prediction' && Object.keys(strandScores).length > 0) {
-            // Create color array for chart
-            const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#FF8C33', '#33FFF5', '#D133FF', '#F9FF33'];
-            
             individualData.push({
               label,
               chart: {
                 labels: Object.keys(strandScores),
                 datasets: [{
+                  label: "Percentage",
                   data: Object.values(strandScores),
-                  colors: colors.map(color => () => color).slice(0, Object.keys(strandScores).length)
+                  backgroundColor: ["#FF5733", "#33FF57", "#3357FF", "#FF33A6", "#FF8C33"],
+                  borderColor: "#000",
+                  borderWidth: 1
                 }]
               }
             });
           }
         }
-
+  
         const sortedStrands = Object.entries(allStrands).sort((a, b) => b[1] - a[1]);
-
+  
         if (sortedStrands.length > 0) {
           setTopChoices(sortedStrands);
           setChartData({
             labels: sortedStrands.map(([strand]) => strand),
             datasets: [{
+              label: "Strand Percentage",
               data: sortedStrands.map(([_, percentage]) => percentage),
+              backgroundColor: ["#FF5733", "#33FF57", "#3357FF", "#FF33A6", "#FF8C33"],
+              borderColor: "#000",
+              borderWidth: 1
             }]
           });
         }
-
+  
         setIndividualCharts(individualData);
+        
+        // Save overall prediction to AsyncStorage
+        await AsyncStorage.setItem("overallPrediction", JSON.stringify(sortedStrands));
       } catch (error) {
         console.error('Error loading data:', error);
         Alert.alert('Error', 'Failed to load prediction data');
       }
     };
-
+  
     loadData();
   }, []);
-
+  
   useEffect(() => {
     const saveToServer = async () => {
       if (!user || !user._id || topChoices.length === 0) return;
-
+  
       try {
         const predictions = await AsyncStorage.getItem('predictions');
         const certprediction = await AsyncStorage.getItem('certprediction');
         const pqprediction = await AsyncStorage.getItem('pqprediction');
         const prediction_exam_jhs = await AsyncStorage.getItem('prediction_exam_jhs');
         const examScores = await AsyncStorage.getItem('examScores');
-
+        const rawOverallPrediction = await AsyncStorage.getItem('overallPrediction');
+  
+        // Format overall prediction data
+        const formattedOverallPrediction = rawOverallPrediction 
+          ? JSON.parse(rawOverallPrediction).map(item => ({
+              strand: item[0] || "Unknown",
+              score: parseFloat(item[1]) || 0
+            }))
+          : [];
+  
         const payload = {
           userId: user._id,
           predictions: predictions ? JSON.parse(predictions) : {},
           certprediction: certprediction ? JSON.parse(certprediction) : {},
           pqprediction_jhs: pqprediction ? JSON.parse(pqprediction) : {},
           prediction_exam_jhs: prediction_exam_jhs ? JSON.parse(prediction_exam_jhs) : {},
-          examScores: examScores ? JSON.parse(examScores) : {}
+          examScores: examScores ? JSON.parse(examScores) : {},
+          overallPrediction: formattedOverallPrediction
         };
-
+  
+        // Update API endpoint to match your environment
         const response = await axios.post('http://192.168.100.171:4000/api/predictions/save', payload);
         console.log('Predictions saved successfully:', response.data);
         setSaveStatus('Successfully saved to database.');
@@ -198,7 +216,7 @@ const OverallResult = () => {
         Alert.alert('Error', '❌ Failed to save data. Please try again.');
       }
     };
-
+  
     saveToServer();
   }, [user, topChoices]);
 
