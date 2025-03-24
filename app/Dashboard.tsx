@@ -76,10 +76,10 @@ const Dashboard = ({ navigation }) => {
   const fetchPredictions = async (userId, gradeLevel) => {
     if (!userId || userId.length !== 24) {
       console.error("Invalid user ID:", userId);
-      setError("User ID is invalid.");
+      setUser(prevUser => ({ ...prevUser, hasPredictions: false }));
       return;
     }
-
+  
     try {
       let apiUrl = "";
       
@@ -91,21 +91,23 @@ const Dashboard = ({ navigation }) => {
       } else if (gradeLevel === "College") {
         apiUrl = `http://192.168.100.171:4000/api/prediction_college/${userId}`;
       } else {
-        setError("Invalid grade level.");
+        // Instead of setting error, just mark as no predictions
+        setUser(prevUser => ({ ...prevUser, hasPredictions: false }));
         return;
       }
-
+  
       const response = await axios.get(apiUrl);
       console.log("API Response:", response.data);
-
+  
       if (!response.data || !response.data.success) {
-        setError("Invalid response format or no predictions found.");
+        // No predictions found - this is a valid state, not an error
+        setUser(prevUser => ({ ...prevUser, hasPredictions: false }));
         return;
       }
-
+  
       let labels = [];
       let values = [];
-
+  
       // Process data based on grade level
       if (gradeLevel === "Junior High School") {
         const predictions = response.data.data || [];
@@ -113,7 +115,7 @@ const Dashboard = ({ navigation }) => {
         values = predictions.map((item) => Number(item.score) || 0);
       } else if (gradeLevel === "Senior High School") {
         const { predictions, overallprediction_shs } = response.data.data || {};
-
+  
         if (overallprediction_shs && Object.keys(overallprediction_shs).length > 0) {
           labels = Object.keys(overallprediction_shs);
           values = labels.map((strand) => Number(overallprediction_shs[strand]) || 0);
@@ -130,25 +132,26 @@ const Dashboard = ({ navigation }) => {
           values = overallprediction_college.map((item) => Number(item.score) || 0);
         }
       }
-
+  
       console.log("Chart Labels:", labels);
       console.log("Chart Values:", values);
-
+  
       if (labels.length === 0 || values.length === 0) {
-        setError("No predictions available for your current grade level. Please complete an assessment.");
+        // No predictions available - this is a valid state, not an error
+        setUser(prevUser => ({ ...prevUser, hasPredictions: false }));
         return;
       }
-
+  
       // Sort data for better visualization
       const combined = labels.map((label, index) => ({
         label,
         value: values[index],
       }));
       combined.sort((a, b) => b.value - a.value);
-
+  
       // Take top 5 results if there are more
       const topResults = combined.slice(0, 5);
-
+  
       setChartData({
         labels: topResults.map(item => item.label),
         datasets: [
@@ -171,14 +174,18 @@ const Dashboard = ({ navigation }) => {
           "rgb(255, 140, 51)"
         ]
       });
-
+      
+      // Set that user has predictions
+      setUser(prevUser => ({ ...prevUser, hasPredictions: true }));
+  
       console.log("Chart Data Updated:", {
         labels: topResults.map(item => item.label),
         datasets: [{ data: topResults.map(item => item.value) }]
       });
     } catch (err) {
       console.error("Error fetching predictions:", err);
-      setError("Failed to fetch predictions. Please try again later.");
+      // Instead of setting error state, just mark as no predictions
+      setUser(prevUser => ({ ...prevUser, hasPredictions: false }));
     }
   };
 
@@ -355,21 +362,57 @@ const Dashboard = ({ navigation }) => {
                     }}
                     width={width - 40}
                     height={220}
-                    chartConfig={chartConfig}
+                    chartConfig={{
+                      ...chartConfig,
+                      // Rotate labels to prevent overlapping
+                      formatXLabel: (label) => {
+                        // Shortening labels if too long
+                        return label.length > 10 ? label.substring(0, 10) + '...' : label;
+                      },
+                      // Add more spacing for labels
+                      barPercentage: 0.7,
+                      // Improved label formatting
+                      propsForLabels: {
+                        fontSize: 10,
+                        rotation: -45,
+                        textAnchor: 'end',
+                        dy: -10,
+                      }
+                    }}
                     style={styles.chart}
                     fromZero
                     yAxisSuffix="%"
                     showBarTops={true}
                     showValuesOnTopOfBars={true}
+                    // Add more bottom margin to accommodate rotated labels
+                    verticalLabelRotation={45}
+                    xLabelsOffset={-10}
                   />
                 </View>
+              ) : user.hasPredictions === false ? (
+                // User has been checked and confirmed to have no predictions
+                <View style={styles.noPredictionsMessage}>
+                  <FontAwesome5 name="chart-bar" size={40} color="#880000" style={{ opacity: 0.5 }} />
+                  <Text style={styles.noPredictionsTitle}>No Predictions Available Yet</Text>
+                  <Text style={styles.noPredictionsText}>
+                    Complete an assessment to see your personalized strand predictions.
+                  </Text>
+                  <TouchableOpacity 
+                    style={styles.startAssessmentButton}
+                    onPress={() => router.push("Portal")}
+                  >
+                    <Text style={styles.startAssessmentButtonText}>Start Assessment</Text>
+                  </TouchableOpacity>
+                </View>
               ) : (
+                // Loading state while checking predictions
                 <View style={styles.chartLoading}>
                   <ActivityIndicator size="large" color="#880000" />
                   <Text style={styles.loadingText}>Loading your predictions...</Text>
                 </View>
               )
             ) : (
+              // Grade level not supported
               <View style={styles.noDataMessage}>
                 <Text style={styles.noDataText}>
                   No predictions are available for your current grade level.
@@ -380,6 +423,7 @@ const Dashboard = ({ navigation }) => {
               </View>
             )
           ) : (
+            // Guest user
             <View style={styles.guestMessage}>
               <FontAwesome5 name="user" size={40} color="#888" />
               <Text style={styles.guestTitle}>Hello, Guest!</Text>
@@ -390,7 +434,7 @@ const Dashboard = ({ navigation }) => {
           )}
         </View>
       </View>
-
+  
       {/* Action Cards */}
       <View style={styles.dashboardCard}>
         <View style={styles.cardHeader}>
@@ -398,24 +442,38 @@ const Dashboard = ({ navigation }) => {
         </View>
         <View style={styles.cardContent}>
           <View style={styles.actionButtons}>
-            <TouchableOpacity 
-              style={styles.actionButton}
-              onPress={() => navigation.navigate("Graph")}
-            >
-              <View style={styles.buttonContent}>
-                <View style={[styles.buttonIcon, styles.resultsIcon]}>
-                  <FontAwesome5 name="chart-bar" size={24} color="#fff" />
+            {/* Only show "View Detailed Results" if the user has predictions */}
+            {user.hasPredictions && (
+              <TouchableOpacity 
+                style={styles.actionButton}
+                onPress={() => {
+                  if (user.gradeLevel === "Junior High School") {
+                    router.push("Finaljhs");
+                  } else if (user.gradeLevel === "Senior High School") {
+                    router.push("Finalshs");
+                  } else if (user.gradeLevel === "College") {
+                    router.push("GraphCollege");
+                  } else {
+                    // Fallback for any other grade level
+                    router.push("Graph");
+                  }
+                }}
+              >
+                <View style={styles.buttonContent}>
+                  <View style={[styles.buttonIcon, styles.resultsIcon]}>
+                    <FontAwesome5 name="chart-bar" size={24} color="#fff" />
+                  </View>
+                  <View style={styles.buttonText}>
+                    <Text style={styles.buttonTitle}>View Detailed Results</Text>
+                    <Text style={styles.buttonSubtitle}>See complete analysis of your assessment</Text>
+                  </View>
                 </View>
-                <View style={styles.buttonText}>
-                  <Text style={styles.buttonTitle}>View Detailed Results</Text>
-                  <Text style={styles.buttonSubtitle}>See complete analysis of your assessment</Text>
-                </View>
-              </View>
-              <FontAwesome5 name="arrow-right" size={16} color="#880000" style={styles.arrowIcon} />
-            </TouchableOpacity>
+                <FontAwesome5 name="arrow-right" size={16} color="#880000" style={styles.arrowIcon} />
+              </TouchableOpacity>
+            )}
             
             <TouchableOpacity 
-              style={styles.actionButton}
+              style={[styles.actionButton, !user.hasPredictions && styles.primaryActionButton]}
               onPress={() => router.push("Portal")}
             >
               <View style={styles.buttonContent}>
@@ -423,8 +481,12 @@ const Dashboard = ({ navigation }) => {
                   <FontAwesome5 name="graduation-cap" size={24} color="#fff" />
                 </View>
                 <View style={styles.buttonText}>
-                  <Text style={styles.buttonTitle}>Start Assessment</Text>
-                  <Text style={styles.buttonSubtitle}>Begin or continue your educational assessment</Text>
+                  <Text style={styles.buttonTitle}>{user.hasPredictions ? "Continue Assessment" : "Start Assessment"}</Text>
+                  <Text style={styles.buttonSubtitle}>
+                    {user.hasPredictions 
+                      ? "Continue your educational assessment journey" 
+                      : "Begin your educational assessment journey"}
+                  </Text>
                 </View>
               </View>
               <FontAwesome5 name="arrow-right" size={16} color="#880000" style={styles.arrowIcon} />
@@ -437,7 +499,7 @@ const Dashboard = ({ navigation }) => {
 
   const renderVisualizationsTab = () => (
     <View style={styles.visualizationsGrid}>
-      {chartData && (
+      {chartData ? (
         <>
           {/* Pie Chart */}
           <View style={styles.dashboardCard}>
@@ -469,7 +531,7 @@ const Dashboard = ({ navigation }) => {
               </View>
             </View>
           </View>
-
+  
           {/* Radar Chart */}
           <View style={styles.dashboardCard}>
             <View style={styles.cardHeader}>
@@ -486,7 +548,7 @@ const Dashboard = ({ navigation }) => {
               </View>
             </View>
           </View>
-
+  
           {/* Horizontal Bar Chart */}
           <View style={styles.dashboardCard}>
             <View style={styles.cardHeader}>
@@ -510,13 +572,83 @@ const Dashboard = ({ navigation }) => {
                   height={220}
                   chartConfig={{
                     ...chartConfig,
-                    barPercentage: 0.5
+                    // Rotate labels to prevent overlapping
+                    formatXLabel: (label) => {
+                      // Shortening labels if too long
+                      return label.length > 10 ? label.substring(0, 10) + '...' : label;
+                    },
+                    // Add more spacing for labels
+                    barPercentage: 0.7,
+                    // Improved label formatting
+                    propsForLabels: {
+                      fontSize: 10,
+                      rotation: -45,
+                      textAnchor: 'end',
+                      dy: -10,
+                    }
                   }}
                   style={styles.chart}
                   fromZero
                   yAxisSuffix="%"
-                  horizontalLabelRotation={-45}
+                  showBarTops={true}
+                  showValuesOnTopOfBars={true}
+                  // Add more bottom margin to accommodate rotated labels
+                  verticalLabelRotation={45}
+                  xLabelsOffset={-10}
                 />
+              </View>
+            </View>
+          </View>
+        </>
+      ) : (
+        <>
+          {/* No Data Placeholder for Pie Chart */}
+          <View style={styles.dashboardCard}>
+            <View style={styles.cardHeader}>
+              <View style={styles.cardTitle}>
+                <FontAwesome5 name="chart-pie" size={20} color="#880000" />
+                <Text style={styles.cardTitleText}>Strand Distribution</Text>
+              </View>
+            </View>
+            <View style={styles.cardContent}>
+              <View style={[styles.chartContainer, styles.noDataContainer]}>
+                <FontAwesome5 name="chart-pie" size={48} color="#CCCCCC" />
+                <Text style={styles.noDataText}>No assessment data yet</Text>
+                <Text style={styles.noDataSubtext}>Complete your assessment to see your strand distribution</Text>
+              </View>
+            </View>
+          </View>
+  
+          {/* No Data Placeholder for Radar Chart */}
+          <View style={styles.dashboardCard}>
+            <View style={styles.cardHeader}>
+              <View style={styles.cardTitle}>
+                <FontAwesome5 name="chart-line" size={20} color="#880000" />
+                <Text style={styles.cardTitleText}>Strand Compatibility</Text>
+              </View>
+            </View>
+            <View style={styles.cardContent}>
+              <View style={[styles.chartContainer, styles.noDataContainer]}>
+                <FontAwesome5 name="chart-line" size={48} color="#CCCCCC" />
+                <Text style={styles.noDataText}>No compatibility data yet</Text>
+                <Text style={styles.noDataSubtext}>Complete your assessment to see your strand compatibility</Text>
+              </View>
+            </View>
+          </View>
+  
+          {/* No Data Placeholder for Bar Chart */}
+          <View style={styles.dashboardCard}>
+            <View style={styles.cardHeader}>
+              <View style={styles.cardTitle}>
+                <FontAwesome5 name="chart-bar" size={20} color="#880000" />
+                <Text style={styles.cardTitleText}>Strand Ranking</Text>
+              </View>
+            </View>
+            <View style={styles.cardContent}>
+              <View style={[styles.chartContainer, styles.noDataContainer]}>
+                <FontAwesome5 name="chart-bar" size={48} color="#CCCCCC" />
+                <Text style={styles.noDataText}>No ranking data yet</Text>
+                <Text style={styles.noDataSubtext}>Complete your assessment to see your strand ranking</Text>
               </View>
             </View>
           </View>
@@ -524,10 +656,10 @@ const Dashboard = ({ navigation }) => {
       )}
     </View>
   );
-
+  
   const renderAnalysisTab = () => (
     <View style={styles.analysisContainer}>
-      {chartData && (
+      {chartData ? (
         <>
           {/* Summary Card */}
           <View style={styles.dashboardCard}>
@@ -569,7 +701,7 @@ const Dashboard = ({ navigation }) => {
               </View>
             </View>
           </View>
-
+  
           {/* Strand Breakdown */}
           <View style={styles.dashboardCard}>
             <View style={styles.cardHeader}>
@@ -610,7 +742,7 @@ const Dashboard = ({ navigation }) => {
               </View>
             </View>
           </View>
-
+  
           {/* Recommendations Card */}
           <View style={styles.dashboardCard}>
             <View style={styles.cardHeader}>
@@ -659,10 +791,125 @@ const Dashboard = ({ navigation }) => {
             </View>
           </View>
         </>
+      ) : (
+        <>
+          {/* No Data Placeholder for Summary Card */}
+          <View style={styles.dashboardCard}>
+            <View style={styles.cardHeader}>
+              <View style={styles.cardTitle}>
+                <FontAwesome name="star" size={20} color="#880000" />
+                <Text style={styles.cardTitleText}>Summary Report</Text>
+              </View>
+            </View>
+            <View style={styles.cardContent}>
+              <View style={[styles.summaryContent, styles.noDataContainer]}>
+                <FontAwesome5 name="file-alt" size={48} color="#CCCCCC" />
+                <Text style={styles.noDataText}>No summary report yet</Text>
+                <Text style={styles.noDataSubtext}>Complete your assessment to see your personalized summary</Text>
+              </View>
+            </View>
+          </View>
+  
+          {/* No Data Placeholder for Strand Breakdown */}
+          <View style={styles.dashboardCard}>
+            <View style={styles.cardHeader}>
+              <View style={styles.cardTitle}>
+                <FontAwesome5 name="file-alt" size={20} color="#880000" />
+                <Text style={styles.cardTitleText}>Strand Compatibility</Text>
+              </View>
+            </View>
+            <View style={styles.cardContent}>
+              <View style={[styles.analysisContent, styles.noDataContainer]}>
+                <FontAwesome5 name="list" size={48} color="#CCCCCC" />
+                <Text style={styles.noDataText}>No strand compatibility data yet</Text>
+                <Text style={styles.noDataSubtext}>Complete your assessment to see how you match with different strands</Text>
+              </View>
+            </View>
+          </View>
+  
+          {/* Get Started Card (instead of Recommendations) */}
+          <View style={styles.dashboardCard}>
+            <View style={styles.cardHeader}>
+              <View style={styles.cardTitle}>
+                <FontAwesome5 name="lightbulb" size={20} color="#880000" />
+                <Text style={styles.cardTitleText}>Get Started</Text>
+              </View>
+            </View>
+            <View style={styles.cardContent}>
+              <View style={styles.getStartedContent}>
+                <Text style={styles.sectionTitle}>Begin Your Strand Assessment</Text>
+                
+                <View style={styles.getStartedInfo}>
+                  <Text style={styles.paragraphText}>
+                    Take the assessment to discover which academic strand aligns best with your interests, skills, and career aspirations.
+                  </Text>
+                  
+                  <Text style={styles.paragraphText}>
+                    The assessment will analyze your responses across multiple dimensions to provide personalized recommendations for your educational journey.
+                  </Text>
+                </View>
+                
+                <TouchableOpacity 
+                  style={styles.fullWidthButton}
+                  onPress={() => navigation.navigate("Portal")}
+                >
+                  <View style={styles.buttonContent}>
+                    <View style={styles.buttonIcon}>
+                      <FontAwesome5 name="play-circle" size={24} color="#fff" />
+                    </View>
+                    <View style={styles.buttonText}>
+                      <Text style={styles.buttonTitle}>Start Your Assessment</Text>
+                      <Text style={styles.buttonSubtitle}>Discover your academic path</Text>
+                    </View>
+                  </View>
+                  <FontAwesome5 name="arrow-right" size={16} color="#fff" style={styles.arrowIcon} />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </>
       )}
     </View>
   );
+// Add this function at the component level (outside any useEffect)
+const refetchData = async () => {
+  setLoading(true);
+  setError(null);
+  
+  const token = await AsyncStorage.getItem("auth-token");
+  if (!token) {
+    console.log("No token found");
+    setLoading(false);
+    return;
+  }
 
+  try {
+    const response = await axios.post("http://192.168.100.171:4000/api/auth/user", { token });
+
+    if (response.data.user) {
+      const { _id, name, gradeLevel, profilePicture } = response.data.user;
+      setUser({ id: _id, name, gradeLevel, profilePicture });
+
+      // Ensure valid user ID before fetching predictions
+      if (_id && _id.length === 24) {
+        fetchPredictions(_id, gradeLevel);
+      } else {
+        console.error("Invalid user ID:", _id);
+        setError("User ID is invalid.");
+      }
+    }
+  } catch (err) {
+    console.error("Error fetching user:", err.response?.data || err);
+    setError("Failed to fetch user data");
+  } finally {
+    setLoading(false);
+  }
+};
+
+// Then in your useEffect
+useEffect(() => {
+  refetchData();
+}, []);
   return (
     <SafeAreaView style={styles.container}>
       {/* Header/Nav equivalent */}
@@ -688,7 +935,7 @@ const Dashboard = ({ navigation }) => {
               onPress={() => {
                 setLoading(true);
                 setError(null);
-                fetchUserProfile();
+                refetchData();
               }}
             >
               <Text style={styles.retryButtonText}>Try Again</Text>
@@ -766,7 +1013,7 @@ const Dashboard = ({ navigation }) => {
       
       {/* Footer equivalent */}
       <View style={styles.footer}>
-        <Text style={styles.footerText}>© 2025 Career Assessment App</Text>
+        <Text style={styles.footerText}>@ Edutrack All Rights Reserved 2025</Text>
       </View>
     </SafeAreaView>
   );
@@ -1086,7 +1333,8 @@ const styles = StyleSheet.create({
       backgroundColor: "#008800"
     },
     buttonText: {
-      flex: 1
+      flex: 1,
+      color: "white"
     },
     buttonTitle: {
       fontSize: 16,
@@ -1265,7 +1513,70 @@ const styles = StyleSheet.create({
     footerText: {
       color: "#fff",
       fontSize: 12
-    }
+    },
+    noPredictionsMessage: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 20,
+    },
+    noPredictionsTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: '#333',
+      marginTop: 15,
+      marginBottom: 10,
+      textAlign: 'center',
+    },
+    noPredictionsText: {
+      fontSize: 14,
+      color: '#666',
+      textAlign: 'center',
+      marginBottom: 20,
+    },
+    startAssessmentButton: {
+      backgroundColor: '#880000',
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderRadius: 8,
+      marginTop: 10,
+    },
+    startAssessmentButtonText: {
+      color: '#fff',
+      fontSize: 14,
+      fontWeight: 'bold',
+    },
+    
+    // Modified action button when it's the primary action
+    primaryActionButton: {
+      backgroundColor: '#f8f8f8',
+      borderWidth: 2,
+      borderColor: '#880000',
+    },
+    noDataContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20,
+      minHeight: 200,
+    },
+    noDataText: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: '#555555',
+      marginTop: 16,
+      textAlign: 'center',
+    },
+    noDataSubtext: {
+      fontSize: 14,
+      color: '#888888',
+      marginTop: 8,
+      textAlign: 'center',
+    },
+    getStartedContent: {
+      padding: 16,
+    },
+    getStartedInfo: {
+      marginVertical: 16,
+    },
   });
   
   export default Dashboard;
