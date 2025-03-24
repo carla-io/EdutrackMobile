@@ -5,6 +5,7 @@ import axios from "axios";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const UploadCertificates = ({ onUpload = () => {} }) => {
     const [selectedImages, setSelectedImages] = useState([]);
@@ -76,6 +77,7 @@ const UploadCertificates = ({ onUpload = () => {} }) => {
                 .slice(0, 5);
                 
             setPredictedCareers(topFiveCareers);
+            await AsyncStorage.setItem("college_cert_predict", JSON.stringify(response.data));
             onUpload(response.data);
             Toast.show({ type: "success", text1: "Career prediction successful!" });
         } catch (error) {

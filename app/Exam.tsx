@@ -239,7 +239,9 @@ const handleSubmit = async () => {
         } else if (gradeLevel === "shs") {
           await AsyncStorage.setItem("prediction_exam_shs", JSON.stringify(result.course_percentages));
           setPrediction(result.course_percentages); // Store the updated course percentages
-        }
+        }  else if (gradeLevel === "college") {
+          await AsyncStorage.setItem("prediction_exam_college", JSON.stringify(result.career_percentages));
+          setPrediction(result.career_percentages); }
         console.log("Updated prediction:", result); // Optional: Log result to the console
       } else {
         showToast("⚠️ Error in prediction!");

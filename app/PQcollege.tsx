@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, ActivityIndicator, Alert, ScrollView } from "react-native";
 import axios from "axios";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const questions = [
   "Do you enjoy working with computers and technology?",
@@ -65,6 +66,7 @@ const PQcollege = ({ navigation }) => {
       }));
 
       setPrediction(sanitizedData);
+      await AsyncStorage.setItem("college_pq_predict", JSON.stringify(sanitizedData))
     } catch (error) {
       setError("Error predicting career. Please try again later.");
       console.error("Error predicting career:", error);

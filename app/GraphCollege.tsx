@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
+  TouchableOpacity,
   ScrollView,
   StyleSheet,
   ActivityIndicator,
@@ -9,9 +10,11 @@ import {
   Dimensions
 } from "react-native";
 import { BarChart } from "react-native-chart-kit";
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ToastAndroid, Platform, Alert } from "react-native";
+import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
+import {useRouter } from "expo-router"
 
 
 const CareerPredictionDashboard = () => {
@@ -19,16 +22,9 @@ const CareerPredictionDashboard = () => {
   const [combinedData, setCombinedData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const screenWidth = Dimensions.get("window").width;
-
-  // Show toast or alert based on platform
-  const showNotification = (message, type) => {
-    if (Platform.OS === 'android') {
-      ToastAndroid.show(message, ToastAndroid.SHORT);
-    } else {
-      Alert.alert(type === 'success' ? 'Success' : 'Error', message);
-    }
-  };
+  const navigation = useNavigation();
+  const screenWidth = Dimensions.get("window").width - 40;
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -63,221 +59,236 @@ const CareerPredictionDashboard = () => {
   const extractCareers = (parsedData) => {
     if (!parsedData) return [];
     let careersArray = [];
-    
+  
     if (Array.isArray(parsedData)) {
       careersArray = parsedData;
     } else if (parsedData.careers) {
       careersArray = parsedData.careers;
-    } else if (typeof parsedData === 'object') {
+    } else if (typeof parsedData === "object") {
       careersArray = Object.entries(parsedData)
         .filter(([key]) => !["id", "name", "email", "userId"].includes(key))
         .map(([career, score]) => ({ career, score: parseFloat(score) || 0 }));
     }
-    return careersArray.filter(item => !isNaN(item.score));
+    return careersArray.filter((item) => !isNaN(item.score));
   };
   
   useEffect(() => {
     const loadData = async () => {
-      try {
-        const dataBySource = {};
-        let combined = {};
+      const dataBySource = {};
+      let combined = {};
   
-        for (const { key, label } of sources) {
-          const storedData = await AsyncStorage.getItem(key);
-          if (storedData) {
-            const parsedData = safeParseJSON(storedData);
-            const careers = extractCareers(parsedData);
-            dataBySource[key] = {
-              label,
-              data: careers
-                .map(({ career, score }) => ({ career, score: parseFloat(score.toFixed(2)) }))
-                .sort((a, b) => b.score - a.score)
-            };
+      for (const { key, label } of sources) {
+        const storedData = await AsyncStorage.getItem(key);
+        if (storedData) {
+          const parsedData = safeParseJSON(storedData);
+          const careers = extractCareers(parsedData);
+          dataBySource[key] = {
+            label,
+            data: careers
+              .map(({ career, score }) => ({ career, score: parseFloat(score.toFixed(2)) }))
+              .sort((a, b) => b.score - a.score)
+          };
   
-            careers.forEach(({ career, score }) => {
-              combined[career] = (combined[career] || 0) + score;
-            });
-          }
+          careers.forEach(({ career, score }) => {
+            combined[career] = (combined[career] || 0) + score;
+          });
         }
+      }
   
-        const sortedCombined = Object.entries(combined)
-          .map(([career, score]) => ({ career, score: parseFloat(score.toFixed(2)) }))
-          .sort((a, b) => b.score - a.score);
+      // Convert combined scores into an array format
+      const sortedCombined = Object.entries(combined)
+        .map(([career, score]) => ({ career, score: parseFloat(score.toFixed(2)) }))
+        .sort((a, b) => b.score - a.score);
   
-        // Store the sorted array in AsyncStorage
-        await AsyncStorage.setItem("overallprediction_college", JSON.stringify(sortedCombined));
-        await AsyncStorage.setItem("combined_scores", JSON.stringify(sortedCombined));
+      await AsyncStorage.setItem("overallprediction_college", JSON.stringify(sortedCombined));
   
-        setSourceData(dataBySource);
-        setCombinedData(sortedCombined);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error loading data:", error);
-        showNotification("Failed to load prediction data", "error");
+      setSourceData(dataBySource);
+      setCombinedData(sortedCombined);
+      await AsyncStorage.setItem("combined_scores", JSON.stringify(sortedCombined));
+      setLoading(false);
+    };
+  
+    const fetchCombinedData = async () => {
+      const storedCombinedData = await AsyncStorage.getItem("overallprediction_college");
+      if (storedCombinedData) {
+        const parsedCombinedData = safeParseJSON(storedCombinedData);
+        if (Array.isArray(parsedCombinedData)) {
+          setCombinedData(parsedCombinedData);
+        }
       }
     };
   
-    // Check if we have stored combined data
-    const checkStoredData = async () => {
-      try {
-        const storedCombinedData = await AsyncStorage.getItem("overallprediction_college");
-        if (storedCombinedData) {
-          const parsedCombinedData = safeParseJSON(storedCombinedData);
-          if (Array.isArray(parsedCombinedData)) {
-            setCombinedData(parsedCombinedData);
-          }
-        }
-      } catch (error) {
-        console.error("Error checking stored data:", error);
-      }
-    };
-  
-    checkStoredData();
+    fetchCombinedData();
     loadData();
   }, []);
   
   useEffect(() => {
-    const saveData = async () => {
+    const saveToServer = async () => {
       if (!user || !user._id) return;
-  
+
+      const collegeCoursePredictStr = await AsyncStorage.getItem("college_course_predict");
+      const collegeCertPredictStr = await AsyncStorage.getItem("college_cert_predict");
+      const collegePqPredictStr = await AsyncStorage.getItem("college_pq_predict");
+      const predictionExamCollegeStr = await AsyncStorage.getItem("prediction_exam_college");
+      const examScoresStr = await AsyncStorage.getItem("examScores");
+
+      const payload = {
+        userId: user._id,
+        college_cert_predict: safeParseJSON(collegeCertPredictStr) || {},
+        college_course_prediction: safeParseJSON(collegeCoursePredictStr) || {},
+        college_pq_predict: safeParseJSON(collegePqPredictStr) || {},
+        prediction_exam_college: safeParseJSON(predictionExamCollegeStr) || {},
+        examScores: safeParseJSON(examScoresStr) || {},
+        overallprediction_college: combinedData,
+      };
+
       try {
-        const payload = {
-          userId: user._id,
-          college_cert_predict: safeParseJSON(await AsyncStorage.getItem("college_cert_predict")) || {},
-          college_course_prediction: safeParseJSON(await AsyncStorage.getItem("college_course_predict")) || {},
-          college_pq_predict: safeParseJSON(await AsyncStorage.getItem("college_pq_predict")) || {},
-          prediction_exam_college: safeParseJSON(await AsyncStorage.getItem("prediction_exam_college")) || {},
-          examScores: safeParseJSON(await AsyncStorage.getItem("examScores")) || {},
-          overallprediction_college: combinedData, // Added this line for overall prediction
-        };
-  
-        await axios.post("http://192.168.100.171:4000/api/prediction_college/save", payload);
-        showNotification("✅ Successfully saved to database!", "success");
+        const res = await axios.post("http://192.168.100.171:4000/api/prediction_college/save", payload);
+        console.log("College predictions saved successfully:", res.data);
+        Toast.show({
+          type: 'success',
+          text1: 'Successfully saved to database!',
+        });
       } catch (error) {
         console.error("Failed to save college predictions", error);
-        showNotification("❌ Failed to save data. Please try again.", "error");
+        Toast.show({
+          type: 'error',
+          text1: 'Failed to save data. Please try again.',
+        });
       }
     };
-  
-    saveData();
-  }, [user, combinedData]); // Added combinedData as dependency to trigger save when it changes
 
-  // Format data for the chart kit
-  const getChartData = (data, count = 10) => {
-    const slicedData = data.slice(0, count);
+    if (combinedData.length > 0 && user) {
+      saveToServer();
+    }
+  }, [user, combinedData]);
+
+  const handleGenerateReport = () => {
+    router.push("Finalcollege");
+  };
+
+  // Format data for React Native charts
+  const formatChartData = (data) => {
     return {
-      labels: slicedData.map(item => item.career),
+      labels: data.slice(0, 5).map(item => item.career),
       datasets: [
         {
-          data: slicedData.map(item => item.score),
+          data: data.slice(0, 5).map(item => item.score)
         }
       ]
     };
   };
 
   const chartConfig = {
+    backgroundColor: "#ffffff",
     backgroundGradientFrom: "#ffffff",
     backgroundGradientTo: "#ffffff",
-    color: (opacity = 1) => `rgba(79, 70, 229, ${opacity})`,
-    strokeWidth: 2,
-    barPercentage: 0.8,
     decimalPlaces: 1,
+    color: (opacity = 1) => `rgba(79, 70, 229, ${opacity})`,
+    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    style: {
+      borderRadius: 16,
+    }
   };
-
-  const renderCareerItem = (career, index) => (
-    <View key={career.career} style={styles.careerItem}>
-      <Text style={styles.careerItemText}>{index + 1}. {career.career}</Text>
-      <Text style={styles.careerItemScore}>{career.score.toFixed(1)}</Text>
-    </View>
-  );
-
-  if (loading) {
-    return (
-      <SafeAreaView style={styles.container}>
-       
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#4F46E5" />
-          <Text style={styles.loadingText}>Loading career data...</Text>
-        </View>
-       
-      </SafeAreaView>
-    );
-  }
 
   return (
     <SafeAreaView style={styles.container}>
-      
+     
       <ScrollView style={styles.scrollView}>
         <View style={styles.contentWrapper}>
           <View style={styles.card}>
-            <Text style={styles.title}>Your Career Prediction Results</Text>
-
-            {/* Overall Graph Section */}
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Overall Career Match Scores</Text>
-              
-              <View style={styles.topCareersContainer}>
-                <Text style={styles.subSectionTitle}>Top Recommended Careers</Text>
-                {combinedData.slice(0, 5).map((career, index) => renderCareerItem(career, index))}
-              </View>
-
-              <View style={styles.chartContainer}>
-                <Text style={styles.subSectionTitle}>Combined Career Match Scores</Text>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                  <BarChart
-                    data={getChartData(combinedData, 10)}
-                    width={screenWidth - 40}
-                    height={300}
-                    chartConfig={chartConfig}
-                    verticalLabelRotation={30}
-                    fromZero
-                    showValuesOnTopOfBars
-                  />
-                </ScrollView>
-              </View>
+            <View style={styles.headerContainer}>
+              <Text style={styles.headerText}>Your Career Prediction Results</Text>
+              <TouchableOpacity 
+                style={styles.button}
+                onPress={handleGenerateReport}
+              >
+                <Text style={styles.buttonText}>Generate Detailed Report</Text>
+              </TouchableOpacity>
             </View>
-
-            {/* Individual Source Graphs */}
-            {sources.map(({ key, label }) => (
-              sourceData[key] && (
-                <View key={key} style={styles.section}>
-                  <Text style={styles.sectionTitle}>{label}</Text>
-                  
-                  <View style={styles.topCareersContainer}>
+            
+            {loading ? (
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#4F46E5" />
+                <Text style={styles.loadingText}>Loading career data...</Text>
+              </View>
+            ) : (
+              <>
+                <View style={styles.section}>
+                  <Text style={styles.sectionTitle}>Overall Career Match Scores</Text>
+                  <View style={styles.subSection}>
                     <Text style={styles.subSectionTitle}>Top Recommended Careers</Text>
-                    {sourceData[key].data.slice(0, 5).map((career, index) => renderCareerItem(career, index))}
+                    {combinedData.slice(0, 5).map((career, index) => (
+                      <View key={career.career} style={styles.careerItem}>
+                        <Text style={styles.careerName}>{index + 1}. {career.career}</Text>
+                        <Text style={styles.careerScore}>{career.score.toFixed(1)}</Text>
+                      </View>
+                    ))}
                   </View>
-
-                  <View style={styles.chartContainer}>
-                    <Text style={styles.subSectionTitle}>Career Match Scores</Text>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                      <BarChart
-                        data={getChartData(sourceData[key].data, 10)}
-                        width={screenWidth - 40}
-                        height={300}
-                        chartConfig={chartConfig}
-                        verticalLabelRotation={30}
-                        fromZero
-                        showValuesOnTopOfBars
-                      />
-                    </ScrollView>
+                  <View style={styles.chartSection}>
+                    <Text style={styles.subSectionTitle}>Combined Career Match Scores</Text>
+                    <BarChart
+                      data={formatChartData(combinedData)}
+                      width={screenWidth}
+                      height={300}
+                      chartConfig={chartConfig}
+                      verticalLabelRotation={30}
+                      fromZero={true}
+                      yAxisLabel=""
+                      yAxisSuffix=""
+                      style={styles.chart}
+                    />
                   </View>
                 </View>
-              )
-            ))}
 
-            {/* Interpretation Section */}
-            <View style={styles.interpretationContainer}>
-              <Text style={styles.sectionTitle}>How to Interpret Your Results</Text>
-              <Text style={styles.interpretationText}>
-                The scores represent how well your skills, personality, and preferences align with each career.
-                Higher scores indicate a stronger match. Use this information to explore careers that best suit you!
-              </Text>
-            </View>
+                {sources.map(({ key, label }) => (
+                  sourceData[key] && (
+                    <View key={key} style={styles.section}>
+                      <Text style={styles.sectionTitle}>{label}</Text>
+                      <View style={styles.subSection}>
+                        <Text style={styles.subSectionTitle}>Top Recommended Careers</Text>
+                        {sourceData[key].data.slice(0, 5).map((career, index) => (
+                          <View key={career.career} style={styles.careerItem}>
+                            <Text style={styles.careerName}>{index + 1}. {career.career}</Text>
+                            <Text style={styles.careerScore}>{career.score.toFixed(1)}</Text>
+                          </View>
+                        ))}
+                      </View>
+                      <View style={styles.chartSection}>
+                        <Text style={styles.subSectionTitle}>Career Match Scores</Text>
+                        <BarChart
+                          data={formatChartData(sourceData[key].data)}
+                          width={screenWidth}
+                          height={300}
+                          chartConfig={chartConfig}
+                          verticalLabelRotation={30}
+                          fromZero={true}
+                          yAxisLabel=""
+                          yAxisSuffix=""
+                          style={styles.chart}
+                        />
+                      </View>
+                    </View>
+                  )
+                ))}
+
+                <View style={styles.infoBox}>
+                  <Text style={styles.infoTitle}>How to Interpret Your Results</Text>
+                  <Text style={styles.infoText}>
+                    The scores represent how well your skills, personality, and preferences align with each career. 
+                    Higher scores indicate a stronger match. Use this information to explore careers that best suit you!
+                  </Text>
+                  <Text style={styles.infoText}>
+                    <Text style={styles.emphasizedText}>Need more details?</Text> Generate a comprehensive report to get deeper insights into your career matches and personalized recommendations.
+                  </Text>
+                </View>
+              </>
+            )}
           </View>
         </View>
       </ScrollView>
-    
+      
+      <Toast />
     </SafeAreaView>
   );
 };
@@ -290,34 +301,57 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loadingText: {
-    marginTop: 12,
-    fontSize: 16,
-    color: "#4F46E5",
-  },
   contentWrapper: {
-    padding: 1,
-    marginTop: 10, // Space for navbar
+    padding: 20,
+    paddingTop: 50, // Space for navbar
   },
   card: {
     backgroundColor: "white",
     borderRadius: 12,
-    padding: 10,
+    padding: 16,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
-  title: {
-    fontSize: 22,
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 24,
+    flexWrap: "wrap",
+  },
+  headerText: {
+    fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 16,
+    flex: 1,
+    marginBottom: 10,
+  },
+  button: {
+    backgroundColor: "#4F46E5",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    shadowColor: "#4F46E5",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "600",
+    fontSize: 14,
+  },
+  loadingContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 40,
+  },
+  loadingText: {
+    marginTop: 10,
+    color: "#666",
   },
   section: {
     marginBottom: 24,
@@ -325,15 +359,15 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "600",
-    marginBottom: 8,
+    marginBottom: 10,
+  },
+  subSection: {
+    marginBottom: 20,
   },
   subSectionTitle: {
     fontSize: 16,
     fontWeight: "500",
-    marginBottom: 8,
-  },
-  topCareersContainer: {
-    marginBottom: 16,
+    marginBottom: 10,
   },
   careerItem: {
     flexDirection: "row",
@@ -343,25 +377,41 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 8,
   },
-  careerItemText: {
+  careerName: {
     fontWeight: "500",
+    fontSize: 15,
+    flex: 1,
   },
-  careerItemScore: {
+  careerScore: {
     color: "#4F46E5",
     fontWeight: "600",
+    fontSize: 15,
   },
-  chartContainer: {
-    marginTop: 16,
+  chartSection: {
+    marginTop: 20,
   },
-  interpretationContainer: {
+  chart: {
+    marginVertical: 8,
+    borderRadius: 8,
+  },
+  infoBox: {
     backgroundColor: "#f9f9f9",
     padding: 16,
     borderRadius: 8,
-    marginTop: 16,
+    marginTop: 20,
   },
-  interpretationText: {
+  infoTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginBottom: 8,
+  },
+  infoText: {
     color: "#666",
-    lineHeight: 20,
+    fontSize: 14,
+    marginBottom: 8,
+  },
+  emphasizedText: {
+    fontWeight: "500",
   },
 });
 

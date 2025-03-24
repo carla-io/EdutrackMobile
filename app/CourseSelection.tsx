@@ -4,6 +4,7 @@ import axios from "axios";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 import RNPickerSelect from "react-native-picker-select";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const courses = [
   "BS Civil Engineering", "BS Mechanical Engineering", "BS Electrical Engineering",
@@ -57,6 +58,7 @@ const CourseSelection = () => {
         });
 
         const newCareers = response.data.careers.map(career => ({ career, score: 25 }));
+        await AsyncStorage.setItem("college_course_predict", JSON.stringify(newCareers));
         
         setPredictedCareers(response.data.careers);
         Toast.show({ type: "success", text1: "Career prediction successful!" });
