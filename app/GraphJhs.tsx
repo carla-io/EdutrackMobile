@@ -67,7 +67,7 @@ const OverallResult = () => {
       const token = await AsyncStorage.getItem('auth-token');
       if (!token) return;
       try {
-        const res = await axios.post('http://192.168.100.171:4000/api/auth/user', { token });
+        const res = await axios.post('https://edu-backend-mvzo.onrender.com/api/auth/user', { token });
         setUser(res.data.user);
       } catch (error) {
         console.error('User fetch failed', error);
@@ -206,7 +206,7 @@ const OverallResult = () => {
         };
   
         // Update API endpoint to match your environment
-        const response = await axios.post('http://192.168.100.171:4000/api/predictions/save', payload);
+        const response = await axios.post('https://edu-backend-mvzo.onrender.com/api/predictions/save', payload);
         console.log('Predictions saved successfully:', response.data);
         setSaveStatus('Successfully saved to database.');
         Alert.alert('Success', '✅ Successfully saved to database!');
@@ -303,7 +303,7 @@ const OverallResult = () => {
   
         // Send email with report
         await axios.post(
-          "http://192.168.100.171:4000/api/auth/send-graph-email",
+          "https://edu-backend-mvzo.onrender.com/api/auth/send-graph-email",
           {
             image: `data:image/jpeg;base64,${base64Image}`,
             email: user.email,

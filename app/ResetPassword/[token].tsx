@@ -38,7 +38,7 @@ const ResetPassword = () => {
     }
 
     try {
-      await axios.post(`http://192.168.100.171:4000/api/auth/reset-password/${token}`, { newPassword });
+      await axios.post(`https://edu-backend-mvzo.onrender.com/api/auth/reset-password/${token}`, { newPassword });
       Toast.show({ type: "success", text1: "Password reset successful!" });
 
       setTimeout(() => router.push("/Login"), 3000);

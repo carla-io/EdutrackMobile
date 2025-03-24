@@ -9,7 +9,7 @@ const ManageUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://192.168.100.171:4000/api/auth/get-all-users');
+        const response = await axios.get('https://edu-backend-mvzo.onrender.com/api/auth/get-all-users');
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -21,7 +21,7 @@ const ManageUsers = () => {
 
   const archiveUser = async (id) => {
     try {
-      await axios.put(`http://192.168.100.171:4000/api/auth/archive/${id}`);
+      await axios.put(`https://edu-backend-mvzo.onrender.com/api/auth/archive/${id}`);
       setUsers(users.map(user => user._id === id ? { ...user, isArchived: true } : user));
       Toast.show({ type: 'success', text1: 'User archived successfully.' });
     } catch (error) {
@@ -32,7 +32,7 @@ const ManageUsers = () => {
 
   const unarchiveUser = async (id) => {
     try {
-      await axios.put(`http://192.168.100.171:4000/api/auth/restore/${id}`);
+      await axios.put(`https://edu-backend-mvzo.onrender.com/api/auth/restore/${id}`);
       setUsers(users.map(user => user._id === id ? { ...user, isArchived: false } : user));
       Toast.show({ type: 'success', text1: 'User unarchived successfully.' });
     } catch (error) {

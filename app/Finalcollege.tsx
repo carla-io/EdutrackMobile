@@ -73,7 +73,7 @@ const CareerPredictionDashboard = ({ navigation }) => {
       const token = await AsyncStorage.getItem("auth-token");
       if (!token) return;
       try {
-        const res = await axios.post("http://192.168.100.171:4000/api/auth/user", { token });
+        const res = await axios.post("https://edu-backend-mvzo.onrender.com/api/auth/user", { token });
         setUser(res.data.user);
       } catch (error) {
         console.error("User fetch failed", error);
@@ -133,7 +133,7 @@ const CareerPredictionDashboard = ({ navigation }) => {
             prediction_exam_college: safeParseJSON(await AsyncStorage.getItem("prediction_exam_college")) || {}
           };
 
-          const res = await axios.post("http://192.168.100.171:4000/api/prediction_college/save", payload);
+          const res = await axios.post("https://edu-backend-mvzo.onrender.com/api/prediction_college/save", payload);
           console.log("Career predictions saved successfully:", res.data);
           showStatus("Successfully saved to database.");
         } catch (error) {
@@ -269,7 +269,7 @@ const CareerPredictionDashboard = ({ navigation }) => {
         ? "career list"
         : "career prediction analysis";
         
-      await axios.post("http://192.168.100.171:4000/api/auth/send-graph-email", {
+      await axios.post("https://edu-backend-mvzo.onrender.com/api/auth/send-graph-email", {
         image: `data:image/jpeg;base64,${base64Image}`,
         email: user.email,
         subject: subject,

@@ -31,7 +31,7 @@ const CareerPredictionDashboard = () => {
       const token = await AsyncStorage.getItem("auth-token");
       if (!token) return;
       try {
-        const res = await axios.post("http://192.168.100.171:4000/api/auth/user", { token });
+        const res = await axios.post("https://edu-backend-mvzo.onrender.com/api/auth/user", { token });
         setUser(res.data.user);
       } catch (error) {
         console.error("User fetch failed", error);
@@ -143,7 +143,7 @@ const CareerPredictionDashboard = () => {
       };
 
       try {
-        const res = await axios.post("http://192.168.100.171:4000/api/prediction_college/save", payload);
+        const res = await axios.post("https://edu-backend-mvzo.onrender.com/api/prediction_college/save", payload);
         console.log("College predictions saved successfully:", res.data);
         Toast.show({
           type: 'success',

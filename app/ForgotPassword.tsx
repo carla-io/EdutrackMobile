@@ -13,7 +13,7 @@ const ForgotPassword = () => {
     }
 
     try {
-      await axios.post(`http://192.168.100.171:4000/api/auth/request-password-reset`, { email });
+      await axios.post(`https://edu-backend-mvzo.onrender.com/api/auth/request-password-reset`, { email });
       Toast.show({ type: "success", text1: "Password reset link sent! Please check your email." });
     } catch (error) {
       Toast.show({ type: "error", text1: "Error sending reset link. Try again." });

@@ -54,7 +54,7 @@ const AdminDashboard = ({ navigation }) => {
   const screenWidth = Dimensions.get('window').width - 32; // Adjust for padding
 
   // API base URL
-  const API_BASE_URL = 'http://192.168.100.171:4000/api';
+  const API_BASE_URL = 'https://edu-backend-mvzo.onrender.com/api';
 
   useEffect(() => {
     const fetchAllData = async () => {

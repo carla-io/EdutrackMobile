@@ -199,7 +199,7 @@ const Navbar = () => {
                 <>
                   {renderNavItem("/admin/AdminDashboard", "Admin Dashboard", "tachometer")}
                   {renderNavItem("/admin/ManageUsers", "Manage Users", "users")}
-                  {renderNavItem("/admin/Reports", "Reports", "bar-chart")}
+                 
                 </>
               )}
             </>

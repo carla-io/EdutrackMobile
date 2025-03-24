@@ -195,7 +195,7 @@ const OverallResult = () => {
         return;
       }
       
-      await axios.post("http://192.168.100.171:4000/api/auth/send-prediction-email", {
+      await axios.post("https://edu-backend-mvzo.onrender.com/api/auth/send-prediction-email", {
         email: user.email,
         topChoices: topChoices.slice(0, 3),
       });

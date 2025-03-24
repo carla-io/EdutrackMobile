@@ -69,7 +69,7 @@ const getSkillsForStrand = (strand) => {
       const token = await AsyncStorage.getItem("auth-token");
       if (!token) return;
 
-      const res = await axios.post("http://192.168.100.171:4000/api/auth/user", { token });
+      const res = await axios.post("https://edu-backend-mvzo.onrender.com/api/auth/user", { token });
       setUser(res.data.user);
     } catch (error) {
       console.error("User fetch failed", error);
@@ -204,7 +204,7 @@ const getSkillsForStrand = (strand) => {
         encoding: FileSystem.EncodingType.Base64
       });
       
-      await axios.post("http://192.168.100.171:4000/api/auth/send-graph-email", {
+      await axios.post("https://edu-backend-mvzo.onrender.com/api/auth/send-graph-email", {
         image: `data:image/png;base64,${base64Image}`,
         email: user.email
       });

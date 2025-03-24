@@ -57,7 +57,7 @@ const CollegePredictionReport = () => {
       const token = await AsyncStorage.getItem("auth-token");
       if (!token) return;
       try {
-        const res = await axios.post("http://192.168.100.171:4000/api/auth/user", { token });
+        const res = await axios.post("https://edu-backend-mvzo.onrender.com/api/auth/user", { token });
         setUser(res.data.user);
       } catch (error) {
         console.error("User fetch failed", error);
@@ -173,7 +173,7 @@ const CollegePredictionReport = () => {
           };
           
           try {
-            const res = await axios.post("http://192.168.100.171:4000/api/prediction_shs/save", payload);
+            const res = await axios.post("https://edu-backend-mvzo.onrender.com/api/prediction_shs/save", payload);
             console.log("Predictions saved successfully:", res.data);
             setSaveStatus("Successfully saved to database.");
           } catch (error) {
@@ -255,7 +255,7 @@ const CollegePredictionReport = () => {
       const uri = await reportRef.current.capture();
       const base64Image = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
       
-      await axios.post("http://192.168.100.171:4000/api/auth/send-graph-email", {
+      await axios.post("https://edu-backend-mvzo.onrender.com/api/auth/send-graph-email", {
         image: `data:image/jpeg;base64,${base64Image}`,
         email: user.email,
       });

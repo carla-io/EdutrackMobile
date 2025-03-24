@@ -48,7 +48,7 @@ const Dashboard = ({ navigation }) => {
       }
 
       try {
-        const response = await axios.post("http://192.168.100.171:4000/api/auth/user", { token });
+        const response = await axios.post("https://edu-backend-mvzo.onrender.com/api/auth/user", { token });
 
         if (response.data.user) {
           const { _id, name, gradeLevel, profilePicture } = response.data.user;
@@ -85,11 +85,11 @@ const Dashboard = ({ navigation }) => {
       
       // Set API URL based on grade level
       if (gradeLevel === "Junior High School") {
-        apiUrl = `http://192.168.100.171:4000/api/predictions/${userId}`;
+        apiUrl = `https://edu-backend-mvzo.onrender.com/api/predictions/${userId}`;
       } else if (gradeLevel === "Senior High School") {
-        apiUrl = `http://192.168.100.171:4000/api/prediction_shs/${userId}`;
+        apiUrl = `https://edu-backend-mvzo.onrender.com/api/prediction_shs/${userId}`;
       } else if (gradeLevel === "College") {
-        apiUrl = `http://192.168.100.171:4000/api/prediction_college/${userId}`;
+        apiUrl = `https://edu-backend-mvzo.onrender.com/api/prediction_college/${userId}`;
       } else {
         // Instead of setting error, just mark as no predictions
         setUser(prevUser => ({ ...prevUser, hasPredictions: false }));
@@ -884,7 +884,7 @@ const refetchData = async () => {
   }
 
   try {
-    const response = await axios.post("http://192.168.100.171:4000/api/auth/user", { token });
+    const response = await axios.post("https://edu-backend-mvzo.onrender.com/api/auth/user", { token });
 
     if (response.data.user) {
       const { _id, name, gradeLevel, profilePicture } = response.data.user;

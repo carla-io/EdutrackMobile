@@ -47,7 +47,7 @@ const LoginPage = () => {
     if (!validate()) return;
 
     try {
-      const apiUrl = `http://192.168.100.171:4000/api/auth/login`;
+      const apiUrl = `https://edu-backend-mvzo.onrender.com/api/auth/login`;
 
       const response = await axios.post(apiUrl, formData, {
         headers: { "Content-Type": "application/json" },
