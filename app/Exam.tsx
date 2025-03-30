@@ -150,11 +150,11 @@ const handleSubmit = async () => {
 
     // Determine API endpoint based on grade level
     if (gradeLevel === "jhs") {
-      endpoint = "http://192.168.100.171:5001/predict_exam_jhs";
+      endpoint = "http://192.168.62.237:5001/predict_exam_jhs";
     } else if (gradeLevel === "shs") {
-      endpoint = "http://192.168.100.171:5001/prediction_exam_shs";
+      endpoint = "http://192.168.62.237:5001/prediction_exam_shs";
     } else if (gradeLevel === "college") {
-      endpoint = "http://192.168.100.171:5001/prediction_exam_college";
+      endpoint = "http://192.168.62.237:5001/prediction_exam_college";
     } else {
       ToastAndroid.show("⚠️ Invalid grade level!", ToastAndroid.SHORT);
       return;
@@ -211,12 +211,12 @@ const handleSubmit = async () => {
   
       // Determine the endpoint based on gradeLevel
       if (gradeLevel === "jhs") {
-        endpoint = "http://192.168.100.171:5001/predict_exam_jhs";
+        endpoint = "http://192.168.62.237:5001/predict_exam_jhs";
       } else if (gradeLevel === "shs") {
-        endpoint = "http://192.168.100.171:5001/prediction_exam_shs";
+        endpoint = "http://192.168.62.237:5001/prediction_exam_shs";
       }
       else if (gradeLevel === "college") {
-        endpoint = "http://192.168.100.171:5001/prediction_exam_college";
+        endpoint = "http://192.168.62.237:5001/prediction_exam_college";
       } else {
         showToast("⚠️ Invalid grade level!");
         return;

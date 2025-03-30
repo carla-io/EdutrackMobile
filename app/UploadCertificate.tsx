@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, Image, FlatList, ActivityIndicator, StyleSheet, Alert, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, Image, FlatList, ActivityIndicator, StyleSheet, Alert, ScrollView,  Dimensions   } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
@@ -21,6 +21,8 @@ const UploadCertificates = () => {
   const navigation = useNavigation();
   const router = useRouter();
   const [gradeLevel, setGradeLevel] = useState("");
+
+  const screenWidth = Dimensions.get("window").width - 40;
 
   useEffect(() => {
     const loadGradeLevel = async () => {
@@ -103,7 +105,7 @@ const UploadCertificates = () => {
     });
 
     try {
-      const response = await axios.post("http://192.168.100.171:5001/process", formData, {
+      const response = await axios.post("http://192.168.62.237:5001/process", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -143,9 +145,9 @@ const UploadCertificates = () => {
     
     const endpoint =
       gradeLevel === "jhs"
-        ? "http://192.168.100.171:5001/predict-strand-cert"
+        ? "http://192.168.62.237:5001/predict-strand-cert"
         : gradeLevel === "shs"
-        ? "http://192.168.100.171:5001/predict-college-cert"
+        ? "http://192.168.62.237:5001/predict-college-cert"
         : null;
     
     if (!endpoint) {
@@ -207,6 +209,11 @@ const UploadCertificates = () => {
       console.error("Error retrieving gradeLevel for navigation:", error);
     }
   };
+
+  const formatLabel = (label) => {
+    // Truncate long labels and add ellipsis
+    return label.length > 10 ? label.substring(0, 8) + '...' : label;
+  };
     
   return (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.scrollContainer}>
@@ -246,19 +253,40 @@ const UploadCertificates = () => {
             <Text style={styles.subtitle}>Top 5 Prediction Results</Text>
             <BarChart
               data={{
-                labels: predictionData.map((d) => d.strand),
+                labels: predictionData.map((d) => formatLabel(d.strand)),
                 datasets: [{ data: predictionData.map((d) => d.score) }],
               }}
-              width={350}
+              width={screenWidth}
               height={250}
               yAxisLabel=""
               chartConfig={{
                 backgroundGradientFrom: "#f9f9f9",
                 backgroundGradientTo: "#ffffff",
                 color: (opacity = 1) => `rgba(34, 128, 176, ${opacity})`,
-                barPercentage: 0.7,
+                barPercentage: 0.5,  // Reduced from 0.7 to create more space between bars
+                labelRotation: -45,  // Rotate labels to prevent overlap
+                decimalPlaces: 1,    // Limit decimal places in values
+                propsForLabels: {
+                  fontSize: 10,      // Smaller font size for labels
+                },
+              }}
+              showValuesOnTopOfBars={true}
+              fromZero={true}
+              style={{
+                marginVertical: 8,
+                borderRadius: 16,
               }}
             />
+            
+            {/* Legend to show full strand names */}
+            <View style={styles.legendContainer}>
+              <Text style={styles.legendTitle}>Legend:</Text>
+              {predictionData.map((item, index) => (
+                <Text key={index} style={styles.legendItem}>
+                  {formatLabel(item.strand)}: {item.strand}
+                </Text>
+              ))}
+            </View>
           </View>
         )}
   
@@ -267,9 +295,7 @@ const UploadCertificates = () => {
             <Text style={styles.proceedButtonText}>Proceed to Personal Questionnaire ➡️</Text>
           </TouchableOpacity>
         )}
-        <TouchableOpacity style={styles.proceedButton} onPress={handleProceedToPQ}>
-            <Text style={styles.proceedButtonText}>Proceed to Personal Questionnaire ➡️</Text>
-          </TouchableOpacity>
+        {/* You had a duplicate button here - removed the duplicate */}
       </View>
     </ScrollView>
   );
@@ -295,6 +321,20 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  legendContainer: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: "#f5f5f5",
+    borderRadius: 8,
+  },
+  legendTitle: {
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  legendItem: {
+    fontSize: 12,
+    marginBottom: 3,
   },
 });
 

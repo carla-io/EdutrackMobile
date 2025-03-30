@@ -5,6 +5,18 @@
       "expo-router"
     ],
     "name": "frontend",
-    "slug": "frontend"
+    "slug": "frontend",
+    "android": {
+      "package": "com.cdasal.edutrack"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "60ea2358-b6ad-473d-8565-da3c9678655b"
+      }
+    },
+    "owner": "cdasal"
   }
 }

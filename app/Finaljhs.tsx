@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Dimensions } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
+import { captureRef } from 'react-native-view-shot';
+import { Buffer } from 'buffer';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -114,6 +116,7 @@ const OverallResult = () => {
   const [user, setUser] = useState(null);
   const navigation = useNavigation();
   const router = useRouter();
+  const chartRef = useRef(null);
 
   useEffect(() => {
     // Load user data
@@ -190,20 +193,175 @@ const OverallResult = () => {
 
   const sendEmail = async () => {
     try {
+      // Validate user and email
       if (!user || !user.email) {
-        Alert.alert("Error", "User email not found!");
+        Alert.alert("Error", "User email is missing. Please update your profile.");
         return;
       }
-      
-      await axios.post("https://edu-backend-mvzo.onrender.com/api/auth/send-prediction-email", {
-        email: user.email,
-        topChoices: topChoices.slice(0, 3),
+  
+      // Check chart data availability
+      if (!chartData || topChoices.length === 0) {
+        Alert.alert("Error", "Prediction data is not available. Please complete the assessment.");
+        return;
+      }
+  
+      // Confirm before sending
+      const confirmed = await new Promise((resolve) => {
+        Alert.alert(
+          "Confirm Email",
+          "Do you want to send your strand prediction report to your email?",
+          [
+            { 
+              text: "Yes", 
+              onPress: () => resolve(true) 
+            },
+            { 
+              text: "No", 
+              onPress: () => resolve(false),
+              style: "cancel"
+            }
+          ]
+        );
       });
-      
-      Alert.alert("Success", "Your prediction report has been sent to your email!");
+  
+      if (!confirmed) return;
+  
+      // Prepare a fallback base64 image if chart capture fails
+      const createFallbackChartImage = () => {
+        // Create a simple SVG representation of the chart data
+        const width = 400;
+        const height = 200;
+        const maxValue = Math.max(...chartData.datasets[0].data);
+  
+        const svgString = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
+            <style>
+              .bar { fill: rgba(54, 162, 235, 0.7); }
+              .label { font-family: Arial; font-size: 12px; }
+            </style>
+            ${chartData.labels.map((label, index) => {
+              const value = chartData.datasets[0].data[index];
+              const barHeight = (value / maxValue) * (height - 50);
+              const barX = (width / chartData.labels.length) * index + 20;
+              return `
+                <rect 
+                  x="${barX}" 
+                  y="${height - barHeight}" 
+                  width="${width / chartData.labels.length - 10}" 
+                  height="${barHeight}" 
+                  class="bar"
+                />
+                <text 
+                  x="${barX + (width / chartData.labels.length - 10) / 2}" 
+                  y="${height - 10}" 
+                  text-anchor="middle" 
+                  class="label"
+                >
+                  ${label}
+                </text>
+              `;
+            }).join('')}
+          </svg>
+        `;
+  
+        // Convert SVG to base64
+        return `data:image/svg+xml;base64,${Buffer.from(svgString).toString('base64')}`;
+      };
+  
+      // Try to capture chart, use fallback if fails
+      let graphImage = null;
+      try {
+        if (chartRef.current) {
+          graphImage = await captureRef(chartRef, {
+            format: 'png',
+            quality: 0.8
+          });
+        }
+      } catch (captureError) {
+        console.warn("Chart capture failed, using fallback image", captureError);
+        graphImage = createFallbackChartImage();
+      }
+  
+      // If still no image, create fallback
+      if (!graphImage) {
+        graphImage = createFallbackChartImage();
+      }
+  
+      // Prepare payload
+      const payload = {
+        userEmail: user.email,
+        userName: user.name || "Anonymous Student",
+        strandPredictions: topChoices.slice(0, 3).map(([strand, score]) => ({
+          strandName: strand,
+          compatibilityScore: parseFloat(score.toFixed(1)),
+          description: strandDescriptions[strand] || "No description available",
+          careerPaths: careerPathways[strand]?.slice(0, 3) || []
+        })),
+        graphImage: graphImage, // Ensure an image is always sent
+        generatedDate: new Date().toISOString()
+      };
+  
+      // Show loading indicator
+      const loadingIndicator = setTimeout(() => {
+        Alert.alert("Processing", "Sending email... Please wait.");
+      }, 3000);
+  
+      // Send email with comprehensive error handling
+      const response = await axios.post(
+        "https://edu-backend-mvzo.onrender.com/api/auth/send-graph-email", 
+        payload,
+        {
+          headers: { 
+            'Content-Type': 'application/json',
+          },
+          timeout: 20000 // Increased timeout
+        }
+      );
+  
+      // Clear loading indicator
+      clearTimeout(loadingIndicator);
+  
+      // Handle different response scenarios
+      if (response.data.success) {
+        Alert.alert(
+          "Success", 
+          "Your prediction report has been sent to your email!",
+          [{ 
+            text: "OK", 
+            onPress: () => console.log("Email sent successfully") 
+          }]
+        );
+      } else {
+        throw new Error(response.data.message || "Email sending failed");
+      }
+  
     } catch (error) {
-      console.error("Error sending email:", error);
-      Alert.alert("Error", "Failed to send email. Please try again later.");
+      console.error("Email send comprehensive error:", {
+        message: error.message,
+        status: error.response?.status,
+        responseData: error.response?.data
+      });
+  
+      // Detailed error handling
+      const errorMessage = 
+        error.response?.data?.message || 
+        error.message || 
+        "An unexpected error occurred while sending the email.";
+  
+      Alert.alert(
+        "Email Sending Failed", 
+        errorMessage,
+        [
+          { 
+            text: "Retry", 
+            onPress: sendEmail 
+          },
+          { 
+            text: "Cancel", 
+            style: "cancel" 
+          }
+        ]
+      );
     }
   };
 
@@ -239,29 +397,39 @@ const OverallResult = () => {
       )}
       
       {chartData && (
-        <View style={styles.chartContainer}>
-          <Text style={styles.sectionTitle}>Overall Strand Compatibility</Text>
-          <BarChart
-            data={chartData}
-            width={screenWidth - 40}
-            height={220}
-            yAxisLabel=""
-            yAxisSuffix="%"
-            chartConfig={{
-              backgroundColor: '#ffffff',
-              backgroundGradientFrom: '#ffffff',
-              backgroundGradientTo: '#ffffff',
-              decimalPlaces: 0,
-              color: (opacity = 1) => `rgba(54, 162, 235, ${opacity})`,
-              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-              style: {
-                borderRadius: 16,
-              },
-            }}
-            style={styles.chart}
-          />
-        </View>
-      )}
+  <View style={styles.chartContainer}>
+    <Text style={styles.sectionTitle}>Overall Strand Compatibility</Text>
+    <BarChart
+      ref={chartRef}
+      data={chartData}
+      width={screenWidth - 40}
+      height={250}
+      yAxisLabel=""
+      yAxisSuffix="%"
+      fromZero={true}
+      showValuesOnTopOfBars={true}
+      chartConfig={{
+        backgroundColor: '#ffffff',
+        backgroundGradientFrom: '#ffffff',
+        backgroundGradientTo: '#ffffff',
+        decimalPlaces: 0,
+        color: (opacity = 1) => `rgba(54, 162, 235, ${opacity})`,
+        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+        fillShadowGradientFrom: 'rgba(54, 162, 235, 0.7)',
+        fillShadowGradientTo: 'rgba(54, 162, 235, 0.3)',
+        barPercentage: 0.6,
+        style: {
+          borderRadius: 16,
+        },
+      }}
+      verticalLabelRotation={30}
+      style={{
+        marginVertical: 8,
+        borderRadius: 16,
+      }}
+    />
+  </View>
+)}
       
       <View style={styles.nextSteps}>
         <Text style={styles.sectionTitle}>Next Steps</Text>
@@ -289,9 +457,7 @@ const OverallResult = () => {
       </View>
       
       <View style={styles.actions}>
-        <TouchableOpacity style={styles.button} onPress={sendEmail}>
-          <Text style={styles.buttonText}>Send to My Email</Text>
-        </TouchableOpacity>
+        
         <TouchableOpacity style={styles.button} onPress={() => router.push("Dashboard")}>
           <Text style={styles.buttonText}>Return to Dashboard</Text>
         </TouchableOpacity>

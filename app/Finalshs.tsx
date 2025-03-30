@@ -19,6 +19,7 @@ import ViewShot from "react-native-view-shot";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import * as Print from "expo-print";
+import { useRouter } from "expo-router";
  // Assuming you have a React Native version of Nav2
 
 const screenWidth = Dimensions.get("window").width;
@@ -33,6 +34,7 @@ const CollegePredictionReport = () => {
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
   const reportRef = useRef(null);
+  const router = useRouter();
 
   // Course descriptions for personalized recommendations
   const courseDescriptions = {
@@ -59,6 +61,10 @@ const CollegePredictionReport = () => {
       try {
         const res = await axios.post("https://edu-backend-mvzo.onrender.com/api/auth/user", { token });
         setUser(res.data.user);
+        // Get email from user data
+        // if (res.data.user && res.data.user.email) {
+        //   setEmail(res.data.user.email);
+        // }
       } catch (error) {
         console.error("User fetch failed", error);
       }
@@ -252,18 +258,75 @@ const CollegePredictionReport = () => {
     }
     
     try {
-      const uri = await reportRef.current.capture();
-      const base64Image = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
+      // Show loading indicator
+      setLoading(true);
       
-      await axios.post("https://edu-backend-mvzo.onrender.com/api/auth/send-graph-email", {
-        image: `data:image/jpeg;base64,${base64Image}`,
-        email: user.email,
+      // Capture the report view as an image
+      const uri = await reportRef.current.capture();
+      
+      // Verify the file exists
+      const fileInfo = await FileSystem.getInfoAsync(uri);
+      if (!fileInfo.exists) {
+        throw new Error("Failed to capture report image");
+      }
+      
+      // Read the image file as base64
+      const base64Image = await FileSystem.readAsStringAsync(uri, { 
+        encoding: FileSystem.EncodingType.Base64 
       });
       
-      Alert.alert("Success", "Your report has been sent to your email successfully!");
+      // Verify we have image data
+      if (!base64Image) {
+        throw new Error("Failed to encode image");
+      }
+      
+      console.log("Sending email to:", user.email);
+      console.log("Image size:", base64Image.length);
+      
+      // Send to your backend
+      const response = await axios.post(
+        "https://edu-backend-mvzo.onrender.com/api/auth/send-graph-email", 
+        {
+          image: `data:image/jpeg;base64,${base64Image}`,
+          email: user.email,
+          subject: "Your College Course Prediction Report",
+          message: `Here is your College Course Prediction Report generated on ${reportDate}.`,
+          reportDate: reportDate
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            // Include any authentication headers if needed
+          },
+          timeout: 30000 // 30 second timeout for large images
+        }
+      );
+      
+      if (response.data && response.data.success) {
+        Alert.alert("Success", "Your report has been sent to your email successfully!");
+      } else {
+        throw new Error(response.data?.message || "Unknown error occurred");
+      }
     } catch (error) {
       console.error("Error sending email:", error);
-      Alert.alert("Error", "Failed to send email. Please try again.");
+      
+      // Provide more specific error messages
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error("Server error data:", error.response.data);
+        console.error("Server error status:", error.response.status);
+        Alert.alert("Server Error", `Failed to send email: ${error.response.data?.message || error.message}`);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("No response received:", error.request);
+        Alert.alert("Network Error", "Failed to reach the server. Please check your internet connection and try again.");
+      } else {
+        // Something happened in setting up the request
+        Alert.alert("Error", `Failed to send email: ${error.message}`);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -440,13 +503,13 @@ const CollegePredictionReport = () => {
           <TouchableOpacity style={styles.button} onPress={downloadPDF}>
             <Text style={styles.buttonText}>Download PDF</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={sendEmail}>
+          {/* <TouchableOpacity style={styles.button} onPress={sendEmail}>
             <Text style={styles.buttonText}>Email Report</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity style={styles.button} onPress={shareReport}>
             <Text style={styles.buttonText}>Share Report</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Dashboard")}>
+          <TouchableOpacity style={styles.button} onPress={() => router.push("/Dashboard")}>
             <Text style={styles.buttonText}>Back to Dashboard</Text>
           </TouchableOpacity>
         </View>

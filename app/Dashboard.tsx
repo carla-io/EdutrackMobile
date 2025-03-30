@@ -191,10 +191,21 @@ const Dashboard = ({ navigation }) => {
 
   // Save chart as image
   const captureChart = async () => {
-    if (!chartRef.current) return;
-    
     try {
-      // Request permission
+      // More robust ref checking
+      const currentRef = chartRef.current;
+      if (!currentRef) {
+        console.log('Refs:', { 
+          chartRef: chartRef, 
+          currentRef: currentRef,
+          refExists: !!currentRef 
+        });
+        
+        Alert.alert('Error', 'Chart reference is not available');
+        return;
+      }
+      
+      // Request media library permissions
       const { status } = await MediaLibrary.requestPermissionsAsync();
       if (status !== 'granted') {
         Alert.alert('Permission needed', 'Please grant permission to save images');
@@ -204,15 +215,15 @@ const Dashboard = ({ navigation }) => {
       setIsDownloading(true);
       
       // Capture the chart view
-      const result = await captureRef(chartRef, {
+      const result = await captureRef(currentRef, {
         format: 'jpg',
         quality: 0.9,
       });
       
-      // Save the image
+      // Save to media library
       const asset = await MediaLibrary.createAssetAsync(result);
       
-      // Share the image
+      // Optional: Share the image
       await Sharing.shareAsync(result, {
         mimeType: 'image/jpeg',
         dialogTitle: 'Share your prediction results',
@@ -221,11 +232,12 @@ const Dashboard = ({ navigation }) => {
       Alert.alert('Success', 'Chart saved to gallery');
     } catch (err) {
       console.error('Error capturing chart:', err);
-      Alert.alert('Error', 'Failed to save chart');
+      Alert.alert('Error', `Failed to save chart: ${err.message}`);
     } finally {
       setIsDownloading(false);
     }
   };
+
 
   // Get top prediction
   const getTopPrediction = () => {
@@ -330,7 +342,7 @@ const Dashboard = ({ navigation }) => {
             <FontAwesome5 name="chart-bar" size={20} color="#880000" />
             <Text style={styles.cardTitleText}>Your Predicted Strands</Text>
           </View>
-          {chartData && (
+          {/* {chartData && (
             <TouchableOpacity 
               style={styles.downloadButton} 
               onPress={captureChart}
@@ -341,8 +353,9 @@ const Dashboard = ({ navigation }) => {
                 {isDownloading ? "Saving..." : "Save"}
               </Text>
             </TouchableOpacity>
-          )}
+          )} */}
         </View>
+
         
         <View style={styles.cardContent}>
           {user.name ? (
@@ -351,44 +364,39 @@ const Dashboard = ({ navigation }) => {
             user.gradeLevel === "College" ? (
               chartData ? (
                 <View style={styles.chartContainer} ref={chartRef}>
-                  <BarChart
-                    data={{
-                      labels: chartData.labels,
-                      datasets: [
-                        {
-                          data: chartData.datasets[0].data
-                        }
-                      ]
-                    }}
-                    width={width - 40}
-                    height={220}
-                    chartConfig={{
-                      ...chartConfig,
-                      // Rotate labels to prevent overlapping
-                      formatXLabel: (label) => {
-                        // Shortening labels if too long
-                        return label.length > 10 ? label.substring(0, 10) + '...' : label;
-                      },
-                      // Add more spacing for labels
-                      barPercentage: 0.7,
-                      // Improved label formatting
-                      propsForLabels: {
-                        fontSize: 10,
-                        rotation: -45,
-                        textAnchor: 'end',
-                        dy: -10,
-                      }
-                    }}
-                    style={styles.chart}
-                    fromZero
-                    yAxisSuffix="%"
-                    showBarTops={true}
-                    showValuesOnTopOfBars={true}
-                    // Add more bottom margin to accommodate rotated labels
-                    verticalLabelRotation={45}
-                    xLabelsOffset={-10}
-                  />
-                </View>
+                 <BarChart
+                data={{
+                  labels: chartData.labels,
+                  datasets: [
+                    {
+                      data: chartData.datasets[0].data
+                    }
+                  ]
+                }}
+                width={width - 40}
+                height={220}
+                chartConfig={{
+                  ...chartConfig,
+                  formatXLabel: (label) => {
+                    return label.length > 10 ? label.substring(0, 10) + '...' : label;
+                  },
+                  barPercentage: 0.7,
+                  propsForLabels: {
+                    fontSize: 10,
+                    rotation: -45,
+                    textAnchor: 'end',
+                    dy: -10,
+                  }
+                }}
+                style={styles.chart}
+                fromZero
+                yAxisSuffix="%"
+                showBarTops={true}
+                showValuesOnTopOfBars={true}
+                verticalLabelRotation={45}
+                xLabelsOffset={-10}
+              />
+            </View>
               ) : user.hasPredictions === false ? (
                 // User has been checked and confirmed to have no predictions
                 <View style={styles.noPredictionsMessage}>
@@ -448,9 +456,9 @@ const Dashboard = ({ navigation }) => {
                 style={styles.actionButton}
                 onPress={() => {
                   if (user.gradeLevel === "Junior High School") {
-                    router.push("Finaljhs");
+                    router.push("GraphJhs");
                   } else if (user.gradeLevel === "Senior High School") {
-                    router.push("Finalshs");
+                    router.push("GraphShs");
                   } else if (user.gradeLevel === "College") {
                     router.push("GraphCollege");
                   } else {

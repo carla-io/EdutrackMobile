@@ -6,13 +6,14 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
-  Alert,
+  ScrollView,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -23,6 +24,9 @@ const Register = () => {
   });
 
   const [image, setImage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const gradeLevels = ["Junior High School", "Senior High School", "College"];
 
   // Handle input changes
@@ -34,7 +38,11 @@ const Register = () => {
   const handleImageChange = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
-      alert("Permission to access gallery is required!");
+      Toast.show({
+        type: 'error',
+        text1: 'Permission Denied',
+        text2: 'Gallery access is required to upload profile picture'
+      });
       return;
     }
 
@@ -53,27 +61,51 @@ const Register = () => {
   // Validate input fields
   const validateForm = () => {
     if (!formData.name.trim()) {
-      Toast.show({ type: "error", text1: "⚠️ Name is required!" });
+      Toast.show({ 
+        type: "error", 
+        text1: "Name Required", 
+        text2: "Please enter your full name" 
+      });
       return false;
     }
     if (!formData.email.trim()) {
-      Toast.show({ type: "error", text1: "📧 Email is required!" });
+      Toast.show({ 
+        type: "error", 
+        text1: "Email Required", 
+        text2: "Please enter your email address" 
+      });
       return false;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      Toast.show({ type: "error", text1: "❌ Invalid email format!" });
+      Toast.show({ 
+        type: "error", 
+        text1: "Invalid Email", 
+        text2: "Please enter a valid email address" 
+      });
       return false;
     }
     if (!formData.password) {
-      Toast.show({ type: "error", text1: "🔒 Password is required!" });
+      Toast.show({ 
+        type: "error", 
+        text1: "Password Required", 
+        text2: "Please create a password" 
+      });
       return false;
     }
     if (formData.password.length < 6) {
-      Toast.show({ type: "error", text1: "🔑 Password must be at least 6 characters!" });
+      Toast.show({ 
+        type: "error", 
+        text1: "Weak Password", 
+        text2: "Password must be at least 6 characters" 
+      });
       return false;
     }
     if (!formData.gradeLevel) {
-      Toast.show({ type: "error", text1: "📚 Please select your grade level!" });
+      Toast.show({ 
+        type: "error", 
+        text1: "Grade Level Required", 
+        text2: "Please select your grade level" 
+      });
       return false;
     }
     return true;
@@ -82,6 +114,13 @@ const Register = () => {
   // Handle form submission
   const handleSubmit = async () => {
     if (!validateForm()) return;
+
+    setIsLoading(true);
+    Toast.show({
+      type: 'info',
+      text1: 'Creating Account',
+      text2: 'Please wait while we process your registration'
+    });
 
     const data = new FormData();
     data.append("name", formData.name);
@@ -104,92 +143,169 @@ const Register = () => {
         { headers: { "Content-Type": "multipart/form-data" } }
       );
 
-      console.log("Registration successful:", response.data);
-
       Toast.show({
         type: "success",
-        text1: "📩 Registration Successful! Check your email to verify.",
+        text1: "Registration Successful",
+        text2: "Check your email to verify your account"
       });
 
-      router.push("/Login");
+      // Small delay to show success toast
+      setTimeout(() => {
+        router.push("/Login");
+      }, 1500);
     } catch (error) {
+      setIsLoading(false);
       Toast.show({
         type: "error",
-        text1: "🚨 Registration Failed",
-        text2: error.response?.data?.message || "Please try again.",
+        text1: "Registration Failed",
+        text2: error.response?.data?.message || "Please try again"
       });
     }
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView 
+      contentContainerStyle={styles.container}
+      keyboardShouldPersistTaps="handled"
+    >
       <Text style={styles.heading}>Create New Account</Text>
-      <Text style={styles.linkText}>
+      <Text style={styles.subHeading}>
         Already Registered?{" "}
         <Text style={styles.link} onPress={() => router.push("/Login")}>
           Login
         </Text>
       </Text>
 
-      <TextInput
-        placeholder="John Doe"
-        style={styles.input}
-        onChangeText={(text) => handleChange("name", text)}
-        value={formData.name}
-      />
-      <TextInput
-        placeholder="hello@example.com"
-        style={styles.input}
-        keyboardType="email-address"
-        onChangeText={(text) => handleChange("email", text)}
-        value={formData.email}
-      />
-      <TextInput
-        placeholder="********"
-        style={styles.input}
-        secureTextEntry
-        onChangeText={(text) => handleChange("password", text)}
-        value={formData.password}
-      />
-
-      {/* Grade Level Picker */}
-      <Picker
-        selectedValue={formData.gradeLevel}
-        onValueChange={(itemValue) => handleChange("gradeLevel", itemValue)}
-        style={styles.picker}
+      <TouchableOpacity 
+        onPress={handleImageChange} 
+        style={styles.imageUpload}
+        disabled={isLoading}
       >
-        <Picker.Item label="Select Grade Level" value="" />
-        {gradeLevels.map((level, index) => (
-          <Picker.Item key={index} label={level} value={level} />
-        ))}
-      </Picker>
-
-      {/* Image Upload */}
-      <TouchableOpacity onPress={handleImageChange} style={styles.imageUpload}>
         {image ? (
           <Image source={{ uri: image }} style={styles.imagePreview} />
         ) : (
-          <Text style={styles.imageText}>Upload Profile Picture</Text>
+          <View style={styles.imageUploadContent}>
+            <Ionicons 
+              name="camera-outline" 
+              size={36} 
+              color="#7b1111" 
+            />
+            <Text style={styles.imageText}>Upload Profile Picture</Text>
+          </View>
         )}
       </TouchableOpacity>
 
+      {/* Name Input */}
+      <View style={styles.inputContainer}>
+        <Ionicons 
+          name="person-outline" 
+          size={24} 
+          color="#7b1111" 
+          style={styles.inputIcon} 
+        />
+        <TextInput
+          placeholder="Full Name"
+          style={styles.input}
+          onChangeText={(text) => handleChange("name", text)}
+          value={formData.name}
+          editable={!isLoading}
+        />
+      </View>
+
+      {/* Email Input */}
+      <View style={styles.inputContainer}>
+        <Ionicons 
+          name="mail-outline" 
+          size={24} 
+          color="#7b1111" 
+          style={styles.inputIcon} 
+        />
+        <TextInput
+          placeholder="Email Address"
+          style={styles.input}
+          keyboardType="email-address"
+          onChangeText={(text) => handleChange("email", text)}
+          value={formData.email}
+          editable={!isLoading}
+          autoCapitalize="none"
+        />
+      </View>
+
+      {/* Password Input */}
+      <View style={styles.inputContainer}>
+        <Ionicons 
+          name="lock-closed-outline" 
+          size={24} 
+          color="#7b1111" 
+          style={styles.inputIcon} 
+        />
+        <TextInput
+          placeholder="Password"
+          style={styles.input}
+          secureTextEntry={!showPassword}
+          onChangeText={(text) => handleChange("password", text)}
+          value={formData.password}
+          editable={!isLoading}
+        />
+        <TouchableOpacity 
+          onPress={() => setShowPassword(!showPassword)}
+          style={styles.passwordToggle}
+        >
+          <Ionicons 
+            name={showPassword ? "eye-off-outline" : "eye-outline"} 
+            size={24} 
+            color="#7b1111" 
+          />
+        </TouchableOpacity>
+      </View>
+
+      {/* Grade Level Picker */}
+      <View style={styles.pickerContainer}>
+        <Picker
+          selectedValue={formData.gradeLevel}
+          onValueChange={(itemValue) => handleChange("gradeLevel", itemValue)}
+          style={styles.picker}
+          enabled={!isLoading}
+        >
+          <Picker.Item label="Select Grade Level" value="" color="#999" />
+          {gradeLevels.map((level, index) => (
+            <Picker.Item 
+              key={index} 
+              label={level} 
+              value={level} 
+              color="#7b1111" 
+            />
+          ))}
+        </Picker>
+      </View>
+
+      {/* Image Upload */}
+      
+
       {/* Submit Button */}
-      <TouchableOpacity onPress={handleSubmit} style={styles.button}>
-        <Text style={styles.buttonText}>Sign Up</Text>
+      <TouchableOpacity 
+        onPress={handleSubmit} 
+        style={[
+          styles.button, 
+          isLoading && styles.buttonDisabled
+        ]}
+        disabled={isLoading}
+      >
+        <Text style={styles.buttonText}>
+          {isLoading ? "Signing Up..." : "Sign Up"}
+        </Text>
       </TouchableOpacity>
 
       {/* Toast Notification */}
       <Toast />
-    </View>
+    </ScrollView>
   );
 };
 
-export default Register;
-
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "white",
+    flexGrow: 1,
+    backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
@@ -199,62 +315,103 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#7b1111",
     marginBottom: 10,
+    textAlign: "center",
   },
-  linkText: {
+  subHeading: {
     fontSize: 14,
     color: "#7b1111",
     marginBottom: 20,
+    textAlign: "center",
   },
   link: {
     textDecorationLine: "underline",
     fontWeight: "bold",
   },
-  input: {
+  inputContainer: {
     width: "100%",
-    padding: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: "#7b1111",
-    borderRadius: 5,
+    borderColor: "white",
+    borderRadius: 10,
     marginBottom: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  inputIcon: {
+    paddingHorizontal: 15,
+  },
+  input: {
+    flex: 1,
+    height: 50,
+    fontSize: 16,
+    color: "#333",
+  },
+  passwordToggle: {
+    paddingHorizontal: 15,
+  },
+  pickerContainer: {
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "white",
+    borderRadius: 10,
+    marginBottom: 15,
+    overflow: "hidden",
   },
   picker: {
     width: "100%",
     height: 50,
+  },
+  imageUpload: {
+    width: 150,
+    height: 150,
     borderWidth: 1,
-    borderColor: "#7b1111",
-    borderRadius: 5,
+    borderColor: "white",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 15,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  imageUploadContent: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  imagePreview: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 10,
+  },
+  imageText: {
+    color: "#7b1111",
+    textAlign: "center",
+    marginTop: 10,
   },
   button: {
     backgroundColor: "#7b1111",
-    padding: 12,
-    borderRadius: 5,
+    padding: 15,
+    borderRadius: 10,
     width: "100%",
     alignItems: "center",
     marginTop: 10,
+  },
+  buttonDisabled: {
+    opacity: 0.6,
   },
   buttonText: {
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
   },
-  imageUpload: {
-    width: 150,
-    height: 150,
-    borderWidth: 1,
-    borderColor: "#7b1111",
-    borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 15,
-  },
-  imagePreview: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 5,
-  },
-  imageText: {
-    color: "#7b1111",
-    textAlign: "center",
-  },
 });
+
+export default Register;
