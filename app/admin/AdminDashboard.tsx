@@ -126,12 +126,15 @@ const AdminDashboard = ({ navigation }) => {
   const fetchTopCourses = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/prediction_shs/top-courses`);
-      setTopCourses(
-        response.data.data.map((item) => ({
-          course: item.course,
-          average: parseFloat(item.averagePercentage),
-        }))
-      );
+      console.log("Top Courses API Response:", response.data);
+      
+      // Limit to 5 courses maximum to prevent overcrowding
+      const limitedCourses = response.data.data.slice(0, 5).map((item) => ({
+        course: item.course,
+        overallPercentage: parseFloat(item.overallPercentage),
+      }));
+      
+      setTopCourses(limitedCourses);
     } catch (error) {
       console.error('Error fetching top courses:', error);
     }
@@ -642,27 +645,67 @@ const AdminDashboard = ({ navigation }) => {
         <View style={styles.chartContainer} ref={chartRefs.topCoursesChart}>
           <Text style={styles.sectionTitle}>Top Courses</Text>
           <View style={styles.chartWrapper}>
-            {topCourses.length > 0 && (
-              <BarChart
-                data={{
-                  labels: topCourses.slice(0, 5).map(item => item.course),
-                  datasets: [
-                    {
-                      data: topCourses.slice(0, 5).map(item => item.average)
-                    }
-                  ]
-                }}
-                width={screenWidth}
-                height={220}
-                chartConfig={{
-                  ...chartConfig,
-                  color: (opacity = 1) => `rgba(89, 161, 79, ${opacity})`
-                }}
-                style={styles.chart}
-                verticalLabelRotation={30}
-              />
-            )}
+  {topCourses.length > 0 ? (
+    <>
+      <BarChart
+        data={{
+          // Keep original abbreviated labels
+          labels: topCourses.map(item => 
+            item.course.length > 10 ? item.course.substring(0, 10) + '...' : item.course
+          ),
+          datasets: [
+            {
+              data: topCourses.map(item => item.overallPercentage)
+            }
+          ]
+        }}
+        width={screenWidth - 40}
+        height={280}
+        chartConfig={{
+          ...chartConfig,
+          color: (opacity = 1) => `rgba(0, 136, 254, ${opacity})`,
+          barPercentage: 0.4,
+          fillShadowGradientOpacity: 0.6,
+          decimalPlaces: 1,
+          propsForLabels: {
+            fontSize: 12,
+            fontWeight: 'bold',
+          },
+          labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+        }}
+        style={{
+          marginVertical: 8,
+          borderRadius: 16,
+          padding: 10,
+        }}
+        showValuesOnTopOfBars={true}
+        withHorizontalLabels={true}
+        fromZero={true}
+        verticalLabelRotation={45} // Angle for better readability
+        withInnerLines={true}
+        yAxisSuffix="%"
+        segments={5}
+      />
+      
+      {/* Legend for full course names */}
+      <View style={styles.legendContainer}>
+        <Text style={styles.legendTitle}>Full Course Names:</Text>
+        {topCourses.map((item, index) => (
+          <View key={index} style={styles.legendItem}>
+            <View style={[styles.legendColor, { backgroundColor: '#0088FE' }]} />
+            <Text style={styles.legendText}>
+              {item.course} ({item.overallPercentage.toFixed(1)}%)
+            </Text>
           </View>
+        ))}
+      </View>
+    </>
+  ) : (
+    <View style={styles.noData}>
+      <Text>No Top Courses data available.</Text>
+    </View>
+  )}
+</View>
           <View style={styles.chartActions}>
             <TouchableOpacity
               style={styles.actionButton}
@@ -821,6 +864,27 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  legendContainer: {
+    marginTop: 10,
+    paddingHorizontal: 10,
+    width: '100%',
+  },
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  legendColor: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginRight: 8,
+  },
+  legendText: {
+    fontSize: 12,
+    flexShrink: 1,
+    flexWrap: 'wrap',
   },
 });
 

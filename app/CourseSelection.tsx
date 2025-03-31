@@ -53,7 +53,7 @@ const CourseSelection = () => {
     
     try {
       setTimeout(async () => {
-        const response = await axios.post("http://192.168.62.237:5001/api/predict-career", {
+        const response = await axios.post("http://192.168.100.171:5001/api/predict-career", {
           course: selectedCourse,
         });
 

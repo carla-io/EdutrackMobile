@@ -66,7 +66,7 @@ const UploadCertificates = ({ onUpload = () => {} }) => {
         });
 
         try {
-            const response = await axios.post("http://192.168.62.237:5001/predict-career-cert", formData, {
+            const response = await axios.post("http://192.168.100.171:5001/predict-career-cert", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             

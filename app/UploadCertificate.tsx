@@ -105,7 +105,7 @@ const UploadCertificates = () => {
     });
 
     try {
-      const response = await axios.post("http://192.168.62.237:5001/process", formData, {
+      const response = await axios.post("http://192.168.100.171:5001/process", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -145,9 +145,9 @@ const UploadCertificates = () => {
     
     const endpoint =
       gradeLevel === "jhs"
-        ? "http://192.168.62.237:5001/predict-strand-cert"
+        ? "http://192.168.100.171:5001/predict-strand-cert"
         : gradeLevel === "shs"
-        ? "http://192.168.62.237:5001/predict-college-cert"
+        ? "http://192.168.100.171:5001/predict-college-cert"
         : null;
     
     if (!endpoint) {

@@ -17,15 +17,38 @@ const strandDescriptions = {
   GAS: "The General Academic Strand (GAS) is for students who are still exploring their career path with a flexible curriculum.",
   "Home Economics": "The Home Economics (HE) strand focuses on skills-based training in hospitality, culinary arts, and caregiving.",
   ICT: "The Information and Communications Technology (ICT) strand is ideal for tech-savvy students interested in programming and digital arts.",
+  "Industrial Arts": "The Industrial Arts strand prepares students for careers in technical trades and engineering. It includes training in welding, carpentry, electrical installation, plumbing, and automotive mechanics, providing job-ready skills for the construction and manufacturing industries.",
+
+  "Agri-Fishery Arts": "The Agri-Fishery Arts strand focuses on agricultural technology, animal husbandry, fisheries, and organic farming. It equips students with knowledge in sustainable agriculture, farm mechanics, aquaculture, and agro-forestry, preparing them for careers in agribusiness and environmental management.",
+
+  Cookery: "The Cookery strand under Home Economics provides in-depth training in culinary arts, baking, food safety, and international cuisine. It is designed for students who want to pursue careers as chefs, bakers, or restaurant owners.",
+
+  "Performing Arts": "The Performing Arts strand under the Arts and Design track is for students passionate about dance, theater, music, and acting. It covers stage performance, choreography, vocal training, and drama, preparing students for careers in entertainment and live productions.",
+
+  "Visual Arts": "The Visual Arts strand focuses on painting, sculpture, digital art, and illustration. It provides students with creative and technical skills needed for careers in graphic design, animation, fine arts, and advertising.",
+
+  "Media Arts": "The Media Arts strand teaches students film production, cinematography, photography, video editing, and digital storytelling. It is ideal for those interested in filmmaking, multimedia arts, and broadcast media.",
+
+  "Literary Arts": "The Literary Arts strand is designed for students who have a passion for writing, poetry, fiction, and journalism. It focuses on creative writing, literature, and publishing, preparing students for careers as writers, editors, and communication professionals.",
+
+  Sports: "The Sports strand is for students interested in athletics, physical education, and sports science. It covers coaching, sports management, health and fitness, and competitive sports training, leading to careers in professional sports, coaching, and physical therapy."
 };
 
 const careerPathways = {
-  STEM: ["Medicine", "Engineering", "Architecture", "Data Science", "Research"],
-  ABM: ["Entrepreneur", "Accountant", "Business Manager", "Financial Analyst", "Marketing"],
-  HUMSS: ["Lawyer", "Journalist", "Psychologist", "Teacher", "Social Worker"],
-  GAS: ["Public Administrator", "Education", "Government Service", "Management"],
-  "Home Economics": ["Chef", "Hotel Manager", "Fashion Designer", "Event Planner"],
-  ICT: ["Software Developer", "Web Designer", "Game Developer", "IT Support"],
+  STEM: ["Medicine", "Engineering", "Architecture", "Data Science", "Research Scientist", "Mathematician", "IT Professional", "Environmental Scientist"],
+  ABM: ["Entrepreneur", "Accountant", "Business Manager", "Financial Analyst", "Marketing Executive", "Human Resources", "Economist", "Investment Banker"],
+  HUMSS: ["Lawyer", "Journalist", "Psychologist", "Teacher", "Social Worker", "Political Scientist", "Diplomat", "Public Relations"],
+  GAS: ["Public Administrator", "Liberal Arts", "Education", "Government Service", "General Management", "Customer Service", "Administrative Assistant"],
+  "Home Economics": ["Chef", "Hotel Manager", "Fashion Designer", "Interior Designer", "Nutritionist", "Caregiver", "Tourism Officer", "Event Planner"],
+  ICT: ["Software Developer", "Web Designer", "Network Administrator", "Game Developer", "Cybersecurity Specialist", "IT Support", "Digital Artist", "Database Administrator"],
+  "Industrial Arts": ["Civil Engineer", "Mechanical Engineer", "Electrician", "Automotive Mechanic", "Construction Manager", "HVAC Technician", "Welder", "Carpenter"],
+  "Agri-Fishery Arts": ["Farm Manager", "Agricultural Scientist", "Aquaculture Specialist", "Food Technologist", "Environmental Consultant", "Landscape Designer", "Forestry Technician"],
+  Cookery: ["Executive Chef", "Pastry Chef", "Restaurant Owner", "Food Critic", "Food Service Manager", "Caterer", "Food Stylist", "Culinary Instructor"],
+  "Performing Arts": ["Actor", "Dancer", "Singer", "Theater Director", "Choreographer", "Music Producer", "Voice Coach", "Talent Manager"],
+  "Visual Arts": ["Graphic Designer", "Illustrator", "Sculptor", "Painter", "Art Director", "Animator", "Fashion Illustrator", "Museum Curator"],
+  "Media Arts": ["Film Director", "Cinematographer", "Video Editor", "Photographer", "Sound Engineer", "Broadcasting Professional", "Social Media Manager"],
+  "Literary Arts": ["Author", "Editor", "Journalist", "Copywriter", "Literary Agent", "Publisher", "Screenwriter", "Content Creator"],
+  Sports: ["Athletic Coach", "Sports Manager", "Physical Therapist", "Fitness Instructor", "Sports Nutritionist", "Sports Analyst", "Recreation Director", "Professional Athlete"]
 };
 
 

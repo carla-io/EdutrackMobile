@@ -16,7 +16,7 @@ import * as ImageManipulator from "expo-image-manipulator";
 import { useNavigation } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 
-const SERVER_URL = "http://192.168.62.237:5001/process";
+const SERVER_URL = "http://192.168.100.171:5001/process";
 
 const Documents = () => {
   const [documents, setDocuments] = useState({

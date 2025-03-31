@@ -103,7 +103,7 @@ const UploadGrades = ({ navigation }) => {
     });
     formData.append("gradeLevel", gradeLevel);
     try {
-      const response = await axios.post("http://192.168.62.237:5001/process", formData, {
+      const response = await axios.post("http://192.168.100.171:5001/process", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       if (response.data) {
@@ -143,7 +143,7 @@ const UploadGrades = ({ navigation }) => {
         Alert.alert("Error", "No grade data available.");
         return;
       }
-      await axios.post("http://192.168.62.237:5001/update-grades", { extracted_data: fullData.grades[0].data.extracted_data });
+      await axios.post("http://192.168.100.171:5001/update-grades", { extracted_data: fullData.grades[0].data.extracted_data });
       
       Alert.alert(
         "Success", 
@@ -175,10 +175,10 @@ const UploadGrades = ({ navigation }) => {
     try {
       const apiEndpoint =
         gradeLevel === "jhs"
-          ? "http://192.168.62.237:5001/predict-strands-jhs"
+          ? "http://192.168.100.171:5001/predict-strands-jhs"
           : gradeLevel === "shs"
-            ? "http://192.168.62.237:5001/predict-college-courses"
-            : "http://192.168.62.237:5001/predict-strands";
+            ? "http://192.168.100.171:5001/predict-college-courses"
+            : "http://192.168.100.171:5001/predict-strands";
     
       console.log("Sending request to:", apiEndpoint);
       console.log("Payload:", JSON.stringify({ extracted_data: extractedGrades }));

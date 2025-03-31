@@ -56,7 +56,7 @@ const PQcollege = ({ navigation }) => {
     setLoading(true);
     setError(null);
     try {
-      const { data } = await axios.post("http://192.168.62.237:5001/predict-career-pq", {
+      const { data } = await axios.post("http://192.168.100.171:5001/predict-career-pq", {
         responses,
       });
 

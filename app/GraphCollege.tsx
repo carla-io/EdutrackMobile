@@ -381,12 +381,12 @@ const captureFullScreen = async () => {
           <View style={styles.cardContainer}>
             <View style={styles.headerContainer}>
               <Text style={styles.header}>Your Career Prediction Results</Text>
-              <TouchableOpacity 
+              {/* <TouchableOpacity 
                 style={styles.emailButton}
                 onPress={prepareForEmail}
               >
                 <Text style={styles.emailButtonText}>Email Results</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             
             {loading ? (

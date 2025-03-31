@@ -147,9 +147,9 @@ const PQ = () => {
     // Determine the endpoint based on grade level
     let endpoint;
     if (gradeLevel === "shs") {
-      endpoint = "http://192.168.62.237:5001/predict_college";  // For SHS
+      endpoint = "http://192.168.100.171:5001/predict_college";  // For SHS
     } else if (gradeLevel === "jhs") {
-      endpoint = "http://192.168.62.237:5001/predict";  // For JHS
+      endpoint = "http://192.168.100.171:5001/predict";  // For JHS
     } else {
       Alert.alert("⚠️ Error", "Invalid grade level!");
       return;
