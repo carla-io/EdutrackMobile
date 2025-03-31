@@ -83,13 +83,19 @@ const AdminDashboard = ({ navigation }) => {
       const response = await axios.get(`${API_BASE_URL}/auth/registrations-over-time`);
       setRegistrationData(
         response.data.data.map((item) => ({
-          date: item._id,
+          date: formatDate(item._id),
           count: item.count,
         }))
       );
     } catch (error) {
       console.error('Error fetching registration data:', error);
     }
+  };
+  
+  // Helper function to format dates consistently
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return `${date.getMonth() + 1}/${date.getDate()}`; // MM/DD format
   };
 
   const fetchGradeLevelData = async () => {
@@ -503,48 +509,76 @@ const AdminDashboard = ({ navigation }) => {
         </View>
 
         {/* Registration Chart */}
-        <View style={styles.chartContainer} ref={chartRefs.registrationChart}>
-          <Text style={styles.sectionTitle}>User Registrations Over Time</Text>
-          <View style={styles.chartWrapper}>
-            {registrationData.length > 0 && (
-              <LineChart
-                data={{
-                  labels: registrationData.slice(-6).map(item => item.date),
-                  datasets: [
-                    {
-                      data: registrationData.slice(-6).map(item => item.count)
-                    }
-                  ]
-                }}
-                width={screenWidth}
-                height={220}
-                chartConfig={chartConfig}
-                bezier
-                style={styles.chart}
-              />
-            )}
-          </View>
-          <View style={styles.chartActions}>
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={() => exportChartAsImage(chartRefs.registrationChart, 'Registration Chart')}
-            >
-              <Text style={styles.actionButtonText}>Save</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={() => shareChart(chartRefs.registrationChart, 'Registration Chart')}
-            >
-              <Text style={styles.actionButtonText}>Share</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={() => printChart(chartRefs.registrationChart, 'Registration Chart')}
-            >
-              <Text style={styles.actionButtonText}>Print</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+       <View style={styles.chartContainer} ref={chartRefs.registrationChart}>
+  <Text style={styles.sectionTitle}>User Registrations Over Time</Text>
+  
+  <ScrollView 
+    horizontal={true}
+    showsHorizontalScrollIndicator={true}
+    contentContainerStyle={styles.scrollableChartContent}
+  >
+    <View style={styles.chartWrapper}>
+      {registrationData.length > 0 && (
+        <LineChart
+          data={{
+            labels: registrationData.map(item => item.date),
+            datasets: [
+              {
+                data: registrationData.map(item => item.count),
+                color: (opacity = 1) => `rgba(71, 117, 234, ${opacity})`,
+                strokeWidth: 2
+              }
+            ]
+          }}
+          width={Math.max(screenWidth, registrationData.length * 50)} // Dynamic width based on data points
+          height={220}
+          chartConfig={{
+            backgroundColor: '#ffffff',
+            backgroundGradientFrom: '#ffffff',
+            backgroundGradientTo: '#ffffff',
+            decimalPlaces: 0,
+            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            propsForDots: {
+              r: '5',
+              strokeWidth: '1',
+              stroke: '#71c3e7'
+            },
+            propsForLabels: {
+              fontSize: 10,
+            }
+          }}
+          bezier
+          style={styles.chart}
+          fromZero={true}
+        />
+      )}
+    </View>
+  </ScrollView>
+  
+  <View style={styles.chartActions}>
+    <TouchableOpacity
+      style={styles.actionButton}
+      onPress={() => exportChartAsImage(chartRefs.registrationChart, 'Registration Chart')}
+    >
+      <Text style={styles.actionButtonText}>Save</Text>
+    </TouchableOpacity>
+    
+    <TouchableOpacity
+      style={styles.actionButton}
+      onPress={() => shareChart(chartRefs.registrationChart, 'Registration Chart')}
+    >
+      <Text style={styles.actionButtonText}>Share</Text>
+    </TouchableOpacity>
+    
+    <TouchableOpacity
+      style={styles.actionButton}
+      onPress={() => printChart(chartRefs.registrationChart, 'Registration Chart')}
+    >
+      <Text style={styles.actionButtonText}>Print</Text>
+    </TouchableOpacity>
+  </View>
+</View>
 
         {/* Grade Level Chart */}
         <View style={styles.chartContainer} ref={chartRefs.gradeLevelChart}>
