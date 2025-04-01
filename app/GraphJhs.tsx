@@ -225,11 +225,24 @@ const OverallResult = () => {
       Alert.alert('Error', 'Chart not found!');
       return;
     }
-
+  
     try {
       const uri = await chartRef.current.capture();
       
-      // Generate PDF HTML content
+      // Ensure topChoices is defined and has content
+      if (!topChoices || topChoices.length === 0) {
+        Alert.alert('Error', 'No prediction data available!');
+        return;
+      }
+  
+      // Create a safe way to handle strand descriptions if they're missing
+      const getStrandDescription = (strand) => {
+        return strandDescriptions && strandDescriptions[strand] 
+          ? strandDescriptions[strand] 
+          : 'No description available';
+      };
+      
+      // Generate PDF HTML content with error handling for the map function
       const htmlContent = `
         <html>
           <head>
@@ -244,25 +257,47 @@ const OverallResult = () => {
             <h1>Overall SHS Strand Predictions</h1>
             <img src="${uri}" />
             <h2>Your Top Choices:</h2>
-            ${topChoices.slice(0, 3).map(([strand], index) => `
+            ${topChoices.slice(0, Math.min(3, topChoices.length)).map(([strand, percentage], index) => `
               <p><strong>${index === 0 ? 'Your First Choice' : index === 1 ? 'Your Second Choice' : 'Your Third Choice'}:</strong> 
-              ${strand} - ${strandDescriptions[strand]}</p>
+              ${strand} (${percentage.toFixed(1)}%) - ${getStrandDescription(strand)}</p>
             `).join('')}
+            <p><em>Generated on ${new Date().toLocaleDateString()}</em></p>
           </body>
         </html>
       `;
-
-      const { uri: pdfUri } = await Print.printToFileAsync({ html: htmlContent });
+  
+      // Create options for PDF generation with a meaningful filename
+      const options = {
+        html: htmlContent,
+        base64: false,
+        fileName: `SHS_Strand_Prediction_${new Date().toISOString().split('T')[0]}`
+      };
+  
+      const { uri: pdfUri } = await Print.printToFileAsync(options);
       
-      // Share the PDF
+      // Show loading indicator
+      Alert.alert('Success', 'PDF created successfully! Preparing to share...');
+      
+      // Try sharing the PDF
       if (await Sharing.isAvailableAsync()) {
-        await Sharing.shareAsync(pdfUri);
+        await Sharing.shareAsync(pdfUri, {
+          mimeType: 'application/pdf',
+          dialogTitle: 'Share Your SHS Strand Prediction'
+        });
       } else {
-        Alert.alert('Error', 'Sharing is not available on your device');
+        // Fallback if sharing isn't available
+        Alert.alert(
+          'PDF Created', 
+          `Your PDF was created successfully and saved to: ${pdfUri}`,
+          [
+            {text: 'OK'},
+            {text: 'Copy Path', onPress: () => Clipboard.setString(pdfUri)}
+          ]
+        );
       }
     } catch (error) {
       console.error('Error generating PDF:', error);
-      Alert.alert('Error', 'Failed to generate PDF');
+      Alert.alert('Error', `Failed to generate PDF: ${error.message || 'Unknown error'}`);
     }
   };
 

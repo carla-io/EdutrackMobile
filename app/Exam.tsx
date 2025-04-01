@@ -60,38 +60,54 @@ const Exam = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    if (!examCompleted && currentQuestion) {
-      setTimeLeft(15); // Reset timer for each question
-  
-      const firstOption = currentQuestion.options?.[0] || currentQuestion.choices?.[0];
-  
-      if (firstOption) {
-        setAnswers((prev) => ({
-          ...prev,
-          [currentSection]: {
-            ...prev[currentSection],
-            [currentQuestion.question]: firstOption,
-          },
-        }));
+    let countdown;
+    
+    if (!examCompleted && Object.keys(quizData).length > 0) {
+      const sections = Object.keys(quizData);
+      const currentSection = sections[currentSectionIndex];
+      const questions = quizData[currentSection]?.quiz || [];
+      const currentQuestion = questions[currentQuestionIndex];
+      
+      if (currentQuestion) {
+        setTimeLeft(15); // Reset timer for each question
+    
+        const firstOption = currentQuestion.options?.[0] || currentQuestion.choices?.[0];
+    
+        if (firstOption) {
+          setAnswers((prev) => ({
+            ...prev,
+            [currentSection]: {
+              ...prev[currentSection],
+              [currentQuestion.question]: firstOption,
+            },
+          }));
+        }
+    
+        // Countdown timer
+        countdown = setInterval(() => {
+          setTimeLeft((prev) => {
+            const newTime = prev - 1;
+            if (newTime <= 0) {
+              clearInterval(countdown);
+              // Using setTimeout to ensure state updates complete before navigation
+              setTimeout(() => {
+                handleNext();
+              }, 100);
+              return 0;
+            }
+            return newTime;
+          });
+        }, 1000);
       }
-  
-      // Countdown timer
-      const countdown = setInterval(() => {
-        setTimeLeft((prev) => {
-          if (prev === 1) {
-            clearInterval(countdown);
-            handleNext(); // Auto-move to next question when timer reaches 0
-          }
-          return prev - 1;
-        });
-      }, 1000);
-  
-      return () => clearInterval(countdown); // Clear timer when question changes
     }
-  }, [currentQuestionIndex, currentSectionIndex, examCompleted]);
   
+    return () => {
+      if (countdown) {
+        clearInterval(countdown);
+      }
+    }; // Clear timer when component unmounts or question changes
+  }, [currentQuestionIndex, currentSectionIndex, examCompleted, quizData]);
   
-
   const handleAnswerChange = (selectedOption) => {
     setAnswers((prev) => ({
       ...prev,
@@ -103,14 +119,32 @@ const Exam = ({ navigation }) => {
   };
 
   const handleNext = () => {
-    if (!answers[currentSection]?.[currentQuestion.question]) {
-      showToast('⚠️ Please select an answer before proceeding!');
-      return;
+    const sections = Object.keys(quizData);
+    const currentSection = sections[currentSectionIndex];
+    const questions = quizData[currentSection]?.quiz || [];
+    
+    if (!answers[currentSection]?.[questions[currentQuestionIndex]?.question]) {
+      // If no answer is selected, use the first option as default
+      const currentQuestion = questions[currentQuestionIndex];
+      const firstOption = currentQuestion?.options?.[0] || currentQuestion?.choices?.[0];
+      
+      if (firstOption) {
+        setAnswers((prev) => ({
+          ...prev,
+          [currentSection]: {
+            ...prev[currentSection],
+            [currentQuestion.question]: firstOption,
+          },
+        }));
+      } else {
+        showToast('⚠️ Please select an answer before proceeding!');
+        return;
+      }
     }
 
-    if (currentQuestionIndex < quizData[currentSection]?.quiz.length - 1) {
+    if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else if (currentSectionIndex < Object.keys(quizData).length - 1) {
+    } else if (currentSectionIndex < sections.length - 1) {
       setCurrentSectionIndex(currentSectionIndex + 1);
       setCurrentQuestionIndex(0);
     } else {
@@ -252,17 +286,26 @@ const handleSubmit = async () => {
     }
   };
 
+  // const handleBack = () => {
+  //   if (currentQuestionIndex > 0) {
+  //     setCurrentQuestionIndex(currentQuestionIndex - 1);
+  //   } else if (currentSectionIndex > 0) {
+  //     setCurrentSectionIndex(currentSectionIndex - 1);
+  //     setCurrentQuestionIndex(quizData[Object.keys(quizData)[currentSectionIndex - 1]].quiz.length - 1);
+  //   }
+  // };
 
-
-  const handleBack = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
-    } else if (currentSectionIndex > 0) {
-      setCurrentSectionIndex(currentSectionIndex - 1);
-      setCurrentQuestionIndex(quizData[Object.keys(quizData)[currentSectionIndex - 1]].quiz.length - 1);
-    }
+  // Get color for chart legend
+  const getColorForIndex = (index) => {
+    const colors = [
+      'rgba(71, 130, 218, 1)',
+      'rgba(245, 130, 49, 1)',
+      'rgba(59, 174, 159, 1)',
+      'rgba(204, 87, 120, 1)',
+      'rgba(156, 115, 220, 1)'
+    ];
+    return colors[index % colors.length];
   };
-
 
   // Prepare data for the improved chart
   const prepareChartData = () => {
@@ -438,7 +481,7 @@ const handleSubmit = async () => {
           </RadioButton.Group>
 
           <View style={styles.navigationButtons}>
-            <TouchableOpacity 
+            {/* <TouchableOpacity 
               onPress={handleBack} 
               disabled={currentSectionIndex === 0 && currentQuestionIndex === 0} 
               style={[
@@ -447,7 +490,7 @@ const handleSubmit = async () => {
               ]}
             >
               <Text style={styles.backButtonText}>Back</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             
             <TouchableOpacity 
               onPress={handleNext} 
